@@ -17,11 +17,11 @@ interface DataUpdateFormProps {
 }
 
 interface UpdateFormData {
+  cep?: string;
   endereco?: string;
   numero?: string;
   bairro?: string;
   cidade?: string;
-  cep?: string;
   estado?: string;
   telefone_pai?: string;
   telefone_mae?: string;
@@ -31,14 +31,15 @@ interface UpdateFormData {
 
 const DataUpdateForm = ({ data, onBack, onSuccess }: DataUpdateFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingCep, setIsLoadingCep] = useState(false);
   
   const form = useForm<UpdateFormData>({
     defaultValues: {
+      cep: data.cep || "",
       endereco: data.endereco || "",
       numero: data.numero?.toString() || "",
       bairro: data.bairro || "",
       cidade: data.cidade || "",
-      cep: data.cep || "",
       estado: data.estado || "",
       telefone_pai: data.telefone_pai || "",
       telefone_mae: data.telefone_mae || "",
@@ -60,6 +61,39 @@ const DataUpdateForm = ({ data, onBack, onSuccess }: DataUpdateFormProps) => {
       .replace(/(\d{4})-(\d)(\d{4})/, "$1$2-$3");
   };
 
+  const normalizeForDatabase = (value: string) => {
+    return value.replace(/\D/g, "");
+  };
+
+  const searchAddressByCep = async (cep: string) => {
+    const cleanCep = cep.replace(/\D/g, "");
+    if (cleanCep.length !== 8) return;
+
+    setIsLoadingCep(true);
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
+      const addressData = await response.json();
+
+      if (addressData.erro) {
+        toast.error("CEP não encontrado");
+        return;
+      }
+
+      // Atualizar os campos automaticamente
+      form.setValue("endereco", addressData.logradouro || "");
+      form.setValue("bairro", addressData.bairro || "");
+      form.setValue("cidade", addressData.localidade || "");
+      form.setValue("estado", addressData.uf || "");
+      
+      toast.success("Endereço preenchido automaticamente!");
+    } catch (error) {
+      console.error("Erro ao buscar CEP:", error);
+      toast.error("Erro ao buscar CEP. Tente novamente.");
+    } finally {
+      setIsLoadingCep(false);
+    }
+  };
+
   const onSubmit = async (formData: UpdateFormData) => {
     if (!data.cod_aluno) {
       toast.error("Código do aluno não encontrado");
@@ -71,17 +105,17 @@ const DataUpdateForm = ({ data, onBack, onSuccess }: DataUpdateFormProps) => {
       console.log('Atualizando dados do aluno:', data.cod_aluno);
       console.log('Dados para atualização:', formData);
 
-      // Preparar os dados para a função RPC
+      // Preparar os dados normalizados para a função RPC
       const updateParams = {
         p_cod_aluno: data.cod_aluno,
         p_endereco: formData.endereco || null,
         p_numero: formData.numero ? parseInt(formData.numero) : null,
         p_bairro: formData.bairro || null,
         p_cidade: formData.cidade || null,
-        p_cep: formData.cep || null,
+        p_cep: formData.cep ? normalizeForDatabase(formData.cep) : null,
         p_estado: formData.estado || null,
-        p_telefone_pai: formData.telefone_pai || null,
-        p_telefone_mae: formData.telefone_mae || null,
+        p_telefone_pai: formData.telefone_pai ? normalizeForDatabase(formData.telefone_pai) : null,
+        p_telefone_mae: formData.telefone_mae ? normalizeForDatabase(formData.telefone_mae) : null,
         p_email_pai: formData.email_pai || null,
         p_email_mae: formData.email_mae || null,
       };
@@ -138,10 +172,44 @@ const DataUpdateForm = ({ data, onBack, onSuccess }: DataUpdateFormProps) => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             
-            {/* Endereço */}
+            {/* Endereço - CEP em primeiro */}
             <div className="space-y-4">
               <h3 className="font-semibold text-primary">Endereço</h3>
               <div className="grid md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="cep"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel>CEP</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Input 
+                            {...field} 
+                            placeholder="00000-000"
+                            maxLength={9}
+                            onChange={(e) => {
+                              const formatted = formatCEP(e.target.value);
+                              field.onChange(formatted);
+                              
+                              // Buscar automaticamente quando tiver 8 dígitos
+                              const cleanCep = e.target.value.replace(/\D/g, "");
+                              if (cleanCep.length === 8) {
+                                searchAddressByCep(cleanCep);
+                              }
+                            }}
+                          />
+                          {isLoadingCep && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            </div>
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="endereco"
@@ -189,24 +257,6 @@ const DataUpdateForm = ({ data, onBack, onSuccess }: DataUpdateFormProps) => {
                       <FormLabel>Cidade</FormLabel>
                       <FormControl>
                         <Input {...field} placeholder="São Paulo" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="cep"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>CEP</FormLabel>
-                      <FormControl>
-                        <Input 
-                          {...field} 
-                          placeholder="00000-000"
-                          maxLength={9}
-                          onChange={(e) => field.onChange(formatCEP(e.target.value))}
-                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

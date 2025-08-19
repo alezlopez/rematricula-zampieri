@@ -333,6 +333,7 @@ export type Database = {
           "Email da Mãe": string | null
           "Email do Pai": string | null
           Endereço: string | null
+          Estado: string | null
           "Id Checkout": string | null
           "Liberado para rematrícula": boolean | null
           "Link Checkout": string | null
@@ -370,6 +371,7 @@ export type Database = {
           "Email da Mãe"?: string | null
           "Email do Pai"?: string | null
           Endereço?: string | null
+          Estado?: string | null
           "Id Checkout"?: string | null
           "Liberado para rematrícula"?: boolean | null
           "Link Checkout"?: string | null
@@ -407,6 +409,7 @@ export type Database = {
           "Email da Mãe"?: string | null
           "Email do Pai"?: string | null
           Endereço?: string | null
+          Estado?: string | null
           "Id Checkout"?: string | null
           "Liberado para rematrícula"?: boolean | null
           "Link Checkout"?: string | null
@@ -699,6 +702,7 @@ export type Database = {
           "Email da Mãe": string | null
           "Email do Pai": string | null
           Endereço: string | null
+          Estado: string | null
           "Id Checkout": string | null
           "Liberado para rematrícula": boolean | null
           "Link Checkout": string | null
@@ -763,6 +767,7 @@ export type Database = {
           "Email da Mãe": string | null
           "Email do Pai": string | null
           Endereço: string | null
+          Estado: string | null
           "Id Checkout": string | null
           "Liberado para rematrícula": boolean | null
           "Link Checkout": string | null

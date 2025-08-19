@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -86,6 +87,10 @@ const DataConfirmation = ({ data, onConfirm, onUpdate }: DataConfirmationProps) 
           <h3 className="font-semibold text-primary">Endereço</h3>
           <div className="grid sm:grid-cols-2 gap-4 text-sm">
             <div>
+              <span className="text-muted-foreground">CEP:</span>
+              <p className="font-medium">{data.cep || "Não informado"}</p>
+            </div>
+            <div>
               <span className="text-muted-foreground">Endereço:</span>
               <p className="font-medium">{data.endereco || "Não informado"}</p>
             </div>
@@ -100,10 +105,6 @@ const DataConfirmation = ({ data, onConfirm, onUpdate }: DataConfirmationProps) 
             <div>
               <span className="text-muted-foreground">Cidade:</span>
               <p className="font-medium">{data.cidade || "Não informado"}</p>
-            </div>
-            <div>
-              <span className="text-muted-foreground">CEP:</span>
-              <p className="font-medium">{data.cep || "Não informado"}</p>
             </div>
             <div>
               <span className="text-muted-foreground">Estado:</span>
