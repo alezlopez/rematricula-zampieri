@@ -9,9 +9,10 @@ import DataUpdateForm from "@/components/DataUpdateForm";
 import FinancialResponsibleStep from "@/components/FinancialResponsibleStep";
 import ExtraDataForm from "@/components/ExtraDataForm";
 import StudentSummary from "@/components/StudentSummary";
+import PaymentSelection from "@/components/PaymentSelection";
 import { Button } from "@/components/ui/button";
 
-type Step = "search" | "selection" | "confirmation" | "update" | "financial" | "extraData" | "summary" | "status";
+type Step = "search" | "selection" | "confirmation" | "update" | "financial" | "extraData" | "summary" | "status" | "payment";
 
 const Rematricula = () => {
   const [currentStep, setCurrentStep] = useState<Step>("search");
@@ -76,6 +77,14 @@ const Rematricula = () => {
     // Aqui você pode processar os dados finais ou ir para próxima tela
     console.log('Dados extras coletados:', extraData);
     console.log('Dados do estudante:', studentData);
+    handleBackToSearch();
+  };
+
+  const handleGoToPayment = () => {
+    setCurrentStep("payment");
+  };
+
+  const handlePaymentComplete = () => {
     handleBackToSearch();
   };
 
@@ -180,6 +189,18 @@ const Rematricula = () => {
               extraData={extraData}
               onConfirm={handleSummaryConfirm}
               onBack={() => setCurrentStep("extraData")}
+              onGoToPayment={handleGoToPayment}
+            />
+          </div>
+        );
+      
+      case "payment":
+        return (
+          <div className="min-h-[60vh] flex items-center justify-center py-8">
+            <PaymentSelection
+              data={studentData}
+              onBack={() => setCurrentStep("summary")}
+              onComplete={handlePaymentComplete}
             />
           </div>
         );

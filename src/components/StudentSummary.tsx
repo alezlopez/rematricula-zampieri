@@ -12,11 +12,13 @@ interface StudentSummaryProps {
   extraData: any;
   onConfirm: () => void;
   onBack: () => void;
+  onGoToPayment: () => void;
 }
 
-const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryProps) => {
+const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: StudentSummaryProps) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [contractUrl, setContractUrl] = useState<string | null>(null);
+  const [contractOpened, setContractOpened] = useState(false);
 
   // Função para salvar o link do contrato na base de dados
   const updateRematriculaContract = async (codAluno: number, linkContrato: string) => {
@@ -34,33 +36,23 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
   const openContractLink = (url: string) => {
     console.log('Tentando abrir URL:', url);
     
-    // Primeira tentativa: window.open
-    try {
-      const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-      
-      // Verificar se o popup foi bloqueado
-      if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-        throw new Error('Popup bloqueado');
-      }
-      
-      console.log('Link aberto com sucesso via window.open');
-      return true;
-    } catch (error) {
-      console.warn('window.open falhou:', error);
-      
-      // Segunda tentativa: window.location.href
-      try {
-        window.location.href = url;
-        console.log('Link aberto com sucesso via location.href');
-        return true;
-      } catch (locationError) {
-        console.error('Todas as tentativas falharam:', locationError);
-        
-        // Fallback: copiar para clipboard
-        copyToClipboard(url);
-        return false;
-      }
+    // Abrir sempre em nova aba
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    
+    // Marcar que o contrato foi aberto
+    setContractOpened(true);
+    
+    // Verificar se o popup foi bloqueado
+    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+      console.warn('Popup pode ter sido bloqueado, tentando fallback');
+      copyToClipboard(url);
+      toast.warning('Popup bloqueado. Link copiado para área de transferência.');
+      return false;
     }
+    
+    console.log('Link aberto com sucesso via window.open');
+    toast.success('Contrato aberto em nova aba!');
+    return true;
   };
 
   // Função para copiar o link para o clipboard
@@ -134,6 +126,33 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
       toast.error('Erro ao enviar dados. Verifique sua conexão e tente novamente.');
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  // Função para verificar status e ir para pagamento
+  const handleGoToPayment = async () => {
+    try {
+      // Verificar o status na base de dados
+      const { data: studentData, error } = await supabase
+        .from('rematricula')
+        .select('Status')
+        .eq('Cod Aluno', data?.["Cod Aluno"] || data?.cod_aluno)
+        .single();
+
+      if (error) {
+        console.error('Erro ao verificar status:', error);
+        toast.error('Erro ao verificar status do contrato.');
+        return;
+      }
+
+      if (studentData?.Status === 'Contrato Assinado') {
+        onGoToPayment();
+      } else {
+        toast.error('O contrato deve ser assinado antes de prosseguir para o pagamento.');
+      }
+    } catch (error) {
+      console.error('Erro ao verificar status:', error);
+      toast.error('Erro ao verificar status do contrato.');
     }
   };
   return (
@@ -229,18 +248,13 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
                     O contrato foi gerado com sucesso! Use os botões abaixo:
                   </p>
                   <div className="flex gap-2">
-                    <Button 
-                      onClick={() => {
-                        const success = openContractLink(contractUrl);
-                        if (!success) {
-                          toast.error('Não foi possível abrir o link automaticamente. O link foi copiado para a área de transferência.');
-                        }
-                      }}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                    >
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Abrir Contrato
-                    </Button>
+                   <Button 
+                     onClick={() => openContractLink(contractUrl)}
+                     className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                   >
+                     <ExternalLink className="w-4 h-4 mr-2" />
+                     Abrir Contrato
+                   </Button>
                     <Button 
                       onClick={() => copyToClipboard(contractUrl)}
                       variant="outline"
@@ -265,8 +279,12 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
               <Button onClick={onBack} variant="outline" className="flex-1">
                 Voltar
               </Button>
-              <Button onClick={onConfirm} className="flex-1">
-                Nova Rematrícula
+              <Button 
+                onClick={handleGoToPayment} 
+                className="flex-1"
+                disabled={!contractOpened}
+              >
+                Ir para Pagamento
               </Button>
             </>
           ) : (
