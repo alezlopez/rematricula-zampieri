@@ -22,11 +22,6 @@ serve(async (req) => {
       );
     }
 
-    // Normalize: digits only, strip leading country code if present
-    const digits = String(phoneNumber).replace(/\D/g, '');
-    const local = digits.startsWith('55') ? digits.slice(2) : digits;
-    const e164 = `55${local}`;
-
     // Generate 5-digit verification code
     const verificationCode = Math.floor(10000 + Math.random() * 90000).toString();
     
@@ -40,7 +35,7 @@ serve(async (req) => {
         'apikey': Deno.env.get('EVOLUTION_API_KEY') || '',
       },
       body: JSON.stringify({
-        number: e164,
+        number: `55${phoneNumber}`,
         text: `Código de verificação: ${verificationCode}`,
         linkPreview: false
       }),
@@ -61,9 +56,7 @@ serve(async (req) => {
       JSON.stringify({ 
         success: true, 
         code: verificationCode,
-        message: 'Código enviado com sucesso',
-        providerStatus: evolutionResult?.status ?? null,
-        providerMessageId: evolutionResult?.key?.id ?? null
+        message: 'Código enviado com sucesso'
       }), 
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
