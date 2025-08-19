@@ -60,6 +60,12 @@ const CPFSearchForm = ({ onSearchResult }: CPFSearchFormProps) => {
 
       const row = data[0];
 
+      // Verificar se está liberado para rematrícula
+      if (!row["Liberado para rematrícula"]) {
+        toast.error("Não poderemos seguir com a sua rematrícula por aqui, por favor entre em contato com o departamento financeiro do Colégio");
+        return;
+      }
+
       // Mapear os nomes das colunas da tabela para um formato mais consistente
       const mappedData = {
         status: row["Status"],
