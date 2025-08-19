@@ -27,12 +27,38 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
   const [resendCooldown, setResendCooldown] = useState(0);
   const { toast } = useToast();
 
+  // Verificar quais responsáveis têm CPF preenchido
+  const paiHasCPF = data?.["CPF do Pai"]?.trim();
+  const maeHasCPF = data?.["CPF da mãe"]?.trim();
+  
+  // Verificar se pelo menos um responsável tem CPF
+  const hasValidResponsible = paiHasCPF || maeHasCPF;
+
   // Normalize phone number to digits only
   const normalizePhone = (phone: string) => {
     return phone.replace(/\D/g, '');
   };
 
   const handleResponsibleSelection = (value: "pai" | "mae") => {
+    // Validar se o responsável selecionado tem CPF
+    if (value === "pai" && !paiHasCPF) {
+      toast({
+        title: "Erro",
+        description: "Este responsável não possui CPF cadastrado",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (value === "mae" && !maeHasCPF) {
+      toast({
+        title: "Erro", 
+        description: "Este responsável não possui CPF cadastrado",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setResponsible(value);
     const phone = value === "pai" ? data["Telefone do Pai"] : data["Telefone da Mãe"];
     setPhoneNumber(normalizePhone(phone || ""));
@@ -160,30 +186,70 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
             <p className="text-center text-muted-foreground">
               Quem será o responsável financeiro pela matrícula?
             </p>
-            <RadioGroup onValueChange={handleResponsibleSelection}>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="pai" id="pai" />
-                <Label htmlFor="pai" className="flex-1 cursor-pointer">
-                  <div>
-                    <div className="font-medium">{data["Nome do Pai"] || "Pai"}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {formatPhone(data["Telefone do Pai"] || "")}
+            
+            {!hasValidResponsible && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  Nenhum responsável possui CPF cadastrado. Entre em contato com a secretaria para atualizar os dados antes de prosseguir.
+                </AlertDescription>
+              </Alert>
+            )}
+            
+            {hasValidResponsible && (
+              <RadioGroup onValueChange={handleResponsibleSelection}>
+                {/* Opção Pai */}
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem 
+                    value="pai" 
+                    id="pai" 
+                    disabled={!paiHasCPF}
+                  />
+                  <Label 
+                    htmlFor="pai" 
+                    className={`flex-1 ${paiHasCPF ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'}`}
+                  >
+                    <div>
+                      <div className="font-medium">{data["Nome do Pai"] || "Pai"}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {formatPhone(data["Telefone do Pai"] || "")}
+                      </div>
+                      {!paiHasCPF && (
+                        <div className="text-xs text-destructive mt-1">
+                          CPF não informado - Não é possível selecionar este responsável
+                        </div>
+                      )}
                     </div>
-                  </div>
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="mae" id="mae" />
-                <Label htmlFor="mae" className="flex-1 cursor-pointer">
-                  <div>
-                    <div className="font-medium">{data["Nome da mãe"] || "Mãe"}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {formatPhone(data["Telefone da Mãe"] || "")}
+                  </Label>
+                </div>
+                
+                {/* Opção Mãe */}
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem 
+                    value="mae" 
+                    id="mae" 
+                    disabled={!maeHasCPF}
+                  />
+                  <Label 
+                    htmlFor="mae" 
+                    className={`flex-1 ${maeHasCPF ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'}`}
+                  >
+                    <div>
+                      <div className="font-medium">{data["Nome da mãe"] || "Mãe"}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {formatPhone(data["Telefone da Mãe"] || "")}
+                      </div>
+                      {!maeHasCPF && (
+                        <div className="text-xs text-destructive mt-1">
+                          CPF não informado - Não é possível selecionar este responsável
+                        </div>
+                      )}
                     </div>
-                  </div>
-                </Label>
-              </div>
-            </RadioGroup>
+                  </Label>
+                </div>
+              </RadioGroup>
+            )}
+            
             <Button onClick={onBack} variant="outline" className="w-full">
               Voltar
             </Button>
