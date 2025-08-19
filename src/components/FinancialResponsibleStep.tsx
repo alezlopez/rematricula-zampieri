@@ -28,10 +28,27 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
   const { toast } = useToast();
 
   // Verificar quais responsáveis têm CPF preenchido (aceita chaves mapeadas ou originais)
-  const cpfPai = (data?.["CPF do Pai"] ?? data?.cpf_pai)?.toString().trim();
-  const cpfMae = (data?.["CPF da mãe"] ?? data?.cpf_mae)?.toString().trim();
-  const paiHasCPF = !!cpfPai;
-  const maeHasCPF = !!cpfMae;
+  const getCpfValue = (cpfData: any): string => {
+    if (!cpfData) return '';
+    
+    // Se for um objeto com _type e value, extrair o value
+    if (typeof cpfData === 'object' && cpfData._type === 'undefined') {
+      return '';
+    }
+    
+    // Se for um objeto com propriedades, tentar pegar o value
+    if (typeof cpfData === 'object' && cpfData.value !== undefined) {
+      return cpfData.value?.toString().trim() || '';
+    }
+    
+    // Se for string ou número, converter para string
+    return cpfData.toString().trim();
+  };
+
+  const cpfPai = getCpfValue(data?.["CPF do Pai"] ?? data?.cpf_pai);
+  const cpfMae = getCpfValue(data?.["CPF da mãe"] ?? data?.cpf_mae);
+  const paiHasCPF = !!cpfPai && cpfPai !== 'undefined';
+  const maeHasCPF = !!cpfMae && cpfMae !== 'undefined';
   
   // Debug logs
   console.log('Dados recebidos:', data);
