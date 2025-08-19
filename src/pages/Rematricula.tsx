@@ -1,9 +1,11 @@
+
 import { useState } from "react";
 import Header from "@/components/Header";
 import CPFSearchForm from "@/components/CPFSearchForm";
 import DataConfirmation from "@/components/DataConfirmation";
 import StatusFlow from "@/components/StatusFlow";
 import StudentSelector from "@/components/StudentSelector";
+import DataUpdateForm from "@/components/DataUpdateForm";
 import { Button } from "@/components/ui/button";
 
 type Step = "search" | "selection" | "confirmation" | "update" | "financial" | "status";
@@ -48,6 +50,11 @@ const Rematricula = () => {
     setCurrentStep("update");
   };
 
+  const handleUpdateSuccess = (updatedData: any) => {
+    setStudentData(updatedData);
+    setCurrentStep("confirmation");
+  };
+
   const handleBackToSearch = () => {
     setCurrentStep("search");
     setStudentData(null);
@@ -85,6 +92,17 @@ const Rematricula = () => {
           </div>
         );
       
+      case "update":
+        return (
+          <div className="min-h-[60vh] flex items-center justify-center py-8">
+            <DataUpdateForm
+              data={studentData}
+              onBack={() => setCurrentStep("confirmation")}
+              onSuccess={handleUpdateSuccess}
+            />
+          </div>
+        );
+      
       case "status":
         return (
           <div className="min-h-[60vh] flex items-center justify-center py-8">
@@ -93,23 +111,6 @@ const Rematricula = () => {
               data={studentData}
               onBackToSearch={handleBackToSearch}
             />
-          </div>
-        );
-      
-      case "update":
-        return (
-          <div className="min-h-[60vh] flex items-center justify-center">
-            <div className="text-center p-8">
-              <h2 className="text-xl font-semibold text-primary mb-4">
-                Formulário de Atualização
-              </h2>
-              <p className="text-muted-foreground mb-4">
-                Em desenvolvimento...
-              </p>
-              <Button onClick={handleBackToSearch} variant="outline">
-                Voltar à Busca
-              </Button>
-            </div>
           </div>
         );
       

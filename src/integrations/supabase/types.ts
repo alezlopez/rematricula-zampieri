@@ -731,6 +731,58 @@ export type Database = {
         Args: { "": unknown[] }
         Returns: number
       }
+      update_rematricula_fields: {
+        Args: {
+          p_bairro?: string
+          p_cep?: string
+          p_cidade?: string
+          p_cod_aluno: number
+          p_email_mae?: string
+          p_email_pai?: string
+          p_endereco?: string
+          p_estado?: string
+          p_numero?: number
+          p_telefone_mae?: string
+          p_telefone_pai?: string
+        }
+        Returns: {
+          Anuidade: string | null
+          "Atualizou dados Mãe": string | null
+          "Atualizou dados Pai": string | null
+          "Atualizou Endereço": string | null
+          Bairro: string | null
+          CEP: string | null
+          Ciclo: string | null
+          Cidade: string | null
+          "Cod Aluno": number | null
+          "CPF da mãe": string | null
+          "CPF do Pai": string | null
+          "Curso 2025": string | null
+          "Curso 2026": string | null
+          Desconto: string | null
+          "Email da Mãe": string | null
+          "Email do Pai": string | null
+          Endereço: string | null
+          "Id Checkout": string | null
+          "Liberado para rematrícula": boolean | null
+          "Link Checkout": string | null
+          "Link Contrato": string | null
+          "mensalidade 2026 com desconto": string | null
+          "mensalidade 2026 sem desconto": string | null
+          "Nome da mãe": string | null
+          "Nome do Aluno": string | null
+          "Nome do Pai": string | null
+          Número: number | null
+          "Rematrícula a vista": string | null
+          "Rematrícula Parcelada": string | null
+          "Resp. Financeiro": string | null
+          Status: string | null
+          "Telefone da Mãe": string | null
+          "Telefone do Pai": string | null
+          "token contrato": string | null
+          "Turno 2026": string | null
+        }[]
+      }
       vector_avg: {
         Args: { "": number[] }
         Returns: string
