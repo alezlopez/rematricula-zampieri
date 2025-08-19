@@ -136,10 +136,13 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
         throw new Error("Não foi possível identificar o aluno (código ausente)");
       }
 
+      // Determinar turno a salvar (EM = Manhã obrigatória)
+      const selectedTurno = isEnsinoMedio ? "Manhã" : formData.turno_2026;
+
       // Atualizar turno no banco de dados
       const { error } = await supabase.rpc('update_rematricula_fields', {
         p_cod_aluno: codAluno,
-        p_turno_2026: formData.turno_2026
+        p_turno_2026: selectedTurno
       });
 
       if (error) {
