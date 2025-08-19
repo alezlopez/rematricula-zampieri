@@ -185,10 +185,15 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
 
       if (error) {
         console.error('Erro da base de dados:', error);
-        throw new Error(`Erro ao atualizar responsável financeiro: ${error.message}`);
+        throw new Error(`Erro ao atualizar responsável financeiro: ${error.message || error.toString()}`);
       }
 
-      console.log('Responsável financeiro atualizado com sucesso!');
+      if (!result || (Array.isArray(result) && result.length === 0)) {
+        console.error('Nenhum registro foi atualizado. Resultado:', result);
+        throw new Error("Nenhum registro foi encontrado para este aluno. Verifique os dados.");
+      }
+
+      console.log('Responsável financeiro atualizado com sucesso!', result);
       setStep("success");
       
       setTimeout(() => {
