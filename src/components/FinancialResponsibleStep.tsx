@@ -27,14 +27,16 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
   const [resendCooldown, setResendCooldown] = useState(0);
   const { toast } = useToast();
 
-  // Verificar quais responsáveis têm CPF preenchido
-  const paiHasCPF = data?.["CPF do Pai"] && data["CPF do Pai"].toString().trim();
-  const maeHasCPF = data?.["CPF da mãe"] && data["CPF da mãe"].toString().trim();
+  // Verificar quais responsáveis têm CPF preenchido (aceita chaves mapeadas ou originais)
+  const cpfPai = (data?.["CPF do Pai"] ?? data?.cpf_pai)?.toString().trim();
+  const cpfMae = (data?.["CPF da mãe"] ?? data?.cpf_mae)?.toString().trim();
+  const paiHasCPF = !!cpfPai;
+  const maeHasCPF = !!cpfMae;
   
   // Debug logs
   console.log('Dados recebidos:', data);
-  console.log('CPF do Pai:', data?.["CPF do Pai"], 'Válido:', !!paiHasCPF);
-  console.log('CPF da Mãe:', data?.["CPF da mãe"], 'Válido:', !!maeHasCPF);
+  console.log('CPF do Pai (detectado):', cpfPai, 'Válido:', paiHasCPF);
+  console.log('CPF da Mãe (detectado):', cpfMae, 'Válido:', maeHasCPF);
   
   // Verificar se pelo menos um responsável tem CPF
   const hasValidResponsible = paiHasCPF || maeHasCPF;
@@ -65,7 +67,9 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
     }
 
     setResponsible(value);
-    const phone = value === "pai" ? data["Telefone do Pai"] : data["Telefone da Mãe"];
+    const phone = value === "pai" 
+      ? (data["Telefone do Pai"] ?? data.telefone_pai)
+      : (data["Telefone da Mãe"] ?? data.telefone_mae);
     setPhoneNumber(normalizePhone(phone || ""));
     setStep("phone");
   };
@@ -215,9 +219,9 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
                     className={`flex-1 ${paiHasCPF ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'}`}
                   >
                     <div>
-                      <div className="font-medium">{data["Nome do Pai"] || "Pai"}</div>
+                      <div className="font-medium">{data["Nome do Pai"] || data.nome_pai || "Pai"}</div>
                       <div className="text-sm text-muted-foreground">
-                        {formatPhone(data["Telefone do Pai"] || "")}
+                        {formatPhone((data["Telefone do Pai"] ?? data.telefone_pai) || "")}
                       </div>
                       {!paiHasCPF && (
                         <div className="text-xs text-destructive mt-1">
@@ -240,9 +244,9 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
                     className={`flex-1 ${maeHasCPF ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'}`}
                   >
                     <div>
-                      <div className="font-medium">{data["Nome da mãe"] || "Mãe"}</div>
+                      <div className="font-medium">{data["Nome da mãe"] || data["Nome da Mãe"] || data.nome_mae || "Mãe"}</div>
                       <div className="text-sm text-muted-foreground">
-                        {formatPhone(data["Telefone da Mãe"] || "")}
+                        {formatPhone((data["Telefone da Mãe"] ?? data.telefone_mae) || "")}
                       </div>
                       {!maeHasCPF && (
                         <div className="text-xs text-destructive mt-1">
@@ -338,7 +342,7 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
             <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
             <p className="text-lg font-medium">Telefone verificado com sucesso!</p>
             <p className="text-muted-foreground">
-              Responsável financeiro: {responsible === "pai" ? data["Nome do Pai"] : data["Nome da mãe"]}
+              Responsável financeiro: {responsible === "pai" ? (data["Nome do Pai"] || data.nome_pai) : (data["Nome da mãe"] || data["Nome da Mãe"] || data.nome_mae)}
             </p>
             <p className="text-sm text-muted-foreground">Redirecionando...</p>
           </div>
