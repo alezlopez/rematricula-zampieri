@@ -7,14 +7,16 @@ import StatusFlow from "@/components/StatusFlow";
 import StudentSelector from "@/components/StudentSelector";
 import DataUpdateForm from "@/components/DataUpdateForm";
 import FinancialResponsibleStep from "@/components/FinancialResponsibleStep";
+import ExtraDataForm from "@/components/ExtraDataForm";
 import { Button } from "@/components/ui/button";
 
-type Step = "search" | "selection" | "confirmation" | "update" | "financial" | "status";
+type Step = "search" | "selection" | "confirmation" | "update" | "financial" | "extraData" | "status";
 
 const Rematricula = () => {
   const [currentStep, setCurrentStep] = useState<Step>("search");
   const [studentData, setStudentData] = useState<any>(null);
   const [multipleStudents, setMultipleStudents] = useState<any[]>([]);
+  const [extraData, setExtraData] = useState<any>(null);
 
   const handleSearchResult = (data: any) => {
     setStudentData(data);
@@ -48,7 +50,15 @@ const Rematricula = () => {
   };
 
   const handleFinancialSuccess = () => {
-    // Here you can redirect to next step or complete the process
+    // Ir para coleta de dados extras
+    setCurrentStep("extraData");
+  };
+
+  const handleExtraDataSuccess = (data: any) => {
+    setExtraData(data);
+    // Aqui você pode processar os dados ou ir para próxima tela
+    console.log('Dados extras coletados:', data);
+    console.log('Dados do estudante:', studentData);
     handleBackToSearch();
   };
 
@@ -65,6 +75,7 @@ const Rematricula = () => {
     setCurrentStep("search");
     setStudentData(null);
     setMultipleStudents([]);
+    setExtraData(null);
   };
 
   const renderCurrentStep = () => {
@@ -127,6 +138,17 @@ const Rematricula = () => {
               data={studentData}
               onSuccess={handleFinancialSuccess}
               onBack={() => setCurrentStep("confirmation")}
+            />
+          </div>
+        );
+      
+      case "extraData":
+        return (
+          <div className="min-h-[60vh] flex items-center justify-center py-8">
+            <ExtraDataForm
+              data={studentData}
+              onSuccess={handleExtraDataSuccess}
+              onBack={() => setCurrentStep("financial")}
             />
           </div>
         );
