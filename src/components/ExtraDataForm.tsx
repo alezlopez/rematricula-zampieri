@@ -171,9 +171,12 @@ const ExtraDataForm = ({
       // Formatear dados para envio
       const extraData = {
         ...formData,
-        data_nascimento_responsavel: format(formData.data_nascimento_responsavel, 'yyyy-MM-dd'),
-        data_nascimento_aluno: format(formData.data_nascimento_aluno, 'yyyy-MM-dd')
+        data_nascimento_responsavel: formData.data_nascimento_responsavel ? format(formData.data_nascimento_responsavel, 'yyyy-MM-dd') : null,
+        data_nascimento_aluno: formData.data_nascimento_aluno ? format(formData.data_nascimento_aluno, 'yyyy-MM-dd') : null
       };
+      
+      console.log('Dados enviados para próxima tela:', extraData);
+      
       toast({
         title: "Sucesso",
         description: "Dados coletados e turno atualizado com sucesso!"

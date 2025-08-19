@@ -56,6 +56,7 @@ const Rematricula = () => {
   };
 
   const handleExtraDataSuccess = (data: any) => {
+    console.log('handleExtraDataSuccess chamado com dados:', data);
     setExtraData(data);
     setCurrentStep("summary");
   };
