@@ -109,9 +109,13 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
     setError("");
 
     try {
-      // Update responsible financeiro in database
+      const codAluno = Number(data?.["Cod Aluno"]);
+      if (!codAluno) {
+        throw new Error("Não foi possível identificar o aluno (código ausente)");
+      }
+      // Update responsável financeiro no banco
       const { error } = await supabase.rpc('update_rematricula_fields', {
-        p_cod_aluno: data["Cod Aluno"],
+        p_cod_aluno: codAluno,
         p_resp_financeiro: responsible === "pai" ? "Pai" : "Mãe"
       });
 
