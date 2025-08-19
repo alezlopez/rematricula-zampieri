@@ -25,6 +25,11 @@ interface ExtraData {
   data_nascimento_aluno: Date | null;
   turno_2026: string;
 }
+
+interface DateInputs {
+  responsavel: string;
+  aluno: string;
+}
 const ExtraDataForm = ({
   data,
   onSuccess,
@@ -37,6 +42,10 @@ const ExtraDataForm = ({
     data_nascimento_responsavel: null,
     data_nascimento_aluno: null,
     turno_2026: ""
+  });
+  const [dateInputs, setDateInputs] = useState<DateInputs>({
+    responsavel: "",
+    aluno: ""
   });
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -229,30 +238,29 @@ const ExtraDataForm = ({
               <Input 
                 type="text"
                 placeholder="DD/MM/AAAA"
-                value={formData.data_nascimento_responsavel ? format(formData.data_nascimento_responsavel, "dd/MM/yyyy") : ""}
+                value={dateInputs.responsavel}
                 onChange={(e) => {
                   const value = e.target.value;
                   // Permitir apenas números e barras, formatando automaticamente
                   const formatted = value.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1/$2').replace(/(\d{2})\/(\d{2})(\d)/, '$1/$2/$3').slice(0, 10);
                   
+                  setDateInputs(prev => ({ ...prev, responsavel: formatted }));
+                  
                   if (formatted.length === 10) {
                     const [day, month, year] = formatted.split('/');
                     const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
                     if (date && !isNaN(date.getTime()) && date <= new Date() && date >= new Date("1900-01-01")) {
-                      setFormData({
-                        ...formData,
+                      setFormData(prev => ({
+                        ...prev,
                         data_nascimento_responsavel: date
-                      });
+                      }));
                     }
                   } else if (formatted === "") {
-                    setFormData({
-                      ...formData,
+                    setFormData(prev => ({
+                      ...prev,
                       data_nascimento_responsavel: null
-                    });
+                    }));
                   }
-                  
-                  // Atualizar o campo com valor formatado
-                  e.target.value = formatted;
                 }}
                 className="flex-1"
               />
@@ -266,10 +274,16 @@ const ExtraDataForm = ({
                   <Calendar 
                     mode="single" 
                     selected={formData.data_nascimento_responsavel || undefined} 
-                    onSelect={date => setFormData({
-                      ...formData,
-                      data_nascimento_responsavel: date || null
-                    })} 
+                    onSelect={date => {
+                      setFormData(prev => ({
+                        ...prev,
+                        data_nascimento_responsavel: date || null
+                      }));
+                      setDateInputs(prev => ({
+                        ...prev,
+                        responsavel: date ? format(date, "dd/MM/yyyy") : ""
+                      }));
+                    }} 
                     disabled={date => date > new Date() || date < new Date("1900-01-01")} 
                     initialFocus 
                   />
@@ -284,30 +298,29 @@ const ExtraDataForm = ({
               <Input 
                 type="text"
                 placeholder="DD/MM/AAAA"
-                value={formData.data_nascimento_aluno ? format(formData.data_nascimento_aluno, "dd/MM/yyyy") : ""}
+                value={dateInputs.aluno}
                 onChange={(e) => {
                   const value = e.target.value;
                   // Permitir apenas números e barras, formatando automaticamente
                   const formatted = value.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1/$2').replace(/(\d{2})\/(\d{2})(\d)/, '$1/$2/$3').slice(0, 10);
                   
+                  setDateInputs(prev => ({ ...prev, aluno: formatted }));
+                  
                   if (formatted.length === 10) {
                     const [day, month, year] = formatted.split('/');
                     const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
                     if (date && !isNaN(date.getTime()) && date <= new Date() && date >= new Date("1900-01-01")) {
-                      setFormData({
-                        ...formData,
+                      setFormData(prev => ({
+                        ...prev,
                         data_nascimento_aluno: date
-                      });
+                      }));
                     }
                   } else if (formatted === "") {
-                    setFormData({
-                      ...formData,
+                    setFormData(prev => ({
+                      ...prev,
                       data_nascimento_aluno: null
-                    });
+                    }));
                   }
-                  
-                  // Atualizar o campo com valor formatado
-                  e.target.value = formatted;
                 }}
                 className="flex-1"
               />
@@ -321,10 +334,16 @@ const ExtraDataForm = ({
                   <Calendar 
                     mode="single" 
                     selected={formData.data_nascimento_aluno || undefined} 
-                    onSelect={date => setFormData({
-                      ...formData,
-                      data_nascimento_aluno: date || null
-                    })} 
+                    onSelect={date => {
+                      setFormData(prev => ({
+                        ...prev,
+                        data_nascimento_aluno: date || null
+                      }));
+                      setDateInputs(prev => ({
+                        ...prev,
+                        aluno: date ? format(date, "dd/MM/yyyy") : ""
+                      }));
+                    }} 
                     disabled={date => date > new Date() || date < new Date("1900-01-01")} 
                     initialFocus 
                   />
