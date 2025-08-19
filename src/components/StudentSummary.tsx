@@ -26,7 +26,9 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
         "Estado civil": data?.["Estado Civil Resp. Financeiro"] || extraData?.estado_civil || '',
         "Profissão": data?.["Profissão Resp. Financeiro"] || extraData?.profissao || '',
         "Data de nascimento do responsavel": data?.["Data Nascimento Resp. Financeiro"] || extraData?.data_nascimento_responsavel || '',
-        "Data de nascimento do aluno": data?.["Data Nascimento Aluno"] || extraData?.data_nascimento_aluno || ''
+        "Data de nascimento do aluno": data?.["Data Nascimento Aluno"] || extraData?.data_nascimento_aluno || '',
+        "RG do Responsável": data?.["RG Resp. Financeiro"] || extraData?.rg_responsavel || '',
+        "Naturalidade": data?.["Naturalidade do Responsável Financeiro"] || extraData?.naturalidade_responsavel || ''
       };
 
       console.log('Enviando dados para webhook:', webhookData);
@@ -40,8 +42,19 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
       });
 
       if (response.ok) {
-        setContractUrl('success'); // Marca como enviado com sucesso
-        toast.success('Dados enviados com sucesso! O contrato será processado.');
+        const responseData = await response.json();
+        console.log('Resposta do webhook:', responseData);
+        
+        // Extrair o link do contrato da resposta
+        const contractLink = responseData?.link_contrato || responseData?.linkContrato || responseData?.contract_url;
+        
+        if (contractLink) {
+          setContractUrl(contractLink);
+          toast.success('Contrato gerado com sucesso!');
+        } else {
+          setContractUrl('success'); // Marca como enviado com sucesso mesmo sem link
+          toast.success('Dados enviados com sucesso! O contrato será processado.');
+        }
         onConfirm(); // Chama a função original para continuar o fluxo
       } else {
         console.error('Erro na resposta do webhook:', response.status);
@@ -135,11 +148,25 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
         {contractUrl && (
           <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
             <h4 className="font-semibold text-green-800 dark:text-green-200 mb-2">
-              Dados Enviados com Sucesso!
+              {contractUrl === 'success' ? 'Dados Enviados com Sucesso!' : 'Contrato Gerado!'}
             </h4>
-            <p className="text-sm text-green-700 dark:text-green-300">
-              Os dados do aluno foram enviados para processamento. O contrato será gerado em breve.
-            </p>
+            {contractUrl === 'success' ? (
+              <p className="text-sm text-green-700 dark:text-green-300">
+                Os dados do aluno foram enviados para processamento. O contrato será gerado em breve.
+              </p>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-sm text-green-700 dark:text-green-300">
+                  O contrato foi gerado com sucesso! Clique no botão abaixo para acessá-lo:
+                </p>
+                <Button 
+                  onClick={() => window.open(contractUrl, '_blank')}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white"
+                >
+                  Acessar Contrato
+                </Button>
+              </div>
+            )}
           </div>
         )}
 
