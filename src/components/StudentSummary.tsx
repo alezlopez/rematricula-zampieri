@@ -2,6 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { ExternalLink, Loader2 } from "lucide-react";
 
 interface StudentSummaryProps {
   data: any;
@@ -11,6 +15,37 @@ interface StudentSummaryProps {
 }
 
 const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryProps) => {
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [contractUrl, setContractUrl] = useState<string | null>(null);
+
+  const handleGenerateContract = async () => {
+    setIsGenerating(true);
+    try {
+      const { data: result, error } = await supabase.functions.invoke('generate-contract', {
+        body: { studentData: data }
+      });
+
+      if (error) {
+        console.error('Erro ao gerar contrato:', error);
+        toast.error('Erro ao gerar contrato. Tente novamente.');
+        return;
+      }
+
+      if (result?.success && result?.signUrl) {
+        setContractUrl(result.signUrl);
+        toast.success('Contrato gerado com sucesso!');
+        onConfirm(); // Chama a função original para continuar o fluxo
+      } else {
+        console.error('Resposta inválida:', result);
+        toast.error('Erro ao gerar contrato. Resposta inválida.');
+      }
+    } catch (error) {
+      console.error('Erro ao gerar contrato:', error);
+      toast.error('Erro ao gerar contrato. Tente novamente.');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
@@ -88,13 +123,45 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
           </div>
         </div>
 
+        {/* Link do Contrato */}
+        {contractUrl && (
+          <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+            <h4 className="font-semibold text-green-800 dark:text-green-200 mb-2">
+              Contrato Gerado com Sucesso!
+            </h4>
+            <p className="text-sm text-green-700 dark:text-green-300 mb-3">
+              Clique no link abaixo para assinar o contrato:
+            </p>
+            <a
+              href={contractUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium"
+            >
+              <ExternalLink className="w-4 h-4" />
+              Assinar Contrato
+            </a>
+          </div>
+        )}
+
         {/* Botões de ação */}
         <div className="flex gap-2 pt-4">
           <Button onClick={onBack} variant="outline" className="flex-1">
             Voltar
           </Button>
-          <Button onClick={onConfirm} className="flex-1">
-            Confirmar Matrícula
+          <Button 
+            onClick={handleGenerateContract} 
+            className="flex-1"
+            disabled={isGenerating}
+          >
+            {isGenerating ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Gerando...
+              </>
+            ) : (
+              'Gerar Contrato'
+            )}
           </Button>
         </div>
       </CardContent>
