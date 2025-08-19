@@ -160,7 +160,7 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
                 Gerando...
               </>
             ) : (
-              'Gerar Contrato'
+              'gerar contrato'
             )}
           </Button>
         </div>

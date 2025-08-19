@@ -7,48 +7,61 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-// Função para converter números para extenso em português
-function numberToText(value: string | number): string {
-  const num = typeof value === 'string' ? parseFloat(value.replace(',', '.')) : value;
-  if (isNaN(num)) return '';
-  
+// Funções utilitárias
+function parseBRL(value: string | number): number {
+  if (typeof value === 'number') return value;
+  if (!value) return NaN;
+  // Remove milhares e troca vírgula por ponto
+  const cleaned = value.toString().replace(/\./g, '').replace(',', '.').replace(/[^0-9.\-]/g, '');
+  const num = parseFloat(cleaned);
+  return num;
+}
+
+// Converte número para extenso em português (suporta até milhares)
+function numberToTextPlain(n: number): string {
+  if (!isFinite(n)) return '';
+  n = Math.floor(Math.abs(n));
   const units = ['', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove'];
   const tens = ['', '', 'vinte', 'trinta', 'quarenta', 'cinquenta', 'sessenta', 'setenta', 'oitenta', 'noventa'];
   const teens = ['dez', 'onze', 'doze', 'treze', 'quatorze', 'quinze', 'dezesseis', 'dezessete', 'dezoito', 'dezenove'];
   const hundreds = ['', 'cento', 'duzentos', 'trezentos', 'quatrocentos', 'quinhentos', 'seiscentos', 'setecentos', 'oitocentos', 'novecentos'];
-  
-  const integer = Math.floor(num);
-  const decimal = Math.round((num - integer) * 100);
-  
-  function convertInteger(n: number): string {
-    if (n === 0) return '';
-    if (n === 100) return 'cem';
-    if (n < 10) return units[n];
-    if (n < 20) return teens[n - 10];
-    if (n < 100) {
-      const ten = Math.floor(n / 10);
-      const unit = n % 10;
+
+  function toWords(num: number): string {
+    if (num === 0) return 'zero';
+    if (num === 100) return 'cem';
+    if (num < 10) return units[num];
+    if (num < 20) return teens[num - 10];
+    if (num < 100) {
+      const ten = Math.floor(num / 10);
+      const unit = num % 10;
       return tens[ten] + (unit > 0 ? ' e ' + units[unit] : '');
     }
-    if (n < 1000) {
-      const hundred = Math.floor(n / 100);
-      const rest = n % 100;
-      return hundreds[hundred] + (rest > 0 ? ' e ' + convertInteger(rest) : '');
+    if (num < 1000) {
+      const hundred = Math.floor(num / 100);
+      const rest = num % 100;
+      return hundreds[hundred] + (rest > 0 ? ' e ' + toWords(rest) : '');
     }
-    return n.toString(); // Para números maiores, retorna como string
+    if (num < 1000000) {
+      const thousands = Math.floor(num / 1000);
+      const rest = num % 1000;
+      const thousandsText = thousands === 1 ? 'mil' : toWords(thousands) + ' mil';
+      return rest > 0 ? thousandsText + ' e ' + toWords(rest) : thousandsText;
+    }
+    return num.toString();
   }
-  
-  let result = convertInteger(integer);
-  if (integer === 1) result = 'um';
-  
-  result += ' real';
-  if (integer !== 1) result += 'is';
-  
+
+  return toWords(n);
+}
+
+function numberToTextCurrency(value: string | number): string {
+  const num = typeof value === 'string' ? parseBRL(value) : value;
+  if (isNaN(num)) return '';
+  const integer = Math.floor(num);
+  const decimal = Math.round((num - integer) * 100);
+  let result = numberToTextPlain(integer) + ' real' + (integer === 1 ? '' : 'es');
   if (decimal > 0) {
-    result += ' e ' + convertInteger(decimal) + ' centavo';
-    if (decimal !== 1) result += 's';
+    result += ' e ' + numberToTextPlain(decimal) + ' centavo' + (decimal === 1 ? '' : 's');
   }
-  
   return result;
 }
 
@@ -97,9 +110,14 @@ serve(async (req) => {
     const anuidade = fullStudentData['Anuidade'] || '';
     const desconto = fullStudentData['Desconto'] || '';
 
+    const parsedAnuidade = parseBRL(anuidade);
+    const parsedSemDesc = parseBRL(mensalidadeSemDesc);
+    const parsedComDesc = parseBRL(mensalidadeComDesc);
+    const parsedDesconto = typeof desconto === 'string' ? parseFloat(desconto.replace(',', '.')) : Number(desconto);
+
     const contractData = {
       template_id: "85f61734-9a3b-4311-bafc-ce982e1f1f53",
-      signer_name: "Adenilton Rodrigues Brito",
+      signer_name: fullStudentData['Nome do Pai'] || fullStudentData['Nome da mãe'] || "",
       send_automatic_email: true,
       send_automatic_whatsapp: false,
       lang: "pt-br",
@@ -114,17 +132,17 @@ serve(async (req) => {
         { "de": "{{telRespFin}}", "para": fullStudentData['Telefone do Pai'] || fullStudentData['Telefone da Mãe'] || '' },
         { "de": "{{emailRespFin}}", "para": fullStudentData['Email do Pai'] || fullStudentData['Email da Mãe'] || '' },
         { "de": "{{naturalidadeRespFin}}", "para": '' },
-        
+
         { "de": "{{pai}}", "para": fullStudentData['Nome do Pai'] || '' },
         { "de": "{{cpfPai}}", "para": fullStudentData['CPF do Pai'] || '' },
         { "de": "{{telPai}}", "para": fullStudentData['Telefone do Pai'] || '' },
         { "de": "{{emailPai}}", "para": fullStudentData['Email do Pai'] || '' },
-        
+
         { "de": "{{mae}}", "para": fullStudentData['Nome da mãe'] || '' },
         { "de": "{{telMae}}", "para": fullStudentData['Telefone da Mãe'] || '' },
         { "de": "{{emailMae}}", "para": fullStudentData['Email da Mãe'] || '' },
         { "de": "{{cpfMae}}", "para": fullStudentData['CPF da mãe'] || '' },
-        
+
         { "de": "{{aluno}}", "para": fullStudentData['Nome do Aluno'] || '' },
         { "de": "{{nascimentoAluno}}", "para": '' },
         { "de": "{{codAluno}}", "para": (fullStudentData['Cod Aluno'] || '').toString() },
@@ -142,22 +160,23 @@ serve(async (req) => {
         { "de": "{{desconto}}", "para": desconto },
         { "de": "{{atualizaDados}}", "para": '' },
         { "de": "{{mensalidadeSemDesc}}", "para": mensalidadeSemDesc },
-        { "de": "{{anuidadeExt}}", "para": numberToText(anuidade) },
-        { "de": "{{mensalidadeSemDescExt}}", "para": numberToText(mensalidadeSemDesc) },
+        { "de": "{{anuidadeExt}}", "para": numberToTextCurrency(parsedAnuidade) },
+        { "de": "{{mensalidadeSemDescExt}}", "para": numberToTextCurrency(parsedSemDesc) },
         { "de": "{{dataAtual}}", "para": getCurrentDateFormatted() },
-        { "de": "{{mensalidadeComDescExt}}", "para": numberToText(mensalidadeComDesc) },
-        { "de": "{{descontoExt}}", "para": numberToText(desconto) }
+        { "de": "{{mensalidadeComDescExt}}", "para": numberToTextCurrency(parsedComDesc) },
+        { "de": "{{descontoExt}}", "para": numberToTextPlain(parsedDesconto) + ' por cento' }
       ]
     };
 
     console.log('Dados do contrato preparados:', contractData);
 
     // Fazer chamada para API do ZapSign
-    const response = await fetch('https://app.zapsign.com.br/api/v1/docs/', {
+    const response = await fetch('https://api.zapsign.com.br/api/v1/docs/', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer d2d6d453-59f8-4bd9-af61-e30267750c186112b7f1-9e5d-4472-b5dc-dede276ea8ec',
         'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(contractData)
     });
@@ -168,11 +187,18 @@ serve(async (req) => {
       throw new Error(`Erro na API do ZapSign: ${response.status} - ${errorText}`);
     }
 
-    const result = await response.json();
+    let result: any;
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      result = await response.json();
+    } else {
+      const text = await response.text();
+      console.error('Resposta não JSON da ZapSign:', text);
+      throw new Error('Resposta não JSON recebida da ZapSign');
+    }
     console.log('Resposta da API do ZapSign:', result);
 
-    // Extrair o link de assinatura
-    const signUrl = result?.signers?.[0]?.sign_url;
+    const signUrl = result?.signers?.[0]?.sign_url || result?.signers?.signer?.[0]?.sign_url || result?.sign_url;
     
     if (!signUrl) {
       console.error('Link de assinatura não encontrado na resposta:', result);
