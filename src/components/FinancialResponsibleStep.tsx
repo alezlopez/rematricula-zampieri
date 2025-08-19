@@ -4,315 +4,235 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Phone, Shield, Check, Loader2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface FinancialResponsibleStepProps {
   data: any;
+  onSuccess: () => void;
   onBack: () => void;
-  onSuccess: (updatedData: any) => void;
 }
 
-const FinancialResponsibleStep = ({ data, onBack, onSuccess }: FinancialResponsibleStepProps) => {
-  const [selectedResponsible, setSelectedResponsible] = useState<"pai" | "mae" | "">("");
-  const [phone, setPhone] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
+const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsibleStepProps) => {
+  const [responsible, setResponsible] = useState<"pai" | "mae" | "">("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [sentCode, setSentCode] = useState("");
-  const [step, setStep] = useState<"select" | "phone" | "verify">("select");
-  const [loading, setLoading] = useState(false);
+  const [step, setStep] = useState<"selection" | "phone" | "verification" | "success">("selection");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const { toast } = useToast();
 
+  // Normalize phone number to digits only
+  const normalizePhone = (phone: string) => {
+    return phone.replace(/\D/g, '');
+  };
+
   const handleResponsibleSelection = (value: "pai" | "mae") => {
-    setSelectedResponsible(value);
-    const phoneNumber = value === "pai" 
-      ? data["Telefone do Pai"] 
-      : data["Telefone da Mãe"];
-    
-    setPhone(phoneNumber || "");
+    setResponsible(value);
+    const phone = value === "pai" ? data["Telefone do Pai"] : data["Telefone da Mãe"];
+    setPhoneNumber(normalizePhone(phone || ""));
     setStep("phone");
   };
 
-  const formatPhone = (value: string) => {
-    const digits = value.replace(/\D/g, '');
-    if (digits.length <= 11) {
-      return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3').substring(0, 15);
-    }
-    return value;
-  };
-
-  const handlePhoneChange = (value: string) => {
-    const formatted = formatPhone(value);
-    setPhone(formatted);
-  };
-
-  const sendVerificationCode = async () => {
-    if (!phone || phone.replace(/\D/g, '').length < 10) {
-      toast({
-        title: "Erro",
-        description: "Digite um telefone válido",
-        variant: "destructive"
-      });
+  const handleSendCode = async () => {
+    if (!phoneNumber || phoneNumber.length < 10) {
+      setError("Por favor, digite um número de telefone válido");
       return;
     }
 
-    setLoading(true);
+    setIsLoading(true);
+    setError("");
+
     try {
-      const { data: response, error } = await supabase.functions.invoke('send-whatsapp-code', {
-        body: { phone: phone.replace(/\D/g, '') }
+      const { data: result, error } = await supabase.functions.invoke('send-whatsapp-code', {
+        body: { phoneNumber: normalizePhone(phoneNumber) }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Edge function error:', error);
+        throw new Error(error.message || 'Erro ao enviar código');
+      }
 
-      setSentCode(response.code);
-      setStep("verify");
-      
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+
+      setSentCode(result.code);
+      setStep("verification");
       toast({
-        title: "Código enviado!",
-        description: "Verifique seu WhatsApp e digite o código recebido",
+        title: "Código enviado",
+        description: "Código de verificação enviado para o WhatsApp",
       });
-    } catch (error) {
-      console.error('Error sending code:', error);
-      toast({
-        title: "Erro ao enviar código",
-        description: "Tente novamente em alguns instantes",
-        variant: "destructive"
-      });
+    } catch (error: any) {
+      console.error('Send code error:', error);
+      setError(error.message || "Erro ao enviar código de verificação");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const verifyCode = async () => {
+  const handleVerifyCode = async () => {
     if (verificationCode !== sentCode) {
-      toast({
-        title: "Código incorreto",
-        description: "Verifique o código e tente novamente",
-        variant: "destructive"
-      });
+      setError("Código incorreto. Tente novamente.");
       return;
     }
 
-    setLoading(true);
+    setIsLoading(true);
+    setError("");
+
     try {
-      // Update financial responsible in database
-      const responsibleName = selectedResponsible === "pai" 
-        ? data["Nome do Pai"] 
-        : data["Nome da mãe"];
-
-      const { data: result, error } = await supabase.rpc('update_rematricula_fields', {
+      // Update responsible financeiro in database
+      const { error } = await supabase.rpc('update_rematricula_fields', {
         p_cod_aluno: data["Cod Aluno"],
-        p_resp_financeiro: responsibleName
+        p_resp_financeiro: responsible === "pai" ? "Pai" : "Mãe"
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Database update error:', error);
+        throw new Error("Erro ao atualizar responsável financeiro");
+      }
 
-      toast({
-        title: "Sucesso!",
-        description: "Responsável financeiro confirmado",
-      });
-
-      onSuccess(result[0]);
-    } catch (error) {
-      console.error('Error updating responsible:', error);
-      toast({
-        title: "Erro",
-        description: "Erro ao salvar responsável financeiro",
-        variant: "destructive"
-      });
+      setStep("success");
+      setTimeout(() => {
+        onSuccess();
+      }, 2000);
+    } catch (error: any) {
+      console.error('Verify code error:', error);
+      setError(error.message || "Erro ao confirmar código");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const getStepContent = () => {
-    switch (step) {
-      case "select":
-        return (
-          <>
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Selecione o Responsável Financeiro</h3>
-              <p className="text-sm text-muted-foreground">
-                Escolha quem será o responsável financeiro para a rematrícula
-              </p>
-            </div>
-
-            <RadioGroup value={selectedResponsible} onValueChange={handleResponsibleSelection}>
-              <div className="space-y-3">
-                <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-accent">
-                  <RadioGroupItem value="pai" />
-                  <div className="flex-1">
-                    <div className="font-medium">{data["Nome do Pai"] || "Pai"}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {data["Telefone do Pai"] || "Telefone não cadastrado"}
-                    </div>
-                  </div>
-                </Label>
-
-                <Label className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer hover:bg-accent">
-                  <RadioGroupItem value="mae" />
-                  <div className="flex-1">
-                    <div className="font-medium">{data["Nome da mãe"] || "Mãe"}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {data["Telefone da Mãe"] || "Telefone não cadastrado"}
-                    </div>
-                  </div>
-                </Label>
-              </div>
-            </RadioGroup>
-          </>
-        );
-
-      case "phone":
-        return (
-          <>
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-                <Phone className="w-5 h-5" />
-                Confirmar Telefone
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Confirme o telefone do responsável financeiro: <strong>
-                  {selectedResponsible === "pai" ? data["Nome do Pai"] : data["Nome da mãe"]}
-                </strong>
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="phone">Telefone WhatsApp</Label>
-                <div className="flex gap-2 mt-1">
-                  <Input
-                    id="phone"
-                    value={phone}
-                    onChange={(e) => handlePhoneChange(e.target.value)}
-                    disabled={!isEditing}
-                    placeholder="(00) 00000-0000"
-                    className="flex-1"
-                  />
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setIsEditing(!isEditing)}
-                    size="sm"
-                  >
-                    {isEditing ? "OK" : "Editar"}
-                  </Button>
-                </div>
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <Button variant="outline" onClick={() => setStep("select")}>
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Voltar
-                </Button>
-                <Button 
-                  onClick={sendVerificationCode} 
-                  disabled={loading || !phone}
-                  className="flex-1"
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Enviando...
-                    </>
-                  ) : (
-                    <>
-                      <Shield className="w-4 h-4 mr-2" />
-                      Enviar Código
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
-          </>
-        );
-
-      case "verify":
-        return (
-          <>
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2 flex items-center gap-2">
-                <Shield className="w-5 h-5" />
-                Verificação WhatsApp
-              </h3>
-              <p className="text-sm text-muted-foreground mb-2">
-                Digite o código de 5 dígitos enviado para:
-              </p>
-              <Badge variant="outline" className="font-mono">
-                {phone}
-              </Badge>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="verification">Código de Verificação</Label>
-                <Input
-                  id="verification"
-                  value={verificationCode}
-                  onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').substring(0, 5))}
-                  placeholder="00000"
-                  className="text-center text-lg font-mono tracking-widest"
-                  maxLength={5}
-                />
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <Button variant="outline" onClick={() => setStep("phone")}>
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Voltar
-                </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={sendVerificationCode}
-                  disabled={loading}
-                >
-                  Reenviar
-                </Button>
-                <Button 
-                  onClick={verifyCode} 
-                  disabled={loading || verificationCode.length !== 5}
-                  className="flex-1"
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Verificando...
-                    </>
-                  ) : (
-                    <>
-                      <Check className="w-4 h-4 mr-2" />
-                      Confirmar
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
-          </>
-        );
-
-      default:
-        return null;
-    }
+  const formatPhone = (phone: string) => {
+    const digits = phone.replace(/\D/g, '');
+    return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
   };
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle className="text-center">
-          Responsável Financeiro
+          {step === "selection" && "Responsável Financeiro"}
+          {step === "phone" && "Verificar Telefone"}
+          {step === "verification" && "Código de Verificação"}
+          {step === "success" && "Verificado com Sucesso"}
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-6">
-        {getStepContent()}
-        
-        {step === "select" && (
-          <div className="flex gap-3 pt-6">
-            <Button variant="outline" onClick={onBack} className="flex-1">
-              <ArrowLeft className="w-4 h-4 mr-2" />
+      <CardContent className="space-y-6">
+        {step === "selection" && (
+          <>
+            <p className="text-center text-muted-foreground">
+              Quem será o responsável financeiro pela matrícula?
+            </p>
+            <RadioGroup onValueChange={handleResponsibleSelection}>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="pai" id="pai" />
+                <Label htmlFor="pai" className="flex-1 cursor-pointer">
+                  <div>
+                    <div className="font-medium">{data["Nome do Pai"] || "Pai"}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {formatPhone(data["Telefone do Pai"] || "")}
+                    </div>
+                  </div>
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="mae" id="mae" />
+                <Label htmlFor="mae" className="flex-1 cursor-pointer">
+                  <div>
+                    <div className="font-medium">{data["Nome da mãe"] || "Mãe"}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {formatPhone(data["Telefone da Mãe"] || "")}
+                    </div>
+                  </div>
+                </Label>
+              </div>
+            </RadioGroup>
+            <Button onClick={onBack} variant="outline" className="w-full">
               Voltar
             </Button>
+          </>
+        )}
+
+        {step === "phone" && (
+          <>
+            <div>
+              <Label htmlFor="phone">Confirme o número do telefone:</Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={formatPhone(phoneNumber)}
+                onChange={(e) => setPhoneNumber(normalizePhone(e.target.value))}
+                placeholder="(11) 99999-9999"
+                className="mt-2"
+              />
+            </div>
+            {error && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            <div className="flex gap-2">
+              <Button onClick={() => setStep("selection")} variant="outline" className="flex-1">
+                Voltar
+              </Button>
+              <Button onClick={handleSendCode} disabled={isLoading} className="flex-1">
+                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Enviar Código"}
+              </Button>
+            </div>
+          </>
+        )}
+
+        {step === "verification" && (
+          <>
+            <div>
+              <Label htmlFor="code">Digite o código enviado via WhatsApp:</Label>
+              <Input
+                id="code"
+                type="text"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                placeholder="12345"
+                maxLength={5}
+                className="mt-2 text-center text-lg"
+              />
+            </div>
+            <p className="text-sm text-muted-foreground text-center">
+              Código enviado para: {formatPhone(phoneNumber)}
+            </p>
+            {error && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            <div className="flex gap-2">
+              <Button onClick={() => setStep("phone")} variant="outline" className="flex-1">
+                Voltar
+              </Button>
+              <Button onClick={handleVerifyCode} disabled={isLoading || verificationCode.length !== 5} className="flex-1">
+                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Verificar"}
+              </Button>
+            </div>
+            <Button onClick={handleSendCode} variant="ghost" className="w-full" disabled={isLoading}>
+              Reenviar código
+            </Button>
+          </>
+        )}
+
+        {step === "success" && (
+          <div className="text-center space-y-4">
+            <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
+            <p className="text-lg font-medium">Telefone verificado com sucesso!</p>
+            <p className="text-muted-foreground">
+              Responsável financeiro: {responsible === "pai" ? data["Nome do Pai"] : data["Nome da mãe"]}
+            </p>
+            <p className="text-sm text-muted-foreground">Redirecionando...</p>
           </div>
         )}
       </CardContent>

@@ -1,3 +1,4 @@
+import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
@@ -6,55 +7,64 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { phone } = await req.json();
+    const { phoneNumber } = await req.json();
     
-    if (!phone) {
+    if (!phoneNumber) {
       return new Response(
-        JSON.stringify({ error: 'Telefone é obrigatório' }),
+        JSON.stringify({ error: 'Número de telefone é obrigatório' }), 
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
     // Generate 5-digit verification code
-    const code = Math.floor(10000 + Math.random() * 90000).toString();
+    const verificationCode = Math.floor(10000 + Math.random() * 90000).toString();
     
-    // Send WhatsApp message
-    const whatsappResponse = await fetch('https://evoapi.colegiozampieri.com/message/sendText/Zampieri3', {
+    console.log('Sending verification code:', verificationCode, 'to phone:', phoneNumber);
+
+    // Send WhatsApp message via Evolution API
+    const evolutionApiResponse = await fetch('https://evoapi.colegiozampieri.com/message/sendText/Zampieri3', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': Deno.env.get('EVOLUTION_API_KEY') || ''
+        'apikey': Deno.env.get('EVOLUTION_API_KEY') || '',
       },
       body: JSON.stringify({
-        number: `55${phone.replace(/\D/g, '')}`,
-        text: `Código de verificação: ${code}`,
+        number: `55${phoneNumber}`,
+        text: `Código de verificação: ${verificationCode}`,
         linkPreview: false
-      })
+      }),
     });
 
-    if (!whatsappResponse.ok) {
-      console.error('WhatsApp API error:', await whatsappResponse.text());
-      throw new Error('Erro ao enviar mensagem WhatsApp');
+    const evolutionResult = await evolutionApiResponse.json();
+    console.log('Evolution API response:', evolutionResult);
+
+    if (!evolutionApiResponse.ok) {
+      console.error('Evolution API error:', evolutionResult);
+      return new Response(
+        JSON.stringify({ error: 'Erro ao enviar mensagem WhatsApp' }), 
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        code, // In production, you might want to store this more securely
+        code: verificationCode,
         message: 'Código enviado com sucesso'
-      }),
+      }), 
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
   } catch (error) {
-    console.error('Error in send-whatsapp-code:', error);
+    console.error('Error in send-whatsapp-code function:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: 'Erro interno do servidor' }), 
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

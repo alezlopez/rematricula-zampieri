@@ -47,10 +47,9 @@ const Rematricula = () => {
     setCurrentStep("financial");
   };
 
-  const handleFinancialSuccess = (updatedData: any) => {
-    setStudentData(updatedData);
-    // Here you could navigate to next step or show success message
-    setCurrentStep("search"); // For now, return to search
+  const handleFinancialSuccess = () => {
+    // Here you can redirect to next step or complete the process
+    handleBackToSearch();
   };
 
   const handleDataUpdate = () => {
@@ -126,8 +125,8 @@ const Rematricula = () => {
           <div className="min-h-[60vh] flex items-center justify-center py-8">
             <FinancialResponsibleStep
               data={studentData}
-              onBack={handleBackToSearch}
               onSuccess={handleFinancialSuccess}
+              onBack={() => setCurrentStep("confirmation")}
             />
           </div>
         );
