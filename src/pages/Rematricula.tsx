@@ -6,6 +6,7 @@ import DataConfirmation from "@/components/DataConfirmation";
 import StatusFlow from "@/components/StatusFlow";
 import StudentSelector from "@/components/StudentSelector";
 import DataUpdateForm from "@/components/DataUpdateForm";
+import FinancialResponsibleStep from "@/components/FinancialResponsibleStep";
 import { Button } from "@/components/ui/button";
 
 type Step = "search" | "selection" | "confirmation" | "update" | "financial" | "status";
@@ -44,6 +45,12 @@ const Rematricula = () => {
 
   const handleDataConfirmation = () => {
     setCurrentStep("financial");
+  };
+
+  const handleFinancialSuccess = (updatedData: any) => {
+    setStudentData(updatedData);
+    // Here you could navigate to next step or show success message
+    setCurrentStep("search"); // For now, return to search
   };
 
   const handleDataUpdate = () => {
@@ -116,18 +123,12 @@ const Rematricula = () => {
       
       case "financial":
         return (
-          <div className="min-h-[60vh] flex items-center justify-center">
-            <div className="text-center p-8">
-              <h2 className="text-xl font-semibold text-primary mb-4">
-                Escolha do Responsável Financeiro
-              </h2>
-              <p className="text-muted-foreground mb-4">
-                Em desenvolvimento...
-              </p>
-              <Button onClick={handleBackToSearch} variant="outline">
-                Voltar à Busca
-              </Button>
-            </div>
+          <div className="min-h-[60vh] flex items-center justify-center py-8">
+            <FinancialResponsibleStep
+              data={studentData}
+              onBack={handleBackToSearch}
+              onSuccess={handleFinancialSuccess}
+            />
           </div>
         );
       
