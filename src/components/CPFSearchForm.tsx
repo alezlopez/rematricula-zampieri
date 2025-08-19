@@ -9,9 +9,10 @@ import { supabase } from "@/integrations/supabase/client";
 
 interface CPFSearchFormProps {
   onSearchResult: (data: any) => void;
+  onMultipleResults: (results: any[]) => void;
 }
 
-const CPFSearchForm = ({ onSearchResult }: CPFSearchFormProps) => {
+const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps) => {
   const [cpf, setCpf] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,12 +41,11 @@ const CPFSearchForm = ({ onSearchResult }: CPFSearchFormProps) => {
       // Remover formatação do CPF para busca
       const cleanCPF = cpf.replace(/\D/g, "");
       
-      // Buscar na tabela rematricula por CPF do pai ou da mãe
+      // Buscar na tabela rematricula por CPF do pai ou da mãe (convertendo para texto)
       const { data, error } = await supabase
         .from('rematricula')
         .select('*')
-        .or(`"CPF do Pai".eq.${cleanCPF},"CPF da mãe".eq.${cleanCPF}`)
-        .limit(1);
+        .or(`"CPF do Pai"::text.eq.${cleanCPF},"CPF da mãe"::text.eq.${cleanCPF}`);
 
       if (error) {
         console.error('Erro ao buscar:', error);
@@ -58,15 +58,50 @@ const CPFSearchForm = ({ onSearchResult }: CPFSearchFormProps) => {
         return;
       }
 
-      const row = data[0];
-
-      // Verificar se está liberado para rematrícula
-      if (!row["Liberado para rematrícula"]) {
+      // Filtrar apenas registros liberados para rematrícula
+      const liberados = data.filter(row => row["Liberado para rematrícula"] === true);
+      
+      if (liberados.length === 0) {
         toast.error("Não poderemos seguir com a sua rematrícula por aqui, por favor entre em contato com o departamento financeiro do Colégio");
         return;
       }
 
-      // Mapear os nomes das colunas da tabela para um formato mais consistente
+      // Se há mais de um aluno, mostrar opções de escolha
+      if (liberados.length > 1) {
+        const mappedResults = liberados.map(row => ({
+          status: row["Status"],
+          cpf_pai: row["CPF do Pai"]?.toString(),
+          cpf_mae: row["CPF da mãe"]?.toString(),
+          nome_pai: row["Nome do Pai"],
+          nome_mae: row["Nome da Mãe"] || row["Nome da mãe"],
+          telefone_pai: row["Telefone do Pai"]?.toString(),
+          telefone_mae: row["Telefone da Mãe"]?.toString(),
+          email_pai: row["Email do Pai"],
+          email_mae: row["Email da Mãe"],
+          endereco: row["Endereço"],
+          numero: row["Número"]?.toString(),
+          bairro: row["Bairro"],
+          cidade: row["Cidade"],
+          cep: row["CEP"],
+          nome_aluno: row["Nome do Aluno"],
+          curso_2025: row["Curso 2025"],
+          curso_2026: row["Curso 2026"],
+          turno_2026: row["Turno 2026"],
+          resp_financeiro: row["Resp. Financeiro"],
+          liberado_para_rematricula: row["Liberado para rematrícula"],
+          id_checkout: row["Id Checkout"],
+          link_checkout: row["Link Checkout"],
+          link_contrato: row["Link Contrato"],
+          token_contrato: row["token contrato"],
+          cod_aluno: row["Cod Aluno"]
+        }));
+        
+        onMultipleResults(mappedResults);
+        return;
+      }
+
+      // Se há apenas um aluno, prosseguir normalmente
+      const row = liberados[0];
       const mappedData = {
         status: row["Status"],
         cpf_pai: row["CPF do Pai"]?.toString(),

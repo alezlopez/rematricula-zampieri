@@ -3,13 +3,15 @@ import Header from "@/components/Header";
 import CPFSearchForm from "@/components/CPFSearchForm";
 import DataConfirmation from "@/components/DataConfirmation";
 import StatusFlow from "@/components/StatusFlow";
+import StudentSelector from "@/components/StudentSelector";
 import { Button } from "@/components/ui/button";
 
-type Step = "search" | "confirmation" | "update" | "financial" | "status";
+type Step = "search" | "selection" | "confirmation" | "update" | "financial" | "status";
 
 const Rematricula = () => {
   const [currentStep, setCurrentStep] = useState<Step>("search");
   const [studentData, setStudentData] = useState<any>(null);
+  const [multipleStudents, setMultipleStudents] = useState<any[]>([]);
 
   const handleSearchResult = (data: any) => {
     setStudentData(data);
@@ -20,6 +22,20 @@ const Rematricula = () => {
       setCurrentStep("confirmation");
     } else {
       // Status existente - mostrar fluxo específico do status
+      setCurrentStep("status");
+    }
+  };
+
+  const handleMultipleResults = (results: any[]) => {
+    setMultipleStudents(results);
+    setCurrentStep("selection");
+  };
+
+  const handleStudentSelection = (selectedStudent: any) => {
+    setStudentData(selectedStudent);
+    if (!selectedStudent.status) {
+      setCurrentStep("confirmation");
+    } else {
       setCurrentStep("status");
     }
   };
@@ -35,6 +51,7 @@ const Rematricula = () => {
   const handleBackToSearch = () => {
     setCurrentStep("search");
     setStudentData(null);
+    setMultipleStudents([]);
   };
 
   const renderCurrentStep = () => {
@@ -42,7 +59,18 @@ const Rematricula = () => {
       case "search":
         return (
           <div className="min-h-[60vh] flex items-center justify-center">
-            <CPFSearchForm onSearchResult={handleSearchResult} />
+            <CPFSearchForm onSearchResult={handleSearchResult} onMultipleResults={handleMultipleResults} />
+          </div>
+        );
+      
+      case "selection":
+        return (
+          <div className="min-h-[60vh] flex items-center justify-center">
+            <StudentSelector 
+              students={multipleStudents}
+              onSelectStudent={handleStudentSelection}
+              onBack={handleBackToSearch}
+            />
           </div>
         );
       
