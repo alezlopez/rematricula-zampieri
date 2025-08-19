@@ -45,43 +45,48 @@ const CPFSearchForm = ({ onSearchResult }: CPFSearchFormProps) => {
         .from('rematricula')
         .select('*')
         .or(`"CPF do Pai".eq.${cleanCPF},"CPF da mãe".eq.${cleanCPF}`)
-        .maybeSingle();
+        .limit(1);
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
         console.error('Erro ao buscar:', error);
         toast.error("Erro no sistema. Tente novamente.");
         return;
       }
 
-      if (!data) {
+      if (!data || data.length === 0) {
         toast.error("CPF não encontrado no sistema");
         return;
       }
 
+      const row = data[0];
+
       // Mapear os nomes das colunas da tabela para um formato mais consistente
       const mappedData = {
-        status: data["Status"],
-        cpf_pai: data["CPF do Pai"]?.toString(),
-        cpf_mae: data["CPF da mãe"]?.toString(),
-        nome_pai: data["Nome do Pai"],
-        nome_mae: data["Nome da mãe"],
-        telefone_pai: data["Telefone do Pai"]?.toString(),
-        telefone_mae: data["Telefone da Mãe"]?.toString(),
-        email_pai: data["Email do Pai"],
-        email_mae: data["Email da Mãe"],
-        endereco: data["Endereço"],
-        numero: data["Número"]?.toString(),
-        bairro: data["Bairro"],
-        cidade: data["Cidade"],
-        cep: data["CEP"],
-        estado: data["Estado"] || "SP",
-        nome_aluno: data["Nome do Aluno"],
-        curso_2025: data["Curso 2025"],
-        curso_2026: data["Curso 2026"],
-        turno_2026: data["Turno 2026"],
-        resp_financeiro: data["Resp. Financeiro"],
-        liberado_para_rematricula: data["Liberado para rematrícula"],
-        cod_aluno: data["Cod Aluno"]
+        status: row["Status"],
+        cpf_pai: row["CPF do Pai"]?.toString(),
+        cpf_mae: row["CPF da mãe"]?.toString(),
+        nome_pai: row["Nome do Pai"],
+        nome_mae: row["Nome da Mãe"] || row["Nome da mãe"],
+        telefone_pai: row["Telefone do Pai"]?.toString(),
+        telefone_mae: row["Telefone da Mãe"]?.toString(),
+        email_pai: row["Email do Pai"],
+        email_mae: row["Email da Mãe"],
+        endereco: row["Endereço"],
+        numero: row["Número"]?.toString(),
+        bairro: row["Bairro"],
+        cidade: row["Cidade"],
+        cep: row["CEP"],
+        nome_aluno: row["Nome do Aluno"],
+        curso_2025: row["Curso 2025"],
+        curso_2026: row["Curso 2026"],
+        turno_2026: row["Turno 2026"],
+        resp_financeiro: row["Resp. Financeiro"],
+        liberado_para_rematricula: row["Liberado para rematrícula"],
+        id_checkout: row["Id Checkout"],
+        link_checkout: row["Link Checkout"],
+        link_contrato: row["Link Contrato"],
+        token_contrato: row["token contrato"],
+        cod_aluno: row["Cod Aluno"]
       };
 
       onSearchResult(mappedData);
