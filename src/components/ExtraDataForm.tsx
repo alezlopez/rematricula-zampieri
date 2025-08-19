@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ExtraDataFormProps {
   data: any;
@@ -24,6 +25,7 @@ interface ExtraData {
   profissao: string;
   data_nascimento_responsavel: Date | null;
   data_nascimento_aluno: Date | null;
+  turno_2026: string;
 }
 
 const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
@@ -33,16 +35,27 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
     profissao: "",
     data_nascimento_responsavel: null,
     data_nascimento_aluno: null,
+    turno_2026: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
+  // Verificar se é Ensino Médio para limitar opções de turno
+  const isEnsinoMedio = data?.Ciclo === "Ensino Médio";
+  
   const estadosCivis = [
     { value: "solteiro", label: "Solteiro(a)" },
     { value: "casado", label: "Casado(a)" },
     { value: "viuvo", label: "Viúvo(a)" },
     { value: "uniao_estavel", label: "União Estável" },
   ];
+
+  const turnos = isEnsinoMedio 
+    ? [{ value: "Manhã", label: "Manhã" }]
+    : [
+        { value: "Manhã", label: "Manhã" },
+        { value: "Tarde", label: "Tarde" },
+      ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,9 +106,37 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
       return;
     }
 
+    if (!formData.turno_2026) {
+      toast({
+        title: "Erro",
+        description: "Turno é obrigatório",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
     
     try {
+      console.log('Dados recebidos:', data);
+      // Tentar acessar o código do aluno de diferentes formas
+      const codAluno = Number(data?.["Cod Aluno"] || data?.cod_aluno);
+      if (!codAluno) {
+        console.error('Código do aluno não encontrado nos dados:', data);
+        throw new Error("Não foi possível identificar o aluno (código ausente)");
+      }
+
+      // Atualizar turno no banco de dados
+      const { error } = await supabase.rpc('update_rematricula_fields', {
+        p_cod_aluno: codAluno,
+        p_turno_2026: formData.turno_2026
+      });
+
+      if (error) {
+        console.error('Database update error:', error);
+        throw new Error("Erro ao atualizar turno do aluno");
+      }
+
       // Formatear dados para envio
       const extraData = {
         ...formData,
@@ -105,7 +146,7 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
       
       toast({
         title: "Sucesso",
-        description: "Dados coletados com sucesso!",
+        description: "Dados coletados e turno atualizado com sucesso!",
       });
       
       onSuccess(extraData);
@@ -113,7 +154,7 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
       console.error('Erro ao processar dados:', error);
       toast({
         title: "Erro",
-        description: "Erro ao processar os dados. Tente novamente.",
+        description: error.message || "Erro ao processar os dados. Tente novamente.",
         variant: "destructive",
       });
     } finally {
