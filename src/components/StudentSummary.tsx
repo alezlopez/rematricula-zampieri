@@ -48,6 +48,8 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
         // Extrair o link do contrato da resposta
         const contractLink = responseData?.contrato || responseData?.link_contrato || responseData?.linkContrato || responseData?.contract_url;
         
+        console.log('Link do contrato extraído:', contractLink);
+        
         if (contractLink) {
           setContractUrl(contractLink);
           toast.success('Contrato gerado com sucesso!');
@@ -160,7 +162,20 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
                   O contrato foi gerado com sucesso! Clique no botão abaixo para acessá-lo:
                 </p>
                 <Button 
-                  onClick={() => window.open(contractUrl, '_blank')}
+                  onClick={() => {
+                    console.log('Clicando no botão. URL do contrato:', contractUrl);
+                    if (contractUrl && contractUrl !== 'success') {
+                      try {
+                        window.open(contractUrl, '_blank', 'noopener,noreferrer');
+                      } catch (error) {
+                        console.error('Erro ao abrir link:', error);
+                        // Fallback: tentar usando location.href
+                        window.location.href = contractUrl;
+                      }
+                    } else {
+                      console.error('URL do contrato inválida:', contractUrl);
+                    }
+                  }}
                   className="w-full bg-green-600 hover:bg-green-700 text-white"
                 >
                   Acessar Contrato
