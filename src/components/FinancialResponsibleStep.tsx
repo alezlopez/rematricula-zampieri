@@ -23,6 +23,8 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
   const [step, setStep] = useState<"selection" | "phone" | "verification" | "success">("selection");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [lastSentTime, setLastSentTime] = useState<number>(0);
+  const [resendCooldown, setResendCooldown] = useState(0);
   const { toast } = useToast();
 
   // Normalize phone number to digits only
@@ -40,6 +42,15 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
   const handleSendCode = async () => {
     if (!phoneNumber || phoneNumber.length < 10) {
       setError("Por favor, digite um número de telefone válido");
+      return;
+    }
+
+    const now = Date.now();
+    const timeSinceLastSent = now - lastSentTime;
+    
+    if (timeSinceLastSent < 60000 && lastSentTime > 0) {
+      const remainingTime = Math.ceil((60000 - timeSinceLastSent) / 1000);
+      setError(`Aguarde ${remainingTime} segundos para reenviar o código`);
       return;
     }
 
@@ -62,6 +73,20 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
 
       setSentCode(result.code);
       setStep("verification");
+      setLastSentTime(now);
+      
+      // Start cooldown timer
+      setResendCooldown(60);
+      const interval = setInterval(() => {
+        setResendCooldown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      
       toast({
         title: "Código enviado",
         description: "Código de verificação enviado para o WhatsApp",
@@ -219,8 +244,13 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
                 {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Verificar"}
               </Button>
             </div>
-            <Button onClick={handleSendCode} variant="ghost" className="w-full" disabled={isLoading}>
-              Reenviar código
+            <Button 
+              onClick={handleSendCode} 
+              variant="ghost" 
+              className="w-full" 
+              disabled={isLoading || resendCooldown > 0}
+            >
+              {resendCooldown > 0 ? `Reenviar em ${resendCooldown}s` : "Reenviar código"}
             </Button>
           </>
         )}
