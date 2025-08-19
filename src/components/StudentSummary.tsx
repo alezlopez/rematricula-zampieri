@@ -4,7 +4,8 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Copy, ExternalLink } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface StudentSummaryProps {
   data: any;
@@ -16,6 +17,63 @@ interface StudentSummaryProps {
 const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryProps) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [contractUrl, setContractUrl] = useState<string | null>(null);
+
+  // Função para salvar o link do contrato na base de dados
+  const updateRematriculaContract = async (codAluno: number, linkContrato: string) => {
+    const { error } = await supabase
+      .from('rematricula')
+      .update({ 'Link Contrato': linkContrato })
+      .eq('Cod Aluno', codAluno);
+
+    if (error) {
+      throw error;
+    }
+  };
+
+  // Função melhorada para abrir o link do contrato
+  const openContractLink = (url: string) => {
+    console.log('Tentando abrir URL:', url);
+    
+    // Primeira tentativa: window.open
+    try {
+      const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+      
+      // Verificar se o popup foi bloqueado
+      if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+        throw new Error('Popup bloqueado');
+      }
+      
+      console.log('Link aberto com sucesso via window.open');
+      return true;
+    } catch (error) {
+      console.warn('window.open falhou:', error);
+      
+      // Segunda tentativa: window.location.href
+      try {
+        window.location.href = url;
+        console.log('Link aberto com sucesso via location.href');
+        return true;
+      } catch (locationError) {
+        console.error('Todas as tentativas falharam:', locationError);
+        
+        // Fallback: copiar para clipboard
+        copyToClipboard(url);
+        return false;
+      }
+    }
+  };
+
+  // Função para copiar o link para o clipboard
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success('Link copiado para a área de transferência!');
+      console.log('Link copiado para clipboard');
+    } catch (err) {
+      console.error('Erro ao copiar para clipboard:', err);
+      toast.error('Não foi possível copiar o link. Tente novamente.');
+    }
+  };
 
   const handleGenerateContract = async () => {
     setIsGenerating(true);
@@ -52,9 +110,18 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
         
         if (contractLink) {
           setContractUrl(contractLink);
+          
+          // Salvar o link do contrato na base de dados
+          try {
+            await updateRematriculaContract(data?.["Cod Aluno"] || data?.cod_aluno, contractLink);
+            console.log('Link do contrato salvo na base de dados');
+          } catch (dbError) {
+            console.error('Erro ao salvar link do contrato na BD:', dbError);
+          }
+          
           toast.success('Contrato gerado com sucesso!');
         } else {
-          setContractUrl('success'); // Marca como enviado com sucesso mesmo sem link
+          setContractUrl('success');
           toast.success('Dados enviados com sucesso! O contrato será processado.');
         }
         // Não chama onConfirm() aqui - deixa o usuário decidir quando continuar
@@ -157,30 +224,35 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
                 Os dados do aluno foram enviados para processamento. O contrato será gerado em breve.
               </p>
             ) : (
-              <div className="space-y-3">
-                <p className="text-sm text-green-700 dark:text-green-300">
-                  O contrato foi gerado com sucesso! Clique no botão abaixo para acessá-lo:
-                </p>
-                <Button 
-                  onClick={() => {
-                    console.log('Clicando no botão. URL do contrato:', contractUrl);
-                    if (contractUrl && contractUrl !== 'success') {
-                      try {
-                        window.open(contractUrl, '_blank', 'noopener,noreferrer');
-                      } catch (error) {
-                        console.error('Erro ao abrir link:', error);
-                        // Fallback: tentar usando location.href
-                        window.location.href = contractUrl;
-                      }
-                    } else {
-                      console.error('URL do contrato inválida:', contractUrl);
-                    }
-                  }}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white"
-                >
-                  Acessar Contrato
-                </Button>
-              </div>
+                <div className="space-y-3">
+                  <p className="text-sm text-green-700 dark:text-green-300">
+                    O contrato foi gerado com sucesso! Use os botões abaixo:
+                  </p>
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={() => {
+                        const success = openContractLink(contractUrl);
+                        if (!success) {
+                          toast.error('Não foi possível abrir o link automaticamente. O link foi copiado para a área de transferência.');
+                        }
+                      }}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                    >
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Abrir Contrato
+                    </Button>
+                    <Button 
+                      onClick={() => copyToClipboard(contractUrl)}
+                      variant="outline"
+                      className="flex-shrink-0"
+                    >
+                      <Copy className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  <p className="text-xs text-green-600 dark:text-green-400">
+                    Link: {contractUrl}
+                  </p>
+                </div>
             )}
           </div>
         )}
