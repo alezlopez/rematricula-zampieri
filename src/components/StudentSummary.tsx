@@ -23,10 +23,10 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
       const webhookData = {
         "cod do aluno": data?.["Cod Aluno"] || data?.cod_aluno || '',
         "Responsavel Financeiro": data?.["Resp. Financeiro"] || data?.resp_financeiro || '',
-        "Estado civil": '', // Campo não disponível na tabela atual
-        "Profissão": '', // Campo não disponível na tabela atual  
-        "Data de nascimento do responsavel": '', // Campo não disponível na tabela atual
-        "Data de nascimento do aluno": '' // Campo não disponível na tabela atual
+        "Estado civil": data?.["Estado Civil Resp. Financeiro"] || extraData?.estado_civil || '',
+        "Profissão": data?.["Profissão Resp. Financeiro"] || extraData?.profissao || '',
+        "Data de nascimento do responsavel": data?.["Data Nascimento Resp. Financeiro"] || extraData?.data_nascimento_responsavel || '',
+        "Data de nascimento do aluno": data?.["Data Nascimento Aluno"] || extraData?.data_nascimento_aluno || ''
       };
 
       console.log('Enviando dados para webhook:', webhookData);

@@ -329,11 +329,14 @@ export type Database = {
           "CPF do Pai": string | null
           "Curso 2025": string | null
           "Curso 2026": string | null
+          "Data Nascimento Aluno": string | null
+          "Data Nascimento Resp. Financeiro": string | null
           Desconto: string | null
           "Email da Mãe": string | null
           "Email do Pai": string | null
           Endereço: string | null
           Estado: string | null
+          "Estado Civil Resp. Financeiro": string | null
           "Id Checkout": string | null
           "Liberado para rematrícula": boolean | null
           "Link Checkout": string | null
@@ -344,9 +347,11 @@ export type Database = {
           "Nome do Aluno": string | null
           "Nome do Pai": string | null
           Número: number | null
+          "Profissão Resp. Financeiro": string | null
           "Rematrícula a vista": string | null
           "Rematrícula Parcelada": string | null
           "Resp. Financeiro": string | null
+          "RG Resp. Financeiro": string | null
           Status: string | null
           "Telefone da Mãe": string | null
           "Telefone do Pai": string | null
@@ -367,11 +372,14 @@ export type Database = {
           "CPF do Pai"?: string | null
           "Curso 2025"?: string | null
           "Curso 2026"?: string | null
+          "Data Nascimento Aluno"?: string | null
+          "Data Nascimento Resp. Financeiro"?: string | null
           Desconto?: string | null
           "Email da Mãe"?: string | null
           "Email do Pai"?: string | null
           Endereço?: string | null
           Estado?: string | null
+          "Estado Civil Resp. Financeiro"?: string | null
           "Id Checkout"?: string | null
           "Liberado para rematrícula"?: boolean | null
           "Link Checkout"?: string | null
@@ -382,9 +390,11 @@ export type Database = {
           "Nome do Aluno"?: string | null
           "Nome do Pai"?: string | null
           Número?: number | null
+          "Profissão Resp. Financeiro"?: string | null
           "Rematrícula a vista"?: string | null
           "Rematrícula Parcelada"?: string | null
           "Resp. Financeiro"?: string | null
+          "RG Resp. Financeiro"?: string | null
           Status?: string | null
           "Telefone da Mãe"?: string | null
           "Telefone do Pai"?: string | null
@@ -405,11 +415,14 @@ export type Database = {
           "CPF do Pai"?: string | null
           "Curso 2025"?: string | null
           "Curso 2026"?: string | null
+          "Data Nascimento Aluno"?: string | null
+          "Data Nascimento Resp. Financeiro"?: string | null
           Desconto?: string | null
           "Email da Mãe"?: string | null
           "Email do Pai"?: string | null
           Endereço?: string | null
           Estado?: string | null
+          "Estado Civil Resp. Financeiro"?: string | null
           "Id Checkout"?: string | null
           "Liberado para rematrícula"?: boolean | null
           "Link Checkout"?: string | null
@@ -420,9 +433,11 @@ export type Database = {
           "Nome do Aluno"?: string | null
           "Nome do Pai"?: string | null
           Número?: number | null
+          "Profissão Resp. Financeiro"?: string | null
           "Rematrícula a vista"?: string | null
           "Rematrícula Parcelada"?: string | null
           "Resp. Financeiro"?: string | null
+          "RG Resp. Financeiro"?: string | null
           Status?: string | null
           "Telefone da Mãe"?: string | null
           "Telefone do Pai"?: string | null
@@ -698,11 +713,14 @@ export type Database = {
           "CPF do Pai": string | null
           "Curso 2025": string | null
           "Curso 2026": string | null
+          "Data Nascimento Aluno": string | null
+          "Data Nascimento Resp. Financeiro": string | null
           Desconto: string | null
           "Email da Mãe": string | null
           "Email do Pai": string | null
           Endereço: string | null
           Estado: string | null
+          "Estado Civil Resp. Financeiro": string | null
           "Id Checkout": string | null
           "Liberado para rematrícula": boolean | null
           "Link Checkout": string | null
@@ -713,9 +731,11 @@ export type Database = {
           "Nome do Aluno": string | null
           "Nome do Pai": string | null
           Número: number | null
+          "Profissão Resp. Financeiro": string | null
           "Rematrícula a vista": string | null
           "Rematrícula Parcelada": string | null
           "Resp. Financeiro": string | null
+          "RG Resp. Financeiro": string | null
           Status: string | null
           "Telefone da Mãe": string | null
           "Telefone do Pai": string | null
@@ -737,6 +757,26 @@ export type Database = {
       }
       update_rematricula_fields: {
         Args:
+          | {
+              p_bairro?: string
+              p_cep?: string
+              p_cidade?: string
+              p_cod_aluno: number
+              p_data_nascimento_aluno?: string
+              p_data_nascimento_resp_financeiro?: string
+              p_email_mae?: string
+              p_email_pai?: string
+              p_endereco?: string
+              p_estado?: string
+              p_estado_civil_resp_financeiro?: string
+              p_numero?: number
+              p_profissao_resp_financeiro?: string
+              p_resp_financeiro?: string
+              p_rg_resp_financeiro?: string
+              p_telefone_mae?: string
+              p_telefone_pai?: string
+              p_turno_2026?: string
+            }
           | {
               p_bairro?: string
               p_cep?: string
@@ -779,11 +819,14 @@ export type Database = {
           "CPF do Pai": string | null
           "Curso 2025": string | null
           "Curso 2026": string | null
+          "Data Nascimento Aluno": string | null
+          "Data Nascimento Resp. Financeiro": string | null
           Desconto: string | null
           "Email da Mãe": string | null
           "Email do Pai": string | null
           Endereço: string | null
           Estado: string | null
+          "Estado Civil Resp. Financeiro": string | null
           "Id Checkout": string | null
           "Liberado para rematrícula": boolean | null
           "Link Checkout": string | null
@@ -794,9 +837,11 @@ export type Database = {
           "Nome do Aluno": string | null
           "Nome do Pai": string | null
           Número: number | null
+          "Profissão Resp. Financeiro": string | null
           "Rematrícula a vista": string | null
           "Rematrícula Parcelada": string | null
           "Resp. Financeiro": string | null
+          "RG Resp. Financeiro": string | null
           Status: string | null
           "Telefone da Mãe": string | null
           "Telefone do Pai": string | null

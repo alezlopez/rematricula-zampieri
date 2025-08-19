@@ -159,19 +159,24 @@ const ExtraDataForm = ({
       const selectedTurno = isEnsinoMedio ? "Manhã" : formData.turno_2026;
       console.log('Turno selecionado para salvar:', selectedTurno);
 
-      // Atualizar turno no banco de dados
+      // Atualizar dados na tabela rematricula
       const {
         error
       } = await supabase.rpc('update_rematricula_fields', {
         p_cod_aluno: codAluno,
-        p_turno_2026: selectedTurno
+        p_turno_2026: selectedTurno,
+        p_rg_resp_financeiro: formData.rg_responsavel,
+        p_estado_civil_resp_financeiro: formData.estado_civil,
+        p_profissao_resp_financeiro: formData.profissao,
+        p_data_nascimento_resp_financeiro: format(formData.data_nascimento_responsavel, 'dd/MM/yyyy'),
+        p_data_nascimento_aluno: format(formData.data_nascimento_aluno, 'dd/MM/yyyy')
       });
       if (error) {
         console.error('Database update error:', error);
-        throw new Error("Erro ao atualizar turno do aluno");
+        throw new Error("Erro ao salvar os dados complementares");
       }
 
-      console.log('Turno atualizado no banco com sucesso');
+      console.log('Dados complementares salvos no banco com sucesso');
 
       // Verificar se as datas estão preenchidas antes de formatar
       if (!formData.data_nascimento_responsavel) {
@@ -193,7 +198,7 @@ const ExtraDataForm = ({
       
       toast({
         title: "Sucesso",
-        description: "Dados coletados e turno atualizado com sucesso!"
+        description: "Dados complementares salvos com sucesso!"
       });
       
       console.log('Chamando onSuccess...');
