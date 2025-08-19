@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,8 +36,15 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
     setResponsible(value);
     const phone = value === "pai" ? data["Telefone do Pai"] : data["Telefone da Mãe"];
     setPhoneNumber(normalizePhone(phone || ""));
-    setStep("phone");
+    setStep("verification"); // Skip phone step since we already have the number
   };
+
+  // Auto send code when verification step is reached
+  useEffect(() => {
+    if (step === "verification" && !sentCode && phoneNumber) {
+      handleSendCode();
+    }
+  }, [step, phoneNumber, sentCode]);
 
   const handleSendCode = async () => {
     if (!phoneNumber || phoneNumber.length < 10) {
@@ -72,7 +79,9 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
       }
 
       setSentCode(result.code);
-      setStep("verification");
+      if (step !== "verification") {
+        setStep("verification");
+      }
       setLastSentTime(now);
       
       // Start cooldown timer
@@ -109,9 +118,24 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
     setError("");
 
     try {
-      // Update responsible financeiro in database
+      console.log('Updating responsible with data:', {
+        p_cod_aluno: data["Cod Aluno"],
+        p_resp_financeiro: responsible === "pai" ? "Pai" : "Mãe"
+      });
+      
+      // Update responsible financeiro in database - pass all required parameters
       const { error } = await supabase.rpc('update_rematricula_fields', {
         p_cod_aluno: data["Cod Aluno"],
+        p_endereco: null,
+        p_numero: null,
+        p_bairro: null,
+        p_cidade: null,
+        p_cep: null,
+        p_estado: null,
+        p_telefone_pai: null,
+        p_telefone_mae: null,
+        p_email_pai: null,
+        p_email_mae: null,
         p_resp_financeiro: responsible === "pai" ? "Pai" : "Mãe"
       });
 
@@ -154,7 +178,7 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
               Quem será o responsável financeiro pela matrícula?
             </p>
             <RadioGroup onValueChange={handleResponsibleSelection}>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-accent/50 cursor-pointer">
                 <RadioGroupItem value="pai" id="pai" />
                 <Label htmlFor="pai" className="flex-1 cursor-pointer">
                   <div>
@@ -165,7 +189,7 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
                   </div>
                 </Label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 p-4 border rounded-lg hover:bg-accent/50 cursor-pointer">
                 <RadioGroupItem value="mae" id="mae" />
                 <Label htmlFor="mae" className="flex-1 cursor-pointer">
                   <div>
@@ -215,6 +239,15 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
 
         {step === "verification" && (
           <>
+            <div className="text-center mb-4">
+              <p className="font-medium">Responsável selecionado:</p>
+              <p className="text-muted-foreground">
+                {responsible === "pai" ? data["Nome do Pai"] : data["Nome da mãe"]}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {formatPhone(phoneNumber)}
+              </p>
+            </div>
             <div>
               <Label htmlFor="code">Digite o código enviado via WhatsApp:</Label>
               <Input
@@ -227,9 +260,6 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
                 className="mt-2 text-center text-lg"
               />
             </div>
-            <p className="text-sm text-muted-foreground text-center">
-              Código enviado para: {formatPhone(phoneNumber)}
-            </p>
             {error && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -237,21 +267,24 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
               </Alert>
             )}
             <div className="flex gap-2">
-              <Button onClick={() => setStep("phone")} variant="outline" className="flex-1">
+              <Button onClick={() => setStep("selection")} variant="outline" className="flex-1">
                 Voltar
               </Button>
               <Button onClick={handleVerifyCode} disabled={isLoading || verificationCode.length !== 5} className="flex-1">
                 {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Verificar"}
               </Button>
             </div>
-            <Button 
-              onClick={handleSendCode} 
-              variant="ghost" 
-              className="w-full" 
-              disabled={isLoading || resendCooldown > 0}
-            >
-              {resendCooldown > 0 ? `Reenviar em ${resendCooldown}s` : "Reenviar código"}
-            </Button>
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground mb-2">Não recebeu o código?</p>
+              <Button 
+                onClick={handleSendCode} 
+                variant="ghost" 
+                size="sm"
+                disabled={isLoading || resendCooldown > 0}
+              >
+                {resendCooldown > 0 ? `Reenviar em ${resendCooldown}s` : "Reenviar código"}
+              </Button>
+            </div>
           </>
         )}
 
