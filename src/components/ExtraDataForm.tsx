@@ -285,7 +285,7 @@ const ExtraDataForm = ({
               />
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" size="icon">
+                  <Button type="button" variant="outline" size="icon">
                     <CalendarIcon className="h-4 w-4" />
                   </Button>
                 </PopoverTrigger>
@@ -345,7 +345,7 @@ const ExtraDataForm = ({
               />
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" size="icon">
+                  <Button type="button" variant="outline" size="icon">
                     <CalendarIcon className="h-4 w-4" />
                   </Button>
                 </PopoverTrigger>
@@ -397,7 +397,7 @@ const ExtraDataForm = ({
           </div>
 
           <div className="flex gap-2 pt-4">
-            <Button onClick={onBack} variant="outline" className="flex-1">
+            <Button type="button" onClick={onBack} variant="outline" className="flex-1">
               Voltar
             </Button>
             <Button type="submit" disabled={isLoading} className="flex-1">

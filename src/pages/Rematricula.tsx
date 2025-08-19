@@ -64,6 +64,11 @@ const Rematricula = () => {
     console.log('Mudando para step: summary');
     setCurrentStep("summary");
     
+    // Scroll para o topo após mudança de step
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+    
     console.log('Novo estado será:', "summary");
   };
 

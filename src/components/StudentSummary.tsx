@@ -26,27 +26,27 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
           <div className="space-y-3">
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Nome do aluno:</span>
-              <span className="font-medium">{data?.["Nome do Aluno"] || "Não informado"}</span>
+              <span className="font-medium">{data?.["Nome do Aluno"] || data?.nome_aluno || "Não informado"}</span>
             </div>
             
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Turma 2025:</span>
-              <span className="font-medium">{data?.["Curso 2025"] || "Não informado"}</span>
+              <span className="font-medium">{data?.["Curso 2025"] || data?.curso_2025 || "Não informado"}</span>
             </div>
             
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Turma 2026:</span>
-              <span className="font-medium">{data?.["Curso 2026"] || "Não informado"}</span>
+              <span className="font-medium">{data?.["Curso 2026"] || data?.curso_2026 || "Não informado"}</span>
             </div>
             
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Turno:</span>
-              <Badge variant="outline">{data?.["Turno 2026"] || extraData?.turno_2026 || "Não informado"}</Badge>
+              <Badge variant="outline">{data?.["Turno 2026"] || data?.turno_2026 || extraData?.turno_2026 || "Não informado"}</Badge>
             </div>
             
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Ciclo:</span>
-              <Badge variant="secondary">{data?.Ciclo || "Não informado"}</Badge>
+              <Badge variant="secondary">{data?.Ciclo || data?.ciclo || "Não informado"}</Badge>
             </div>
           </div>
         </div>
@@ -60,22 +60,22 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Mensalidade 2026 sem desconto:</span>
               <span className="font-bold">
-                {data?.["mensalidade 2026 sem desconto"] || "Não informado"}
+                {data?.["mensalidade 2026 sem desconto"] || data?.mensalidade_2026_sem_desconto || "Não informado"}
               </span>
             </div>
             
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Mensalidade 2026 com desconto (até o vencimento):</span>
               <span className="font-bold text-primary">
-                {data?.["mensalidade 2026 com desconto"] || "Não informado"}
+                {data?.["mensalidade 2026 com desconto"] || data?.mensalidade_2026_com_desconto || "Não informado"}
               </span>
             </div>
             
-            {data?.Desconto && (
+            {(data?.Desconto || data?.desconto) && (
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Desconto:</span>
                 <Badge variant="secondary">
-                  {data.Desconto}%
+                  {data?.Desconto || data?.desconto}%
                 </Badge>
               </div>
             )}
