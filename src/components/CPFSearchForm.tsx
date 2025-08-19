@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,14 +39,14 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
 
     setIsLoading(true);
     try {
-      // Remover formatação do CPF para busca
-      const cleanCPF = cpf.replace(/\D/g, "");
+      console.log('Buscando CPF:', cpf);
       
-      // Buscar na tabela rematricula por CPF do pai ou da mãe (convertendo para texto)
-      const { data, error } = await supabase
-        .from('rematricula')
-        .select('*')
-        .or(`"CPF do Pai".eq.${cleanCPF},"CPF da mãe".eq.${cleanCPF}`);
+      // Usar a nova função RPC para buscar por CPF
+      const { data, error } = await supabase.rpc('rematricula_by_cpf', {
+        p_cpf: cpf
+      });
+
+      console.log('Resultado da busca:', { data, error });
 
       if (error) {
         console.error('Erro ao buscar:', error);
@@ -58,9 +59,13 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
         return;
       }
 
+      console.log('Dados encontrados:', data.length, 'registros');
+
       // Filtrar apenas registros liberados para rematrícula
-      const liberados = data.filter(row => row["Liberado para rematrícula"] === true);
+      const liberados = data.filter((row: any) => row["Liberado para rematrícula"] === true);
       
+      console.log('Registros liberados:', liberados.length);
+
       if (liberados.length === 0) {
         toast.error("Não poderemos seguir com a sua rematrícula por aqui, por favor entre em contato com o departamento financeiro do Colégio");
         return;
@@ -68,7 +73,8 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
 
       // Se há mais de um aluno, mostrar opções de escolha
       if (liberados.length > 1) {
-        const mappedResults = liberados.map(row => ({
+        console.log('Múltiplos alunos encontrados, mostrando seletor');
+        const mappedResults = liberados.map((row: any) => ({
           status: row["Status"],
           cpf_pai: row["CPF do Pai"]?.toString(),
           cpf_mae: row["CPF da mãe"]?.toString(),
@@ -101,6 +107,7 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
       }
 
       // Se há apenas um aluno, prosseguir normalmente
+      console.log('Único aluno encontrado, prosseguindo');
       const row = liberados[0];
       const mappedData = {
         status: row["Status"],

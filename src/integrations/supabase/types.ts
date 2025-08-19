@@ -325,8 +325,8 @@ export type Database = {
           Ciclo: string | null
           Cidade: string | null
           "Cod Aluno": number | null
-          "CPF da mãe": number | null
-          "CPF do Pai": number | null
+          "CPF da mãe": string | null
+          "CPF do Pai": string | null
           "Curso 2025": string | null
           "Curso 2026": string | null
           Desconto: string | null
@@ -362,8 +362,8 @@ export type Database = {
           Ciclo?: string | null
           Cidade?: string | null
           "Cod Aluno"?: number | null
-          "CPF da mãe"?: number | null
-          "CPF do Pai"?: number | null
+          "CPF da mãe"?: string | null
+          "CPF do Pai"?: string | null
           "Curso 2025"?: string | null
           "Curso 2026"?: string | null
           Desconto?: string | null
@@ -399,8 +399,8 @@ export type Database = {
           Ciclo?: string | null
           Cidade?: string | null
           "Cod Aluno"?: number | null
-          "CPF da mãe"?: number | null
-          "CPF do Pai"?: number | null
+          "CPF da mãe"?: string | null
+          "CPF do Pai"?: string | null
           "Curso 2025"?: string | null
           "Curso 2026"?: string | null
           Desconto?: string | null
@@ -677,6 +677,46 @@ export type Database = {
           id: number
           metadata: Json
           similarity: number
+        }[]
+      }
+      rematricula_by_cpf: {
+        Args: { p_cpf: string }
+        Returns: {
+          Anuidade: string | null
+          "Atualizou dados Mãe": string | null
+          "Atualizou dados Pai": string | null
+          "Atualizou Endereço": string | null
+          Bairro: string | null
+          CEP: string | null
+          Ciclo: string | null
+          Cidade: string | null
+          "Cod Aluno": number | null
+          "CPF da mãe": string | null
+          "CPF do Pai": string | null
+          "Curso 2025": string | null
+          "Curso 2026": string | null
+          Desconto: string | null
+          "Email da Mãe": string | null
+          "Email do Pai": string | null
+          Endereço: string | null
+          "Id Checkout": string | null
+          "Liberado para rematrícula": boolean | null
+          "Link Checkout": string | null
+          "Link Contrato": string | null
+          "mensalidade 2026 com desconto": string | null
+          "mensalidade 2026 sem desconto": string | null
+          "Nome da mãe": string | null
+          "Nome do Aluno": string | null
+          "Nome do Pai": string | null
+          Número: number | null
+          "Rematrícula a vista": string | null
+          "Rematrícula Parcelada": string | null
+          "Resp. Financeiro": string | null
+          Status: string | null
+          "Telefone da Mãe": string | null
+          "Telefone do Pai": string | null
+          "token contrato": string | null
+          "Turno 2026": string | null
         }[]
       }
       sparsevec_out: {
