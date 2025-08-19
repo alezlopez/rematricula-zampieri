@@ -161,31 +161,43 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
     setError("");
 
     try {
-      console.log('Dados recebidos:', data);
+      console.log('Iniciando verificação do código...');
+      console.log('Dados recebidos no handleVerifyCode:', data);
+      
       // Tentar acessar o código do aluno de diferentes formas
       const codAluno = Number(data?.["Cod Aluno"] || data?.cod_aluno);
-      if (!codAluno) {
-        console.error('Código do aluno não encontrado nos dados:', data);
-        throw new Error("Não foi possível identificar o aluno (código ausente)");
+      console.log('Código do aluno extraído:', codAluno);
+      
+      if (!codAluno || isNaN(codAluno)) {
+        console.error('Código do aluno não encontrado ou inválido nos dados:', data);
+        throw new Error("Não foi possível identificar o aluno (código ausente ou inválido)");
       }
+
+      console.log('Atualizando responsável financeiro para:', responsible === "pai" ? "Pai" : "Mãe");
+
       // Update responsável financeiro no banco
-      const { error } = await supabase.rpc('update_rematricula_fields', {
+      const { data: result, error } = await supabase.rpc('update_rematricula_fields', {
         p_cod_aluno: codAluno,
         p_resp_financeiro: responsible === "pai" ? "Pai" : "Mãe"
       });
 
+      console.log('Resposta da função RPC:', { result, error });
+
       if (error) {
-        console.error('Database update error:', error);
-        throw new Error("Erro ao atualizar responsável financeiro");
+        console.error('Erro da base de dados:', error);
+        throw new Error(`Erro ao atualizar responsável financeiro: ${error.message}`);
       }
 
+      console.log('Responsável financeiro atualizado com sucesso!');
       setStep("success");
+      
       setTimeout(() => {
+        console.log('Chamando onSuccess...');
         onSuccess();
       }, 2000);
     } catch (error: any) {
-      console.error('Verify code error:', error);
-      setError(error.message || "Erro ao confirmar código");
+      console.error('Erro na verificação do código:', error);
+      setError(error.message || "Erro ao confirmar código. Tente novamente.");
     } finally {
       setIsLoading(false);
     }

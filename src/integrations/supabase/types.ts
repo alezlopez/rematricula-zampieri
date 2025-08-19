@@ -802,34 +802,6 @@ export type Database = {
               p_telefone_pai?: string
               p_turno_2026?: string
             }
-          | {
-              p_bairro?: string
-              p_cep?: string
-              p_cidade?: string
-              p_cod_aluno: number
-              p_email_mae?: string
-              p_email_pai?: string
-              p_endereco?: string
-              p_estado?: string
-              p_numero?: number
-              p_resp_financeiro?: string
-              p_telefone_mae?: string
-              p_telefone_pai?: string
-              p_turno_2026?: string
-            }
-          | {
-              p_bairro?: string
-              p_cep?: string
-              p_cidade?: string
-              p_cod_aluno: number
-              p_email_mae?: string
-              p_email_pai?: string
-              p_endereco?: string
-              p_estado?: string
-              p_numero?: number
-              p_telefone_mae?: string
-              p_telefone_pai?: string
-            }
         Returns: {
           Anuidade: string | null
           "Atualizou dados Mãe": string | null
