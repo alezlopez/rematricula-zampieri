@@ -46,7 +46,7 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
         console.log('Resposta do webhook:', responseData);
         
         // Extrair o link do contrato da resposta
-        const contractLink = responseData?.link_contrato || responseData?.linkContrato || responseData?.contract_url;
+        const contractLink = responseData?.contrato || responseData?.link_contrato || responseData?.linkContrato || responseData?.contract_url;
         
         if (contractLink) {
           setContractUrl(contractLink);
@@ -55,7 +55,7 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
           setContractUrl('success'); // Marca como enviado com sucesso mesmo sem link
           toast.success('Dados enviados com sucesso! O contrato será processado.');
         }
-        onConfirm(); // Chama a função original para continuar o fluxo
+        // Não chama onConfirm() aqui - deixa o usuário decidir quando continuar
       } else {
         console.error('Erro na resposta do webhook:', response.status);
         toast.error('Erro ao enviar dados. Tente novamente.');
@@ -172,23 +172,38 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
 
         {/* Botões de ação */}
         <div className="flex gap-2 pt-4">
-          <Button onClick={onBack} variant="outline" className="flex-1">
-            Voltar
-          </Button>
-          <Button 
-            onClick={handleGenerateContract} 
-            className="flex-1"
-            disabled={isGenerating}
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Gerando...
-              </>
-            ) : (
-              'Gerar Contrato'
-            )}
-          </Button>
+          {contractUrl ? (
+            // Após gerar o contrato, mostra opções de continuar ou nova rematrícula
+            <>
+              <Button onClick={onBack} variant="outline" className="flex-1">
+                Voltar
+              </Button>
+              <Button onClick={onConfirm} className="flex-1">
+                Nova Rematrícula
+              </Button>
+            </>
+          ) : (
+            // Antes de gerar o contrato, mostra botões normais
+            <>
+              <Button onClick={onBack} variant="outline" className="flex-1">
+                Voltar
+              </Button>
+              <Button 
+                onClick={handleGenerateContract} 
+                className="flex-1"
+                disabled={isGenerating}
+              >
+                {isGenerating ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Gerando...
+                  </>
+                ) : (
+                  'Gerar Contrato'
+                )}
+              </Button>
+            </>
+          )}
         </div>
       </CardContent>
     </Card>
