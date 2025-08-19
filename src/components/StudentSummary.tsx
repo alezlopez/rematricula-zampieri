@@ -80,7 +80,7 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
             {data?.Desconto && (
               <div className="text-center">
                 <Badge variant="secondary">
-                  Desconto: {data.Desconto}
+                  Desconto: {data.Desconto}%
                 </Badge>
               </div>
             )}

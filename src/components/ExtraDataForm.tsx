@@ -225,42 +225,112 @@ const ExtraDataForm = ({
 
           <div>
             <Label>Data de Nascimento do Responsável *</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className={cn("w-full mt-2 justify-start text-left font-normal", !formData.data_nascimento_responsavel && "text-muted-foreground")}>
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {formData.data_nascimento_responsavel ? format(formData.data_nascimento_responsavel, "dd/MM/yyyy", {
-                  locale: ptBR
-                }) : <span>Selecione a data</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar mode="single" selected={formData.data_nascimento_responsavel || undefined} onSelect={date => setFormData({
-                ...formData,
-                data_nascimento_responsavel: date || null
-              })} disabled={date => date > new Date() || date < new Date("1900-01-01")} initialFocus className={cn("p-3 pointer-events-auto")} />
-              </PopoverContent>
-            </Popover>
+            <div className="flex gap-2 mt-2">
+              <Input 
+                type="text"
+                placeholder="DD/MM/AAAA"
+                value={formData.data_nascimento_responsavel ? format(formData.data_nascimento_responsavel, "dd/MM/yyyy") : ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Permitir apenas números e barras, formatando automaticamente
+                  const formatted = value.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1/$2').replace(/(\d{2})\/(\d{2})(\d)/, '$1/$2/$3').slice(0, 10);
+                  
+                  if (formatted.length === 10) {
+                    const [day, month, year] = formatted.split('/');
+                    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+                    if (date && !isNaN(date.getTime()) && date <= new Date() && date >= new Date("1900-01-01")) {
+                      setFormData({
+                        ...formData,
+                        data_nascimento_responsavel: date
+                      });
+                    }
+                  } else if (formatted === "") {
+                    setFormData({
+                      ...formData,
+                      data_nascimento_responsavel: null
+                    });
+                  }
+                  
+                  // Atualizar o campo com valor formatado
+                  e.target.value = formatted;
+                }}
+                className="flex-1"
+              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <CalendarIcon className="h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar 
+                    mode="single" 
+                    selected={formData.data_nascimento_responsavel || undefined} 
+                    onSelect={date => setFormData({
+                      ...formData,
+                      data_nascimento_responsavel: date || null
+                    })} 
+                    disabled={date => date > new Date() || date < new Date("1900-01-01")} 
+                    initialFocus 
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
 
           <div>
             <Label>Data de Nascimento do Aluno *</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" className={cn("w-full mt-2 justify-start text-left font-normal", !formData.data_nascimento_aluno && "text-muted-foreground")}>
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {formData.data_nascimento_aluno ? format(formData.data_nascimento_aluno, "dd/MM/yyyy", {
-                  locale: ptBR
-                }) : <span>Selecione a data</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar mode="single" selected={formData.data_nascimento_aluno || undefined} onSelect={date => setFormData({
-                ...formData,
-                data_nascimento_aluno: date || null
-              })} disabled={date => date > new Date() || date < new Date("1900-01-01")} initialFocus className={cn("p-3 pointer-events-auto")} />
-              </PopoverContent>
-            </Popover>
+            <div className="flex gap-2 mt-2">
+              <Input 
+                type="text"
+                placeholder="DD/MM/AAAA"
+                value={formData.data_nascimento_aluno ? format(formData.data_nascimento_aluno, "dd/MM/yyyy") : ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Permitir apenas números e barras, formatando automaticamente
+                  const formatted = value.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1/$2').replace(/(\d{2})\/(\d{2})(\d)/, '$1/$2/$3').slice(0, 10);
+                  
+                  if (formatted.length === 10) {
+                    const [day, month, year] = formatted.split('/');
+                    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+                    if (date && !isNaN(date.getTime()) && date <= new Date() && date >= new Date("1900-01-01")) {
+                      setFormData({
+                        ...formData,
+                        data_nascimento_aluno: date
+                      });
+                    }
+                  } else if (formatted === "") {
+                    setFormData({
+                      ...formData,
+                      data_nascimento_aluno: null
+                    });
+                  }
+                  
+                  // Atualizar o campo com valor formatado
+                  e.target.value = formatted;
+                }}
+                className="flex-1"
+              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <CalendarIcon className="h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar 
+                    mode="single" 
+                    selected={formData.data_nascimento_aluno || undefined} 
+                    onSelect={date => setFormData({
+                      ...formData,
+                      data_nascimento_aluno: date || null
+                    })} 
+                    disabled={date => date > new Date() || date < new Date("1900-01-01")} 
+                    initialFocus 
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
 
           <div>
