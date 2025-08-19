@@ -760,48 +760,27 @@ export type Database = {
         Returns: number
       }
       update_rematricula_fields: {
-        Args:
-          | {
-              p_bairro?: string
-              p_cep?: string
-              p_cidade?: string
-              p_cod_aluno: number
-              p_data_nascimento_aluno?: string
-              p_data_nascimento_resp_financeiro?: string
-              p_email_mae?: string
-              p_email_pai?: string
-              p_endereco?: string
-              p_estado?: string
-              p_estado_civil_resp_financeiro?: string
-              p_naturalidade_resp_financeiro?: string
-              p_numero?: number
-              p_profissao_resp_financeiro?: string
-              p_resp_financeiro?: string
-              p_rg_resp_financeiro?: string
-              p_telefone_mae?: string
-              p_telefone_pai?: string
-              p_turno_2026?: string
-            }
-          | {
-              p_bairro?: string
-              p_cep?: string
-              p_cidade?: string
-              p_cod_aluno: number
-              p_data_nascimento_aluno?: string
-              p_data_nascimento_resp_financeiro?: string
-              p_email_mae?: string
-              p_email_pai?: string
-              p_endereco?: string
-              p_estado?: string
-              p_estado_civil_resp_financeiro?: string
-              p_numero?: number
-              p_profissao_resp_financeiro?: string
-              p_resp_financeiro?: string
-              p_rg_resp_financeiro?: string
-              p_telefone_mae?: string
-              p_telefone_pai?: string
-              p_turno_2026?: string
-            }
+        Args: {
+          p_bairro?: string
+          p_cep?: string
+          p_cidade?: string
+          p_cod_aluno: number
+          p_data_nascimento_aluno?: string
+          p_data_nascimento_resp_financeiro?: string
+          p_email_mae?: string
+          p_email_pai?: string
+          p_endereco?: string
+          p_estado?: string
+          p_estado_civil_resp_financeiro?: string
+          p_naturalidade_resp_financeiro?: string
+          p_numero?: number
+          p_profissao_resp_financeiro?: string
+          p_resp_financeiro?: string
+          p_rg_resp_financeiro?: string
+          p_telefone_mae?: string
+          p_telefone_pai?: string
+          p_turno_2026?: string
+        }
         Returns: {
           Anuidade: string | null
           "Atualizou dados Mãe": string | null
