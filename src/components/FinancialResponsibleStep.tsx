@@ -28,8 +28,13 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
   const { toast } = useToast();
 
   // Verificar quais responsáveis têm CPF preenchido
-  const paiHasCPF = data?.["CPF do Pai"]?.trim();
-  const maeHasCPF = data?.["CPF da mãe"]?.trim();
+  const paiHasCPF = data?.["CPF do Pai"] && data["CPF do Pai"].toString().trim();
+  const maeHasCPF = data?.["CPF da mãe"] && data["CPF da mãe"].toString().trim();
+  
+  // Debug logs
+  console.log('Dados recebidos:', data);
+  console.log('CPF do Pai:', data?.["CPF do Pai"], 'Válido:', !!paiHasCPF);
+  console.log('CPF da Mãe:', data?.["CPF da mãe"], 'Válido:', !!maeHasCPF);
   
   // Verificar se pelo menos um responsável tem CPF
   const hasValidResponsible = paiHasCPF || maeHasCPF;
