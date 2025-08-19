@@ -8,9 +8,10 @@ import StudentSelector from "@/components/StudentSelector";
 import DataUpdateForm from "@/components/DataUpdateForm";
 import FinancialResponsibleStep from "@/components/FinancialResponsibleStep";
 import ExtraDataForm from "@/components/ExtraDataForm";
+import StudentSummary from "@/components/StudentSummary";
 import { Button } from "@/components/ui/button";
 
-type Step = "search" | "selection" | "confirmation" | "update" | "financial" | "extraData" | "status";
+type Step = "search" | "selection" | "confirmation" | "update" | "financial" | "extraData" | "summary" | "status";
 
 const Rematricula = () => {
   const [currentStep, setCurrentStep] = useState<Step>("search");
@@ -56,8 +57,12 @@ const Rematricula = () => {
 
   const handleExtraDataSuccess = (data: any) => {
     setExtraData(data);
-    // Aqui você pode processar os dados ou ir para próxima tela
-    console.log('Dados extras coletados:', data);
+    setCurrentStep("summary");
+  };
+
+  const handleSummaryConfirm = () => {
+    // Aqui você pode processar os dados finais ou ir para próxima tela
+    console.log('Dados extras coletados:', extraData);
     console.log('Dados do estudante:', studentData);
     handleBackToSearch();
   };
@@ -149,6 +154,18 @@ const Rematricula = () => {
               data={studentData}
               onSuccess={handleExtraDataSuccess}
               onBack={() => setCurrentStep("financial")}
+            />
+          </div>
+        );
+      
+      case "summary":
+        return (
+          <div className="min-h-[60vh] flex items-center justify-center py-8">
+            <StudentSummary
+              data={studentData}
+              extraData={extraData}
+              onConfirm={handleSummaryConfirm}
+              onBack={() => setCurrentStep("extraData")}
             />
           </div>
         );
