@@ -75,6 +75,17 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
       if (liberados.length > 1) {
         console.log('Múltiplos alunos encontrados, mostrando seletor');
         const mappedResults = liberados.map((row: any) => ({
+          "Nome do Aluno": row["Nome do Aluno"],
+          "Curso 2025": row["Curso 2025"],
+          "Curso 2026": row["Curso 2026"],
+          "Turno 2026": row["Turno 2026"],
+          "Ciclo": row["Ciclo"],
+          "Cod Aluno": row["Cod Aluno"],
+          "Desconto": row["Desconto"],
+          "mensalidade 2026 sem desconto": row["mensalidade 2026 sem desconto"],
+          "mensalidade 2026 com desconto": row["mensalidade 2026 com desconto"],
+          "Rematrícula a vista": row["Rematrícula a vista"],
+          "Rematrícula Parcelada": row["Rematrícula Parcelada"],
           status: row["Status"],
           cpf_pai: row["CPF do Pai"]?.toString(),
           cpf_mae: row["CPF da mãe"]?.toString(),
@@ -111,6 +122,17 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
       console.log('Único aluno encontrado, prosseguindo');
       const row = liberados[0];
       const mappedData = {
+        "Nome do Aluno": row["Nome do Aluno"],
+        "Curso 2025": row["Curso 2025"],
+        "Curso 2026": row["Curso 2026"],
+        "Turno 2026": row["Turno 2026"],
+        "Ciclo": row["Ciclo"],
+        "Cod Aluno": row["Cod Aluno"],
+        "Desconto": row["Desconto"],
+        "mensalidade 2026 sem desconto": row["mensalidade 2026 sem desconto"],
+        "mensalidade 2026 com desconto": row["mensalidade 2026 com desconto"],
+        "Rematrícula a vista": row["Rematrícula a vista"],
+        "Rematrícula Parcelada": row["Rematrícula Parcelada"],
         status: row["Status"],
         cpf_pai: row["CPF do Pai"]?.toString(),
         cpf_mae: row["CPF da mãe"]?.toString(),
