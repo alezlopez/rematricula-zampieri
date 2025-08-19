@@ -56,9 +56,15 @@ const Rematricula = () => {
   };
 
   const handleExtraDataSuccess = (data: any) => {
-    console.log('handleExtraDataSuccess chamado com dados:', data);
+    console.log('=== handleExtraDataSuccess CHAMADO ===');
+    console.log('Dados recebidos:', data);
+    console.log('Estado atual:', currentStep);
+    
     setExtraData(data);
+    console.log('Mudando para step: summary');
     setCurrentStep("summary");
+    
+    console.log('Novo estado será:', "summary");
   };
 
   const handleSummaryConfirm = () => {
@@ -85,6 +91,8 @@ const Rematricula = () => {
   };
 
   const renderCurrentStep = () => {
+    console.log('=== RENDERIZANDO STEP:', currentStep, '===');
+    
     switch (currentStep) {
       case "search":
         return (

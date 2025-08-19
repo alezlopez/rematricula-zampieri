@@ -145,7 +145,9 @@ const ExtraDataForm = ({
     }
     setIsLoading(true);
     try {
+      console.log('Iniciando processamento dos dados extras...');
       console.log('Dados recebidos:', data);
+      
       // Tentar acessar o código do aluno de diferentes formas
       const codAluno = Number(data?.["Cod Aluno"] || data?.cod_aluno);
       if (!codAluno) {
@@ -155,6 +157,7 @@ const ExtraDataForm = ({
 
       // Determinar turno a salvar (EM = Manhã obrigatória)
       const selectedTurno = isEnsinoMedio ? "Manhã" : formData.turno_2026;
+      console.log('Turno selecionado para salvar:', selectedTurno);
 
       // Atualizar turno no banco de dados
       const {
@@ -168,19 +171,32 @@ const ExtraDataForm = ({
         throw new Error("Erro ao atualizar turno do aluno");
       }
 
+      console.log('Turno atualizado no banco com sucesso');
+
+      // Verificar se as datas estão preenchidas antes de formatar
+      if (!formData.data_nascimento_responsavel) {
+        throw new Error("Data de nascimento do responsável é obrigatória");
+      }
+      if (!formData.data_nascimento_aluno) {
+        throw new Error("Data de nascimento do aluno é obrigatória");
+      }
+
       // Formatear dados para envio
       const extraData = {
         ...formData,
-        data_nascimento_responsavel: formData.data_nascimento_responsavel ? format(formData.data_nascimento_responsavel, 'yyyy-MM-dd') : null,
-        data_nascimento_aluno: formData.data_nascimento_aluno ? format(formData.data_nascimento_aluno, 'yyyy-MM-dd') : null
+        data_nascimento_responsavel: format(formData.data_nascimento_responsavel, 'yyyy-MM-dd'),
+        data_nascimento_aluno: format(formData.data_nascimento_aluno, 'yyyy-MM-dd'),
+        turno_2026: selectedTurno
       };
       
-      console.log('Dados enviados para próxima tela:', extraData);
+      console.log('Dados formatados para envio:', extraData);
       
       toast({
         title: "Sucesso",
         description: "Dados coletados e turno atualizado com sucesso!"
       });
+      
+      console.log('Chamando onSuccess...');
       onSuccess(extraData);
     } catch (error: any) {
       console.error('Erro ao processar dados:', error);
