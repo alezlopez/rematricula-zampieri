@@ -127,8 +127,7 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
       }
 
       // Atualizar turno no banco de dados
-      // Temporariamente comentado até os tipos serem atualizados
-      const { error } = await supabase.rpc('update_rematricula_fields' as any, {
+      const { error } = await supabase.rpc('update_rematricula_fields', {
         p_cod_aluno: codAluno,
         p_turno_2026: formData.turno_2026
       });

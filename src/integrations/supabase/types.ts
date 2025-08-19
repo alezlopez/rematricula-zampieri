@@ -324,7 +324,7 @@ export type Database = {
           CEP: string | null
           Ciclo: string | null
           Cidade: string | null
-          "Cod Aluno": number | null
+          "Cod Aluno": number
           "CPF da mãe": string | null
           "CPF do Pai": string | null
           "Curso 2025": string | null
@@ -362,7 +362,7 @@ export type Database = {
           CEP?: string | null
           Ciclo?: string | null
           Cidade?: string | null
-          "Cod Aluno"?: number | null
+          "Cod Aluno": number
           "CPF da mãe"?: string | null
           "CPF do Pai"?: string | null
           "Curso 2025"?: string | null
@@ -400,7 +400,7 @@ export type Database = {
           CEP?: string | null
           Ciclo?: string | null
           Cidade?: string | null
-          "Cod Aluno"?: number | null
+          "Cod Aluno"?: number
           "CPF da mãe"?: string | null
           "CPF do Pai"?: string | null
           "Curso 2025"?: string | null
@@ -693,7 +693,7 @@ export type Database = {
           CEP: string | null
           Ciclo: string | null
           Cidade: string | null
-          "Cod Aluno": number | null
+          "Cod Aluno": number
           "CPF da mãe": string | null
           "CPF do Pai": string | null
           "Curso 2025": string | null
@@ -750,20 +750,6 @@ export type Database = {
               p_resp_financeiro?: string
               p_telefone_mae?: string
               p_telefone_pai?: string
-            }
-          | {
-              p_bairro?: string
-              p_cep?: string
-              p_cidade?: string
-              p_cod_aluno: number
-              p_email_mae?: string
-              p_email_pai?: string
-              p_endereco?: string
-              p_estado?: string
-              p_numero?: number
-              p_resp_financeiro?: string
-              p_telefone_mae?: string
-              p_telefone_pai?: string
               p_turno_2026?: string
             }
           | {
@@ -788,7 +774,7 @@ export type Database = {
           CEP: string | null
           Ciclo: string | null
           Cidade: string | null
-          "Cod Aluno": number | null
+          "Cod Aluno": number
           "CPF da mãe": string | null
           "CPF do Pai": string | null
           "Curso 2025": string | null
