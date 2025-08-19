@@ -45,7 +45,7 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
       const { data, error } = await supabase
         .from('rematricula')
         .select('*')
-        .or(`"CPF do Pai"::text.eq.${cleanCPF},"CPF da mãe"::text.eq.${cleanCPF}`);
+        .or(`"CPF do Pai".eq.${cleanCPF},"CPF da mãe".eq.${cleanCPF}`);
 
       if (error) {
         console.error('Erro ao buscar:', error);
