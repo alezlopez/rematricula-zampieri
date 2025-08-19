@@ -280,6 +280,27 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
             </Popover>
           </div>
 
+          <div>
+            <Label htmlFor="turno">Turno 2026 *</Label>
+            <Select onValueChange={(value) => setFormData({ ...formData, turno_2026: value })}>
+              <SelectTrigger className="mt-2">
+                <SelectValue placeholder="Selecione o turno" />
+              </SelectTrigger>
+              <SelectContent className="z-50 bg-background">
+                {turnos.map((turno) => (
+                  <SelectItem key={turno.value} value={turno.value}>
+                    {turno.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {isEnsinoMedio && (
+              <p className="text-xs text-muted-foreground mt-1">
+                Para Ensino Médio, apenas o turno manhã está disponível.
+              </p>
+            )}
+          </div>
+
           <div className="flex gap-2 pt-4">
             <Button onClick={onBack} variant="outline" className="flex-1">
               Voltar
