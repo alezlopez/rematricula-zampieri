@@ -24,6 +24,7 @@ interface ExtraData {
   data_nascimento_responsavel: Date | null;
   data_nascimento_aluno: Date | null;
   turno_2026: string;
+  naturalidade_responsavel: string;
 }
 
 interface DateInputs {
@@ -41,7 +42,8 @@ const ExtraDataForm = ({
     profissao: "",
     data_nascimento_responsavel: null,
     data_nascimento_aluno: null,
-    turno_2026: ""
+    turno_2026: "",
+    naturalidade_responsavel: ""
   });
   const [dateInputs, setDateInputs] = useState<DateInputs>({
     responsavel: "",
@@ -143,6 +145,14 @@ const ExtraDataForm = ({
       });
       return;
     }
+    if (!formData.naturalidade_responsavel.trim()) {
+      toast({
+        title: "Erro",
+        description: "Cidade em que nasceu é obrigatória",
+        variant: "destructive"
+      });
+      return;
+    }
     setIsLoading(true);
     try {
       console.log('Iniciando processamento dos dados extras...');
@@ -169,7 +179,8 @@ const ExtraDataForm = ({
         p_estado_civil_resp_financeiro: formData.estado_civil,
         p_profissao_resp_financeiro: formData.profissao,
         p_data_nascimento_resp_financeiro: format(formData.data_nascimento_responsavel, 'dd/MM/yyyy'),
-        p_data_nascimento_aluno: format(formData.data_nascimento_aluno, 'dd/MM/yyyy')
+        p_data_nascimento_aluno: format(formData.data_nascimento_aluno, 'dd/MM/yyyy'),
+        p_naturalidade_resp_financeiro: formData.naturalidade_responsavel
       });
       if (error) {
         console.error('Database update error:', error);
@@ -191,7 +202,8 @@ const ExtraDataForm = ({
         ...formData,
         data_nascimento_responsavel: format(formData.data_nascimento_responsavel, 'yyyy-MM-dd'),
         data_nascimento_aluno: format(formData.data_nascimento_aluno, 'yyyy-MM-dd'),
-        turno_2026: selectedTurno
+        turno_2026: selectedTurno,
+        naturalidade_responsavel: formData.naturalidade_responsavel
       };
       
       console.log('Dados formatados para envio:', extraData);
@@ -374,6 +386,14 @@ const ExtraDataForm = ({
                 </PopoverContent>
               </Popover>
             </div>
+          </div>
+
+          <div>
+            <Label htmlFor="naturalidade">Cidade em que nasceu *</Label>
+            <Input id="naturalidade" type="text" value={formData.naturalidade_responsavel} onChange={e => setFormData({
+            ...formData,
+            naturalidade_responsavel: e.target.value
+          })} placeholder="Ex: São Paulo, Rio de Janeiro..." className="mt-2" />
           </div>
 
           <div>
