@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,7 +41,10 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
   const { toast } = useToast();
 
   // Verificar se é Ensino Médio para limitar opções de turno
-  const isEnsinoMedio = data?.Ciclo === "Ensino Médio";
+  const isEnsinoMedio = data?.Ciclo === "Ensino Médio" || data?.ciclo === "Ensino Médio";
+  
+  console.log('Ciclo do aluno:', data?.Ciclo || data?.ciclo);
+  console.log('É Ensino Médio?', isEnsinoMedio);
   
   const estadosCivis = [
     { value: "solteiro", label: "Solteiro(a)" },
@@ -56,6 +59,13 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
         { value: "Manhã", label: "Manhã" },
         { value: "Tarde", label: "Tarde" },
       ];
+
+  // Para Ensino Médio, definir automaticamente turno como Manhã
+  useEffect(() => {
+    if (isEnsinoMedio && !formData.turno_2026) {
+      setFormData(prev => ({ ...prev, turno_2026: "Manhã" }));
+    }
+  }, [isEnsinoMedio, formData.turno_2026]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -282,12 +292,19 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
 
           <div>
             <Label htmlFor="turno">Turno 2026 *</Label>
-            {isEnsinoMedio && (
+            {isEnsinoMedio ? (
               <p className="text-sm text-muted-foreground mt-1">
-                Para Ensino Médio, apenas o turno da manhã está disponível
+                Para alunos do Ensino Médio, o turno é obrigatoriamente <strong>Manhã</strong>
+              </p>
+            ) : (
+              <p className="text-sm text-muted-foreground mt-1">
+                Selecione o turno desejado para 2026
               </p>
             )}
-            <Select onValueChange={(value) => setFormData({ ...formData, turno_2026: value })}>
+            <Select 
+              value={formData.turno_2026}
+              onValueChange={(value) => setFormData({ ...formData, turno_2026: value })}
+            >
               <SelectTrigger className="mt-2">
                 <SelectValue placeholder="Selecione o turno" />
               </SelectTrigger>
