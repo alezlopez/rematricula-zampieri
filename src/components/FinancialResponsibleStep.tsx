@@ -109,8 +109,11 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
     setError("");
 
     try {
-      const codAluno = Number(data?.["Cod Aluno"]);
+      console.log('Dados recebidos:', data);
+      // Tentar acessar o código do aluno de diferentes formas
+      const codAluno = Number(data?.["Cod Aluno"] || data?.cod_aluno);
       if (!codAluno) {
+        console.error('Código do aluno não encontrado nos dados:', data);
         throw new Error("Não foi possível identificar o aluno (código ausente)");
       }
       // Update responsável financeiro no banco
