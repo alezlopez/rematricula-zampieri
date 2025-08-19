@@ -98,7 +98,7 @@ const FinancialResponsibleStep = ({ data, onSuccess, onBack }: FinancialResponsi
       
       toast({
         title: "Código enviado",
-        description: "Código de verificação enviado para o WhatsApp",
+        description: `Status do provedor: ${result.providerStatus || 'desconhecido'}`,
       });
     } catch (error: any) {
       console.error('Send code error:', error);
