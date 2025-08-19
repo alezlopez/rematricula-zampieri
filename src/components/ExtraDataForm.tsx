@@ -127,7 +127,8 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
       }
 
       // Atualizar turno no banco de dados
-      const { error } = await supabase.rpc('update_rematricula_fields', {
+      // Temporariamente comentado até os tipos serem atualizados
+      const { error } = await supabase.rpc('update_rematricula_fields' as any, {
         p_cod_aluno: codAluno,
         p_turno_2026: formData.turno_2026
       });
@@ -282,6 +283,11 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
 
           <div>
             <Label htmlFor="turno">Turno 2026 *</Label>
+            {isEnsinoMedio && (
+              <p className="text-sm text-muted-foreground mt-1">
+                Para Ensino Médio, apenas o turno da manhã está disponível
+              </p>
+            )}
             <Select onValueChange={(value) => setFormData({ ...formData, turno_2026: value })}>
               <SelectTrigger className="mt-2">
                 <SelectValue placeholder="Selecione o turno" />
@@ -294,11 +300,6 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
                 ))}
               </SelectContent>
             </Select>
-            {isEnsinoMedio && (
-              <p className="text-xs text-muted-foreground mt-1">
-                Para Ensino Médio, apenas o turno manhã está disponível.
-              </p>
-            )}
           </div>
 
           <div className="flex gap-2 pt-4">
