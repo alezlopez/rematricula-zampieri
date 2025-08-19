@@ -40,10 +40,16 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  // Verificar se é Ensino Médio para limitar opções de turno
-  const isEnsinoMedio = data?.Ciclo === "Ensino Médio" || data?.ciclo === "Ensino Médio";
+  // Verificar se é Ensino Médio para limitar opções de turno (normaliza acentos e espaços)
+  const cicloRaw = (data?.Ciclo ?? data?.ciclo ?? "").toString();
+  const cicloNorm = cicloRaw
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase();
+  const isEnsinoMedio = cicloNorm === "ensino medio";
   
-  console.log('Ciclo do aluno:', data?.Ciclo || data?.ciclo);
+  console.log('Ciclo do aluno:', cicloRaw);
   console.log('É Ensino Médio?', isEnsinoMedio);
   
   const estadosCivis = [
@@ -296,29 +302,32 @@ const ExtraDataForm = ({ data, onSuccess, onBack }: ExtraDataFormProps) => {
           <div>
             <Label htmlFor="turno">Turno 2026 *</Label>
             {isEnsinoMedio ? (
-              <p className="text-sm text-muted-foreground mt-1">
-                Para alunos do Ensino Médio, o turno é obrigatoriamente <strong>Manhã</strong>
-              </p>
+              <>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Para alunos do Ensino Médio, o turno é obrigatoriamente <strong>Manhã</strong>
+                </p>
+                <Input value="Manhã" readOnly className="mt-2" />
+              </>
             ) : (
-              <p className="text-sm text-muted-foreground mt-1">
-                Selecione o turno desejado para 2026
-              </p>
+              <>
+                <p className="text-sm text-muted-foreground mt-1">Selecione o turno desejado para 2026</p>
+                <Select 
+                  value={formData.turno_2026}
+                  onValueChange={(value) => setFormData({ ...formData, turno_2026: value })}
+                >
+                  <SelectTrigger className="mt-2">
+                    <SelectValue placeholder="Selecione o turno" />
+                  </SelectTrigger>
+                  <SelectContent className="z-50 bg-background">
+                    {turnos.map((turno) => (
+                      <SelectItem key={turno.value} value={turno.value}>
+                        {turno.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </>
             )}
-            <Select 
-              value={formData.turno_2026}
-              onValueChange={(value) => setFormData({ ...formData, turno_2026: value })}
-            >
-              <SelectTrigger className="mt-2">
-                <SelectValue placeholder="Selecione o turno" />
-              </SelectTrigger>
-              <SelectContent className="z-50 bg-background">
-                {turnos.map((turno) => (
-                  <SelectItem key={turno.value} value={turno.value}>
-                    {turno.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="flex gap-2 pt-4">
