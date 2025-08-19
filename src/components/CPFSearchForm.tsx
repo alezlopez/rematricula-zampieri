@@ -45,7 +45,7 @@ const CPFSearchForm = ({ onSearchResult }: CPFSearchFormProps) => {
         .from('rematricula')
         .select('*')
         .or(`"CPF do Pai".eq.${cleanCPF},"CPF da mãe".eq.${cleanCPF}`)
-        .single();
+        .maybeSingle();
 
       if (error && error.code !== 'PGRST116') {
         console.error('Erro ao buscar:', error);
