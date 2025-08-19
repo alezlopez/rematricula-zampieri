@@ -23,30 +23,30 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
         {/* Dados do Aluno */}
         <div>
           <h3 className="text-lg font-semibold mb-4">Dados do Aluno</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-muted-foreground">Nome do Aluno</p>
-              <p className="font-medium">{data?.["Nome do Aluno"] || "Não informado"}</p>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Nome do aluno:</span>
+              <span className="font-medium">{data?.["Nome do Aluno"] || "Não informado"}</span>
             </div>
             
-            <div>
-              <p className="text-sm text-muted-foreground">Ciclo</p>
-              <Badge variant="secondary">{data?.Ciclo || "Não informado"}</Badge>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Turma 2025:</span>
+              <span className="font-medium">{data?.["Curso 2025"] || "Não informado"}</span>
             </div>
             
-            <div>
-              <p className="text-sm text-muted-foreground">Turma 2025</p>
-              <p className="font-medium">{data?.["Curso 2025"] || "Não informado"}</p>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Turma 2026:</span>
+              <span className="font-medium">{data?.["Curso 2026"] || "Não informado"}</span>
             </div>
             
-            <div>
-              <p className="text-sm text-muted-foreground">Turma 2026</p>
-              <p className="font-medium">{data?.["Curso 2026"] || "Não informado"}</p>
-            </div>
-            
-            <div>
-              <p className="text-sm text-muted-foreground">Turno</p>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Turno:</span>
               <Badge variant="outline">{data?.["Turno 2026"] || extraData?.turno_2026 || "Não informado"}</Badge>
+            </div>
+            
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Ciclo:</span>
+              <Badge variant="secondary">{data?.Ciclo || "Não informado"}</Badge>
             </div>
           </div>
         </div>
@@ -56,44 +56,36 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack }: StudentSummaryPr
         {/* Valores */}
         <div>
           <h3 className="text-lg font-semibold mb-4">Valores para 2026</h3>
-          <div className="space-y-4">
-            <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
-              <div>
-                <p className="font-medium">Mensalidade sem desconto</p>
-                <p className="text-sm text-muted-foreground">Valor padrão</p>
-              </div>
-              <p className="text-lg font-bold">
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Mensalidade 2026 sem desconto:</span>
+              <span className="font-bold">
                 {data?.["mensalidade 2026 sem desconto"] || "Não informado"}
-              </p>
+              </span>
             </div>
             
-            <div className="flex justify-between items-center p-3 bg-primary/10 rounded-lg border border-primary/20">
-              <div>
-                <p className="font-medium text-primary">Mensalidade com desconto</p>
-                <p className="text-sm text-muted-foreground">Válido até o vencimento</p>
-              </div>
-              <p className="text-lg font-bold text-primary">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Mensalidade 2026 com desconto (até o vencimento):</span>
+              <span className="font-bold text-primary">
                 {data?.["mensalidade 2026 com desconto"] || "Não informado"}
-              </p>
+              </span>
             </div>
             
             {data?.Desconto && (
-              <div className="text-center">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">Desconto:</span>
                 <Badge variant="secondary">
-                  Desconto: {data.Desconto}%
+                  {data.Desconto}%
                 </Badge>
               </div>
             )}
+            
+            <div className="bg-blue-50 dark:bg-blue-950/20 p-3 rounded-lg">
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                <strong>Vencimento:</strong> Para 2026 será mantido o mesmo vencimento de 2025.
+              </p>
+            </div>
           </div>
-        </div>
-
-        <Separator />
-
-        {/* Informação sobre vencimento */}
-        <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg">
-          <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Vencimento:</strong> Para 2026 será mantido o mesmo vencimento de 2025.
-          </p>
         </div>
 
         {/* Botões de ação */}
