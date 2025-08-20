@@ -49,7 +49,7 @@ const PaymentSelection = ({ data, onBack, onComplete }: PaymentSelectionProps) =
         console.log('Resposta do webhook de pagamento:', responseData);
         
         // Extrair o link do checkout da resposta
-        const checkoutLink = responseData?.checkout || responseData?.link_checkout || responseData?.checkoutUrl || responseData?.url;
+        const checkoutLink = responseData?.linkCheckout || responseData?.checkout || responseData?.link_checkout || responseData?.checkoutUrl || responseData?.url;
         
         console.log('Link do checkout extraído:', checkoutLink);
         
@@ -72,32 +72,17 @@ const PaymentSelection = ({ data, onBack, onComplete }: PaymentSelectionProps) =
   };
 
   const openCheckoutLink = (url: string) => {
-    console.log('Abrindo checkout:', url);
+    console.log('Abrindo checkout na mesma página:', url);
     
     try {
-      // Tentar abrir em nova aba
-      const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-      
-      if (newWindow) {
-        console.log('Checkout aberto com sucesso em nova aba');
-        toast.success('Checkout aberto em nova aba!');
-        return true;
-      } else {
-        throw new Error('Window.open retornou null');
-      }
+      // Abrir na mesma página
+      window.location.href = url;
+      toast.success('Redirecionando para o checkout...');
+      return true;
     } catch (error) {
-      console.warn('Erro ao abrir checkout via window.open:', error);
-      
-      // Fallback: redirecionar na mesma aba
-      try {
-        window.location.href = url;
-        toast.success('Redirecionando para o checkout...');
-        return true;
-      } catch (locationError) {
-        console.error('Erro ao redirecionar para checkout:', locationError);
-        toast.error('Erro ao abrir checkout. Tente copiar o link manualmente.');
-        return false;
-      }
+      console.error('Erro ao redirecionar para checkout:', error);
+      toast.error('Erro ao abrir checkout. Tente copiar o link manualmente.');
+      return false;
     }
   };
 
