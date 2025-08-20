@@ -17,132 +17,60 @@ export type Database = {
       alunosIntegraSae: {
         Row: {
           aluno: string | null
-          bairro: string | null
           boleto: string | null
-          cep: string | null
-          cidade: string | null
           codigo_aluno: number | null
           codigo_mae: number | null
           codigo_pai: number | null
           codigo_resp_fin: number | null
-          cpf_mae: string | null
-          cpf_pai: string | null
           CPF_resp_fin: string | null
-          curso_2026: string | null
           curso_aluno: string | null
           curso_completo: string | null
-          desconto: string | null
-          email_mae: string | null
-          email_pai: string | null
           email_resp: string | null
-          endereco: string | null
           enviado: boolean | null
-          estado: string | null
           id: number
           id_curso: number | null
-          liberado_para_rematricula: boolean | null
-          mensalidade_2026_com_desconto: string | null
-          mensalidade_2026_sem_desconto: string | null
-          nome_mae: string | null
-          nome_pai: string | null
           nome_responsavel: string | null
-          numero: string | null
           pago: boolean | null
-          rematricula_a_vista: string | null
-          rematricula_parcelada: string | null
-          status: string | null
-          telefone_mae: string | null
-          telefone_pai: string | null
-          trial: boolean | null
-          turno_2026: string | null
           valor: string | null
           vencimento: string | null
           whatsapp_fin: string | null
         }
         Insert: {
           aluno?: string | null
-          bairro?: string | null
           boleto?: string | null
-          cep?: string | null
-          cidade?: string | null
           codigo_aluno?: number | null
           codigo_mae?: number | null
           codigo_pai?: number | null
           codigo_resp_fin?: number | null
-          cpf_mae?: string | null
-          cpf_pai?: string | null
           CPF_resp_fin?: string | null
-          curso_2026?: string | null
           curso_aluno?: string | null
           curso_completo?: string | null
-          desconto?: string | null
-          email_mae?: string | null
-          email_pai?: string | null
           email_resp?: string | null
-          endereco?: string | null
           enviado?: boolean | null
-          estado?: string | null
           id: number
           id_curso?: number | null
-          liberado_para_rematricula?: boolean | null
-          mensalidade_2026_com_desconto?: string | null
-          mensalidade_2026_sem_desconto?: string | null
-          nome_mae?: string | null
-          nome_pai?: string | null
           nome_responsavel?: string | null
-          numero?: string | null
           pago?: boolean | null
-          rematricula_a_vista?: string | null
-          rematricula_parcelada?: string | null
-          status?: string | null
-          telefone_mae?: string | null
-          telefone_pai?: string | null
-          trial?: boolean | null
-          turno_2026?: string | null
           valor?: string | null
           vencimento?: string | null
           whatsapp_fin?: string | null
         }
         Update: {
           aluno?: string | null
-          bairro?: string | null
           boleto?: string | null
-          cep?: string | null
-          cidade?: string | null
           codigo_aluno?: number | null
           codigo_mae?: number | null
           codigo_pai?: number | null
           codigo_resp_fin?: number | null
-          cpf_mae?: string | null
-          cpf_pai?: string | null
           CPF_resp_fin?: string | null
-          curso_2026?: string | null
           curso_aluno?: string | null
           curso_completo?: string | null
-          desconto?: string | null
-          email_mae?: string | null
-          email_pai?: string | null
           email_resp?: string | null
-          endereco?: string | null
           enviado?: boolean | null
-          estado?: string | null
           id?: number
           id_curso?: number | null
-          liberado_para_rematricula?: boolean | null
-          mensalidade_2026_com_desconto?: string | null
-          mensalidade_2026_sem_desconto?: string | null
-          nome_mae?: string | null
-          nome_pai?: string | null
           nome_responsavel?: string | null
-          numero?: string | null
           pago?: boolean | null
-          rematricula_a_vista?: string | null
-          rematricula_parcelada?: string | null
-          status?: string | null
-          telefone_mae?: string | null
-          telefone_pai?: string | null
-          trial?: boolean | null
-          turno_2026?: string | null
           valor?: string | null
           vencimento?: string | null
           whatsapp_fin?: string | null
