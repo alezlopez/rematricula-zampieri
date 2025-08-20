@@ -73,7 +73,32 @@ const PaymentSelection = ({ data, onBack, onComplete }: PaymentSelectionProps) =
 
   const openCheckoutLink = (url: string) => {
     console.log('Abrindo checkout:', url);
-    window.open(url, '_blank', 'noopener,noreferrer');
+    
+    try {
+      // Tentar abrir em nova aba
+      const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+      
+      if (newWindow) {
+        console.log('Checkout aberto com sucesso em nova aba');
+        toast.success('Checkout aberto em nova aba!');
+        return true;
+      } else {
+        throw new Error('Window.open retornou null');
+      }
+    } catch (error) {
+      console.warn('Erro ao abrir checkout via window.open:', error);
+      
+      // Fallback: redirecionar na mesma aba
+      try {
+        window.location.href = url;
+        toast.success('Redirecionando para o checkout...');
+        return true;
+      } catch (locationError) {
+        console.error('Erro ao redirecionar para checkout:', locationError);
+        toast.error('Erro ao abrir checkout. Tente copiar o link manualmente.');
+        return false;
+      }
+    }
   };
 
   return (

@@ -36,23 +36,35 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
   const openContractLink = (url: string) => {
     console.log('Tentando abrir URL:', url);
     
-    // Abrir sempre em nova aba
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-    
-    // Marcar que o contrato foi aberto
+    // Marcar que o contrato foi aberto imediatamente
     setContractOpened(true);
     
-    // Verificar se o popup foi bloqueado
-    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-      console.warn('Popup pode ter sido bloqueado, tentando fallback');
-      copyToClipboard(url);
-      toast.warning('Popup bloqueado. Link copiado para área de transferência.');
-      return false;
+    try {
+      // Tentar abrir em nova aba usando window.open
+      const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+      
+      if (newWindow) {
+        console.log('Link aberto com sucesso via window.open');
+        toast.success('Contrato aberto em nova aba!');
+        return true;
+      } else {
+        throw new Error('Window.open retornou null');
+      }
+    } catch (error) {
+      console.warn('Erro ao abrir via window.open, tentando location.href:', error);
+      
+      // Fallback: usar location.href em nova aba
+      try {
+        window.location.href = url;
+        toast.success('Redirecionando para o contrato...');
+        return true;
+      } catch (locationError) {
+        console.error('Erro ao redirecionar:', locationError);
+        copyToClipboard(url);
+        toast.warning('Erro ao abrir link. Link copiado para área de transferência.');
+        return false;
+      }
     }
-    
-    console.log('Link aberto com sucesso via window.open');
-    toast.success('Contrato aberto em nova aba!');
-    return true;
   };
 
   // Função para copiar o link para o clipboard
@@ -137,7 +149,7 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
         .from('rematricula')
         .select('Status')
         .eq('Cod Aluno', data?.["Cod Aluno"] || data?.cod_aluno)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Erro ao verificar status:', error);
@@ -145,10 +157,19 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
         return;
       }
 
+      if (!studentData) {
+        console.error('Nenhum registro encontrado para o aluno');
+        toast.error('Dados do aluno não encontrados.');
+        return;
+      }
+
+      console.log('Status do contrato:', studentData.Status);
+
       if (studentData?.Status === 'Contrato Assinado') {
+        toast.success('Status verificado! Redirecionando para pagamento...');
         onGoToPayment();
       } else {
-        toast.error('O contrato deve ser assinado antes de prosseguir para o pagamento.');
+        toast.error(`Status atual: ${studentData?.Status || 'Não definido'}. O contrato deve ser assinado antes de prosseguir para o pagamento.`);
       }
     } catch (error) {
       console.error('Erro ao verificar status:', error);
