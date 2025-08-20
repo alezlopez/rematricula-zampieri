@@ -16,22 +16,23 @@ const Sucesso = () => {
           
           <div className="text-muted-foreground text-lg leading-relaxed space-y-4">
             <p>
-              Sua rematrícula foi concluída com sucesso. Encaminhamos para o WhatsApp cadastrado algumas informações importantes, além do(s) número(s) da sorte para concorrer a:
+              Sua rematrícula foi concluída com sucesso!
+            </p>
+            
+            <p>
+              Encaminhamos para o WhatsApp cadastrado, algumas informações importantes, além do(s) número(s) da sorte para concorrer a:
             </p>
             
             <div className="space-y-3 text-left max-w-lg mx-auto">
               <div className="flex items-center space-x-3">
-                <span className="text-2xl">📚</span>
                 <span><strong>1º Prêmio:</strong> Kit de material didático 2026</span>
               </div>
               
               <div className="flex items-center space-x-3">
-                <span className="text-2xl">👕👚</span>
                 <span><strong>2º Prêmio:</strong> Kit de uniformes (camiseta, calça, shorts e blusa de frio)</span>
               </div>
               
               <div className="flex items-center space-x-3">
-                <span className="text-2xl">🎒</span>
                 <span><strong>3º Prêmio:</strong> Mochila premium personalizada</span>
               </div>
             </div>
