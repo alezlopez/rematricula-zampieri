@@ -135,6 +135,10 @@ const StatusFlow = ({ status, data, onBackToSearch, onGoToPayment }: StatusFlowP
 
   const statusInfo = getStatusInfo(status);
 
+  // Normalizar links possíveis vindos do backend
+  const checkoutLink = data?.link_checkout || data?.["Link Checkout"] || data?.LinkCheckout || data?.linkCheckout;
+  const contractLink = data?.link_contrato || data?.["Link Contrato"] || data?.LinkContrato || data?.linkContrato;
+
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <Card className="shadow-soft">
@@ -196,7 +200,7 @@ const StatusFlow = ({ status, data, onBackToSearch, onGoToPayment }: StatusFlowP
           </div>
 
           {/* Link do Checkout para Pagamento - só mostra quando status é "Pagamento Gerado" */}
-          {statusInfo.showCheckoutLink && data?.["Link Checkout"] && (
+          {statusInfo.showCheckoutLink && checkoutLink && (
             <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
               <h4 className="font-semibold text-blue-800 dark:text-blue-200 mb-3 flex items-center">
                 <CreditCard className="w-4 h-4 mr-2" />
@@ -207,14 +211,14 @@ const StatusFlow = ({ status, data, onBackToSearch, onGoToPayment }: StatusFlowP
               </p>
               <div className="flex gap-2">
                 <Button 
-                  onClick={() => openCheckoutLink(data["Link Checkout"])}
+                  onClick={() => openCheckoutLink(checkoutLink)}
                   className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
                 >
                   <CreditCard className="w-4 h-4 mr-2" />
                   Ir para Pagamento
                 </Button>
                 <Button 
-                  onClick={() => copyToClipboard(data["Link Checkout"])}
+                  onClick={() => copyToClipboard(checkoutLink)}
                   variant="outline"
                   className="flex-shrink-0"
                 >
@@ -222,7 +226,7 @@ const StatusFlow = ({ status, data, onBackToSearch, onGoToPayment }: StatusFlowP
                 </Button>
               </div>
               <p className="text-xs text-blue-600 dark:text-blue-400 mt-2 break-all">
-                Link: {data["Link Checkout"]}
+                Link: {checkoutLink}
               </p>
             </div>
           )}
@@ -248,7 +252,7 @@ const StatusFlow = ({ status, data, onBackToSearch, onGoToPayment }: StatusFlowP
           )}
 
           {/* Link do Contrato para Assinatura - só mostra quando status é "Contrato Gerado" */}
-          {statusInfo.showContractLink && data?.["Link Contrato"] && (
+          {statusInfo.showContractLink && contractLink && (
             <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
               <h4 className="font-semibold text-orange-800 dark:text-orange-200 mb-3 flex items-center">
                 <FileText className="w-4 h-4 mr-2" />
@@ -259,14 +263,14 @@ const StatusFlow = ({ status, data, onBackToSearch, onGoToPayment }: StatusFlowP
               </p>
               <div className="flex gap-2">
                 <Button 
-                  onClick={() => openContractLink(data["Link Contrato"])}
+                  onClick={() => openContractLink(contractLink)}
                   className="flex-1 bg-orange-600 hover:bg-orange-700 text-white"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
                   Assinar Contrato
                 </Button>
                 <Button 
-                  onClick={() => copyToClipboard(data["Link Contrato"])}
+                  onClick={() => copyToClipboard(contractLink)}
                   variant="outline"
                   className="flex-shrink-0"
                 >
@@ -274,7 +278,7 @@ const StatusFlow = ({ status, data, onBackToSearch, onGoToPayment }: StatusFlowP
                 </Button>
               </div>
               <p className="text-xs text-orange-600 dark:text-orange-400 mt-2 break-all">
-                Link: {data["Link Contrato"]}
+                Link: {contractLink}
               </p>
             </div>
           )}
