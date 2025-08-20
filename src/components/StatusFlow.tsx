@@ -8,9 +8,10 @@ interface StatusFlowProps {
   status: string;
   data: any;
   onBackToSearch: () => void;
+  onGoToPayment?: () => void;
 }
 
-const StatusFlow = ({ status, data, onBackToSearch }: StatusFlowProps) => {
+const StatusFlow = ({ status, data, onBackToSearch, onGoToPayment }: StatusFlowProps) => {
   // Função para abrir link do contrato
   const openContractLink = (url: string) => {
     console.log('Abrindo link do contrato:', url);
@@ -39,6 +40,18 @@ const StatusFlow = ({ status, data, onBackToSearch }: StatusFlowProps) => {
     }
   };
 
+  // Função para abrir checkout link na mesma página
+  const openCheckoutLink = (url: string) => {
+    console.log('Abrindo checkout na mesma página:', url);
+    try {
+      window.location.href = url;
+      toast.success('Redirecionando para o checkout...');
+    } catch (error) {
+      console.error('Erro ao redirecionar para checkout:', error);
+      toast.error('Erro ao abrir checkout. Tente copiar o link manualmente.');
+    }
+  };
+
   const getStatusInfo = (status: string) => {
     switch (status?.toLowerCase()) {
       case "pago":
@@ -54,19 +67,32 @@ const StatusFlow = ({ status, data, onBackToSearch }: StatusFlowProps) => {
           ]
         };
       
-      case "assinado":
+      case "pagamento gerado":
+        return {
+          icon: <CreditCard className="w-8 h-8 text-blue-600" />,
+          title: "Pagamento Gerado",
+          description: "Seu link de pagamento foi gerado e está pronto para uso!",
+          color: "bg-blue-100 text-blue-800",
+          next_steps: [
+            "Clique no botão abaixo para acessar o pagamento",
+            "Complete o pagamento para prosseguir",
+            "Após o pagamento, o contrato será gerado"
+          ],
+          showCheckoutLink: true
+        };
+      
       case "contrato assinado":
         return {
-          icon: <AlertCircle className="w-8 h-8 text-orange-600" />,
-          title: "Contrato Aguardando Assinatura",
-          description: "Seu contrato está pronto para assinatura digital!",
-          color: "bg-orange-100 text-orange-800",
+          icon: <CheckCircle className="w-8 h-8 text-green-600" />,
+          title: "Contrato Assinado",
+          description: "Seu contrato foi assinado! Agora você pode prosseguir com o pagamento.",
+          color: "bg-green-100 text-green-800",
           next_steps: [
-            "Clique no link abaixo para assinar o contrato",
-            "Após assinar, o processo estará concluído",
+            "Clique no botão abaixo para gerar o pagamento",
+            "Complete o pagamento para finalizar a rematrícula",
             "Em caso de dúvidas, entre em contato conosco"
           ],
-          showContractLink: true
+          showPaymentButton: true
         };
       
       case "contrato gerado":
@@ -169,6 +195,58 @@ const StatusFlow = ({ status, data, onBackToSearch }: StatusFlowProps) => {
             </ul>
           </div>
 
+          {/* Link do Checkout para Pagamento - só mostra quando status é "Pagamento Gerado" */}
+          {statusInfo.showCheckoutLink && data?.["Link Checkout"] && (
+            <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+              <h4 className="font-semibold text-blue-800 dark:text-blue-200 mb-3 flex items-center">
+                <CreditCard className="w-4 h-4 mr-2" />
+                Pagamento Disponível
+              </h4>
+              <p className="text-sm text-blue-700 dark:text-blue-300 mb-3">
+                Clique no botão abaixo para acessar o pagamento:
+              </p>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={() => openCheckoutLink(data["Link Checkout"])}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <CreditCard className="w-4 h-4 mr-2" />
+                  Ir para Pagamento
+                </Button>
+                <Button 
+                  onClick={() => copyToClipboard(data["Link Checkout"])}
+                  variant="outline"
+                  className="flex-shrink-0"
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
+              <p className="text-xs text-blue-600 dark:text-blue-400 mt-2 break-all">
+                Link: {data["Link Checkout"]}
+              </p>
+            </div>
+          )}
+
+          {/* Botão para Gerar Pagamento - só mostra quando status é "Contrato Assinado" */}
+          {statusInfo.showPaymentButton && onGoToPayment && (
+            <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+              <h4 className="font-semibold text-green-800 dark:text-green-200 mb-3 flex items-center">
+                <CreditCard className="w-4 h-4 mr-2" />
+                Prosseguir para Pagamento
+              </h4>
+              <p className="text-sm text-green-700 dark:text-green-300 mb-3">
+                Seu contrato foi assinado com sucesso! Agora você pode prosseguir com o pagamento da rematrícula:
+              </p>
+              <Button 
+                onClick={onGoToPayment}
+                className="w-full bg-green-600 hover:bg-green-700 text-white"
+              >
+                <CreditCard className="w-4 h-4 mr-2" />
+                Gerar Pagamento
+              </Button>
+            </div>
+          )}
+
           {/* Link do Contrato para Assinatura - só mostra quando status é "Contrato Gerado" */}
           {statusInfo.showContractLink && data?.["Link Contrato"] && (
             <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
@@ -195,7 +273,7 @@ const StatusFlow = ({ status, data, onBackToSearch }: StatusFlowProps) => {
                   <Copy className="w-4 h-4" />
                 </Button>
               </div>
-              <p className="text-xs text-orange-600 dark:text-orange-400 mt-2">
+              <p className="text-xs text-orange-600 dark:text-orange-400 mt-2 break-all">
                 Link: {data["Link Contrato"]}
               </p>
             </div>

@@ -155,6 +155,7 @@ const Rematricula = () => {
               status={studentData?.status}
               data={studentData}
               onBackToSearch={handleBackToSearch}
+              onGoToPayment={handleGoToPayment}
             />
           </div>
         );
