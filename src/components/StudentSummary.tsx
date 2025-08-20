@@ -136,22 +136,83 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
   // Função para verificar status e ir para pagamento
   const handleGoToPayment = async () => {
     try {
-      // Verificar o status na base de dados
-      const { data: studentData, error } = await (supabase as any)
-        .from('rematricula')
-        .select('Status')
-        .eq('Cod Aluno', Number(data?.["Cod Aluno"] || data?.cod_aluno))
-        .maybeSingle();
-
-      if (error) {
-        console.error('Erro ao verificar status:', error);
-        toast.error('Erro ao verificar status do contrato.');
+      console.log('=== INICIANDO VERIFICAÇÃO DE STATUS ===');
+      console.log('Dados recebidos:', data);
+      
+      // Extrair código do aluno de diferentes possíveis formatos
+      const codAluno = data?.["Cod Aluno"] || data?.cod_aluno || data?.codigo_aluno || data?.["Código do Aluno"];
+      console.log('Código do aluno extraído:', codAluno);
+      
+      if (!codAluno) {
+        console.error('Código do aluno não encontrado nos dados');
+        toast.error('Código do aluno não encontrado.');
         return;
       }
 
+      // Tentar primeiro com a query direta
+      console.log('Tentativa 1: Query direta com Cod Aluno =', Number(codAluno));
+      let { data: studentData, error } = await supabase
+        .from('rematricula')
+        .select('Status, "Nome do Aluno"')
+        .eq('Cod Aluno', Number(codAluno))
+        .maybeSingle();
+
+      if (error) {
+        console.error('Erro na primeira tentativa:', error);
+      }
+
+      // Se não funcionou, tentar com aspas na coluna
       if (!studentData) {
-        console.error('Nenhum registro encontrado para o aluno');
-        toast.error('Aluno não encontrado.');
+        console.log('Tentativa 2: Query com "Cod Aluno" (com aspas)');
+        const result = await (supabase as any)
+          .from('rematricula')
+          .select('Status, "Nome do Aluno"')
+          .eq('"Cod Aluno"', Number(codAluno))
+          .maybeSingle();
+        
+        studentData = result.data;
+        error = result.error;
+        
+        if (error) {
+          console.error('Erro na segunda tentativa:', error);
+        }
+      }
+
+      // Se ainda não funcionou, usar fallback com CPF
+      if (!studentData) {
+        console.log('Tentativa 3: Fallback com busca por CPF');
+        const cpfPai = data?.["CPF do Pai"] || data?.cpf_pai;
+        const cpfMae = data?.["CPF da mãe"] || data?.cpf_mae;
+        
+        if (cpfPai || cpfMae) {
+          const cpfParaBusca = cpfPai || cpfMae;
+          console.log('Buscando por CPF:', cpfParaBusca);
+          
+          const { data: studentsByCpf, error: cpfError } = await supabase
+            .rpc('rematricula_by_cpf', { p_cpf: cpfParaBusca });
+          
+          if (cpfError) {
+            console.error('Erro na busca por CPF:', cpfError);
+          } else if (studentsByCpf && studentsByCpf.length > 0) {
+            // Encontrar o aluno correto pelo código
+            const foundStudent = studentsByCpf.find((s: any) => 
+              s["Cod Aluno"] === Number(codAluno) || 
+              s.cod_aluno === Number(codAluno)
+            );
+            
+            if (foundStudent) {
+              studentData = { Status: foundStudent.Status, "Nome do Aluno": foundStudent["Nome do Aluno"] };
+              console.log('Aluno encontrado via CPF:', studentData);
+            }
+          }
+        }
+      }
+
+      console.log('Resultado final:', studentData);
+
+      if (!studentData) {
+        console.error('Nenhum registro encontrado para o aluno após todas as tentativas');
+        toast.error('Aluno não encontrado. Verifique os dados e tente novamente.');
         return;
       }
 
@@ -162,10 +223,10 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
         toast.success('Status verificado! Redirecionando para pagamento...');
         onGoToPayment();
       } else {
-        toast.error('o contrato não foi assinado, por favor assine e tente novamente');
+        toast.error(`Contrato não foi assinado. Status atual: ${studentData.Status || 'Não definido'}. Por favor, assine o contrato e tente novamente.`);
       }
     } catch (error) {
-      console.error('Erro ao verificar status:', error);
+      console.error('Erro geral ao verificar status:', error);
       toast.error('Erro ao verificar status do contrato.');
     }
   };
