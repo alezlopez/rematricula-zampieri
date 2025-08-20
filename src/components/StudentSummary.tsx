@@ -25,7 +25,7 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
     const { error } = await (supabase as any)
       .from('rematricula')
       .update({ ['Link Contrato']: linkContrato } as any)
-      .eq('"Cod Aluno"', codAluno);
+      .eq('Cod Aluno', Number(codAluno));
 
     if (error) {
       throw error;
@@ -140,7 +140,7 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
       const { data: studentData, error } = await (supabase as any)
         .from('rematricula')
         .select('Status')
-        .eq('"Cod Aluno"', data?.["Cod Aluno"] || data?.cod_aluno)
+        .eq('Cod Aluno', Number(data?.["Cod Aluno"] || data?.cod_aluno))
         .maybeSingle();
 
       if (error) {
