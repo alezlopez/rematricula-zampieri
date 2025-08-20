@@ -76,10 +76,11 @@ const StatusFlow = ({ status, data, onBackToSearch }: StatusFlowProps) => {
           description: "Seu contrato está disponível para assinatura digital!",
           color: "bg-gold/20 text-gold",
           next_steps: [
-            "Verifique seu email para o link de assinatura",
-            "Assine o contrato digitalmente",
-            "Após a assinatura, o processo estará concluído"
-          ]
+            "Clique no link abaixo para assinar o contrato",
+            "Após assinar, o processo estará concluído",
+            "Em caso de dúvidas, entre em contato conosco"
+          ],
+          showContractLink: true
         };
       
       case "pagamento pendente":
@@ -168,7 +169,7 @@ const StatusFlow = ({ status, data, onBackToSearch }: StatusFlowProps) => {
             </ul>
           </div>
 
-          {/* Link do Contrato para Assinatura - só mostra quando status é "Contrato Assinado" */}
+          {/* Link do Contrato para Assinatura - só mostra quando status é "Contrato Gerado" */}
           {statusInfo.showContractLink && data?.["Link Contrato"] && (
             <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
               <h4 className="font-semibold text-orange-800 dark:text-orange-200 mb-3 flex items-center">
