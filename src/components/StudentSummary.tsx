@@ -22,10 +22,10 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
 
   // Função para salvar o link do contrato na base de dados
   const updateRematriculaContract = async (codAluno: number, linkContrato: string) => {
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('rematricula')
-      .update({ 'Link Contrato': linkContrato })
-      .eq('Cod Aluno', codAluno);
+      .update({ ['Link Contrato']: linkContrato } as any)
+      .eq('"Cod Aluno"', codAluno);
 
     if (error) {
       throw error;
@@ -137,10 +137,10 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
   const handleGoToPayment = async () => {
     try {
       // Verificar o status na base de dados
-      const { data: studentData, error } = await supabase
+      const { data: studentData, error } = await (supabase as any)
         .from('rematricula')
         .select('Status')
-        .eq('Cod Aluno', data?.["Cod Aluno"] || data?.cod_aluno)
+        .eq('"Cod Aluno"', data?.["Cod Aluno"] || data?.cod_aluno)
         .maybeSingle();
 
       if (error) {
@@ -151,17 +151,18 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
 
       if (!studentData) {
         console.error('Nenhum registro encontrado para o aluno');
-        toast.error('Dados do aluno não encontrados.');
+        toast.error('Aluno não encontrado.');
         return;
       }
 
       console.log('Status do contrato:', studentData.Status);
 
-      if (studentData?.Status === 'Contrato Assinado') {
+      const status = (studentData.Status || '').toString().trim().toLowerCase();
+      if (status === 'contrato assinado') {
         toast.success('Status verificado! Redirecionando para pagamento...');
         onGoToPayment();
       } else {
-        toast.error(`Status atual: ${studentData?.Status || 'Não definido'}. O contrato deve ser assinado antes de prosseguir para o pagamento.`);
+        toast.error('o contrato não foi assinado, por favor assine e tente novamente');
       }
     } catch (error) {
       console.error('Erro ao verificar status:', error);
