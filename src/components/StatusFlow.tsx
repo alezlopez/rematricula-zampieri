@@ -42,13 +42,21 @@ const StatusFlow = ({ status, data, onBackToSearch, onGoToPayment }: StatusFlowP
 
   // Função para abrir checkout link na mesma página
   const openCheckoutLink = (url: string) => {
-    console.log('Abrindo checkout na mesma página:', url);
+    console.log('Abrindo checkout em nova aba:', url);
     try {
-      window.location.href = url;
-      toast.success('Redirecionando para o checkout...');
+      // Tentar abrir em nova aba evitando popup blockers
+      const newWindow = window.open(url, '_blank');
+      if (newWindow) {
+        newWindow.focus(); // Dar foco na nova aba
+        toast.success('Checkout aberto em nova aba!');
+      } else {
+        // Fallback se bloqueado
+        throw new Error('Popup bloqueado');
+      }
     } catch (error) {
-      console.error('Erro ao redirecionar para checkout:', error);
-      toast.error('Erro ao abrir checkout. Tente copiar o link manualmente.');
+      console.warn('Popup bloqueado, copiando link:', error);
+      copyToClipboard(url);
+      toast.warning('Link copiado! Popup foi bloqueado pelo navegador.');
     }
   };
 
