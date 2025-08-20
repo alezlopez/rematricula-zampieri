@@ -36,34 +36,26 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
   const openContractLink = (url: string) => {
     console.log('Tentando abrir URL:', url);
     
-    // Marcar que o contrato foi aberto imediatamente
-    setContractOpened(true);
-    
     try {
       // Tentar abrir em nova aba usando window.open
       const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
       
       if (newWindow) {
         console.log('Link aberto com sucesso via window.open');
-        toast.success('Contrato aberto em nova aba!');
+        toast.success('Contrato aberto em nova aba! Após assinar, volte aqui para prosseguir com o pagamento.');
+        setContractOpened(true); // Marcar que o contrato foi aberto
         return true;
       } else {
         throw new Error('Window.open retornou null');
       }
     } catch (error) {
-      console.warn('Erro ao abrir via window.open, tentando location.href:', error);
+      console.warn('Erro ao abrir via window.open:', error);
       
-      // Fallback: usar location.href em nova aba
-      try {
-        window.location.href = url;
-        toast.success('Redirecionando para o contrato...');
-        return true;
-      } catch (locationError) {
-        console.error('Erro ao redirecionar:', locationError);
-        copyToClipboard(url);
-        toast.warning('Erro ao abrir link. Link copiado para área de transferência.');
-        return false;
-      }
+      // Fallback: copiar link para clipboard
+      copyToClipboard(url);
+      toast.warning('Erro ao abrir link. Link copiado para área de transferência.');
+      setContractOpened(true); // Permitir que prossiga mesmo com erro
+      return false;
     }
   };
 
@@ -304,8 +296,9 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
                 onClick={handleGoToPayment} 
                 className="flex-1"
                 disabled={!contractOpened}
+                title={!contractOpened ? "Primeiro abra o contrato acima" : "Prosseguir para pagamento"}
               >
-                Ir para Pagamento
+                {!contractOpened ? "Abra o Contrato Primeiro" : "Ir para Pagamento"}
               </Button>
             </>
           ) : (
