@@ -1,5 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import Header from '@/components/Header';
 
 const Sucesso = () => {
@@ -40,6 +42,14 @@ const Sucesso = () => {
                     <span><strong>3º Prêmio:</strong> Mochila premium personalizada</span>
                   </div>
                 </div>
+              </div>
+              
+              <div className="pt-4">
+                <Button asChild className="w-full max-w-md">
+                  <Link to="/numerosdasorte">
+                    Consultar números da sorte
+                  </Link>
+                </Button>
               </div>
             </CardContent>
           </Card>
