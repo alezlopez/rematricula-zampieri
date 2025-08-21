@@ -283,12 +283,14 @@ export type Database = {
           "Curso 2026": string | null
           "Data Nascimento Aluno": string | null
           "Data Nascimento Resp. Financeiro": string | null
+          data_rematricula: string | null
           Desconto: string | null
           "Email da Mãe": string | null
           "Email do Pai": string | null
           Endereço: string | null
           Estado: string | null
           "Estado Civil Resp. Financeiro": string | null
+          forma_de_pagamento: string | null
           "Id Checkout": string | null
           "Liberado para rematrícula": boolean | null
           "Link Checkout": string | null
@@ -327,12 +329,14 @@ export type Database = {
           "Curso 2026"?: string | null
           "Data Nascimento Aluno"?: string | null
           "Data Nascimento Resp. Financeiro"?: string | null
+          data_rematricula?: string | null
           Desconto?: string | null
           "Email da Mãe"?: string | null
           "Email do Pai"?: string | null
           Endereço?: string | null
           Estado?: string | null
           "Estado Civil Resp. Financeiro"?: string | null
+          forma_de_pagamento?: string | null
           "Id Checkout"?: string | null
           "Liberado para rematrícula"?: boolean | null
           "Link Checkout"?: string | null
@@ -371,12 +375,14 @@ export type Database = {
           "Curso 2026"?: string | null
           "Data Nascimento Aluno"?: string | null
           "Data Nascimento Resp. Financeiro"?: string | null
+          data_rematricula?: string | null
           Desconto?: string | null
           "Email da Mãe"?: string | null
           "Email do Pai"?: string | null
           Endereço?: string | null
           Estado?: string | null
           "Estado Civil Resp. Financeiro"?: string | null
+          forma_de_pagamento?: string | null
           "Id Checkout"?: string | null
           "Liberado para rematrícula"?: boolean | null
           "Link Checkout"?: string | null
@@ -738,12 +744,14 @@ export type Database = {
           "Curso 2026": string | null
           "Data Nascimento Aluno": string | null
           "Data Nascimento Resp. Financeiro": string | null
+          data_rematricula: string | null
           Desconto: string | null
           "Email da Mãe": string | null
           "Email do Pai": string | null
           Endereço: string | null
           Estado: string | null
           "Estado Civil Resp. Financeiro": string | null
+          forma_de_pagamento: string | null
           "Id Checkout": string | null
           "Liberado para rematrícula": boolean | null
           "Link Checkout": string | null
