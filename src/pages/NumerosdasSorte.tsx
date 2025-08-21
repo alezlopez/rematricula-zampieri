@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Search, Users } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import Header from '@/components/Header';
 
 interface NumeroSorte {
   id: number;
@@ -78,12 +79,14 @@ const NumerosdasSorte = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-4">
-      <div className="container mx-auto max-w-4xl space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-foreground">Números da Sorte</h1>
-          <p className="text-muted-foreground">Consulte os números da sorte dos alunos rematriculados</p>
-        </div>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="text-center space-y-2">
+            <h1 className="text-3xl font-bold text-foreground">Números da Sorte</h1>
+            <p className="text-muted-foreground">Consulte os números da sorte dos alunos rematriculados</p>
+          </div>
 
         <Card>
           <CardHeader>
@@ -156,7 +159,8 @@ const NumerosdasSorte = () => {
             </CardContent>
           </Card>
         )}
-      </div>
+        </div>
+      </main>
     </div>
   );
 };
