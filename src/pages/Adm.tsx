@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { User, Session } from '@supabase/supabase-js';
+import { LogOut } from 'lucide-react';
 
 interface RematriculaData {
   "Cod Aluno": number;
@@ -36,21 +37,57 @@ interface RematriculaData {
 }
 
 const Adm = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [matriculas, setMatriculas] = useState<RematriculaData[]>([]);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [updatingStatus, setUpdatingStatus] = useState<number | null>(null);
+  
+  const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleLogin = () => {
-    if (password === 'admin2025') {
-      setIsAuthenticated(true);
-      fetchMatriculas();
-    } else {
+  useEffect(() => {
+    // Configurar listener de autenticação
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (!session?.user) {
+          navigate('/auth');
+        }
+      }
+    );
+
+    // Verificar sessão existente
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setInitialLoading(false);
+      
+      if (!session?.user) {
+        navigate('/auth');
+      } else {
+        fetchMatriculas();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
       toast({
-        title: "Erro",
-        description: "Senha incorreta",
+        title: "Logout realizado com sucesso",
+        description: "Você foi desconectado do sistema",
+      });
+      navigate('/auth');
+    } catch (error) {
+      toast({
+        title: "Erro ao fazer logout",
+        description: "Tente novamente",
         variant: "destructive",
       });
     }
@@ -158,36 +195,16 @@ const Adm = () => {
     return parts.join(', ');
   };
 
-  if (!isAuthenticated) {
+  if (initialLoading) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="container mx-auto px-4 py-8">
-          <div className="flex items-center justify-center min-h-[60vh]">
-            <Card className="w-full max-w-md">
-              <CardHeader>
-                <CardTitle className="text-center">Acesso Administrativo</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Input
-                  type="password"
-                  placeholder="Digite a senha"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-                />
-                <Button 
-                  onClick={handleLogin}
-                  className="w-full"
-                >
-                  Entrar
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </main>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
+  }
+
+  if (!user) {
+    return null; // Vai ser redirecionado pelo useEffect
   }
 
   return (
@@ -195,11 +212,16 @@ const Adm = () => {
       <Header />
       <main className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Dashboard Administrativo</h1>
+          <div>
+            <h1 className="text-3xl font-bold">Dashboard Administrativo</h1>
+            <p className="text-muted-foreground mt-1">Logado como: {user.email}</p>
+          </div>
           <Button 
             variant="outline"
-            onClick={() => setIsAuthenticated(false)}
+            onClick={handleSignOut}
+            className="flex items-center gap-2"
           >
+            <LogOut className="h-4 w-4" />
             Sair
           </Button>
         </div>

@@ -8,6 +8,7 @@ import Rematricula from "./pages/Rematricula";
 import Sucesso from "./pages/Sucesso";
 import NumerosdasSorte from "./pages/NumerosdasSorte";
 import Adm from "./pages/Adm";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/sucesso" element={<Sucesso />} />
           <Route path="/numerosdasorte" element={<NumerosdasSorte />} />
           <Route path="/adm" element={<Adm />} />
+          <Route path="/auth" element={<Auth />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
