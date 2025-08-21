@@ -169,9 +169,7 @@ const CPFSearchForm = ({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="cpf" className="text-foreground">
-            CPF do Responsável
-          </Label>
+          <Label htmlFor="cpf" className="text-foreground">Insira o CPF do responsável para iniciar</Label>
           <Input id="cpf" type="text" placeholder="000.000.000-00" value={cpf} onChange={handleCPFChange} maxLength={14} className="text-center" />
         </div>
         <Button onClick={handleSearch} disabled={isLoading || cpf.length < 14} className="w-full bg-gradient-primary hover:bg-primary-light transition-all duration-300">
