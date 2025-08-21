@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,65 +6,58 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-
 interface CPFSearchFormProps {
   onSearchResult: (data: any) => void;
   onMultipleResults: (results: any[]) => void;
 }
-
-const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps) => {
+const CPFSearchForm = ({
+  onSearchResult,
+  onMultipleResults
+}: CPFSearchFormProps) => {
   const [cpf, setCpf] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
   const formatCPF = (value: string) => {
     const numbers = value.replace(/\D/g, "");
-    return numbers
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d{1,2})/, "$1-$2")
-      .replace(/(-\d{2})\d+?$/, "$1");
+    return numbers.replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})/, "$1-$2").replace(/(-\d{2})\d+?$/, "$1");
   };
-
   const handleCPFChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatCPF(e.target.value);
     setCpf(formatted);
   };
-
   const handleSearch = async () => {
     if (!cpf || cpf.length < 14) {
       toast.error("Por favor, digite um CPF válido");
       return;
     }
-
     setIsLoading(true);
     try {
       console.log('Buscando CPF:', cpf);
-      
+
       // Usar a nova função RPC para buscar por CPF
-      const { data, error } = await supabase.rpc('rematricula_by_cpf', {
+      const {
+        data,
+        error
+      } = await supabase.rpc('rematricula_by_cpf', {
         p_cpf: cpf
       });
-
-      console.log('Resultado da busca:', { data, error });
-
+      console.log('Resultado da busca:', {
+        data,
+        error
+      });
       if (error) {
         console.error('Erro ao buscar:', error);
         toast.error("Erro no sistema. Tente novamente.");
         return;
       }
-
       if (!data || data.length === 0) {
         toast.error("CPF não encontrado no sistema");
         return;
       }
-
       console.log('Dados encontrados:', data.length, 'registros');
 
       // Filtrar apenas registros liberados para rematrícula
       const liberados = data.filter((row: any) => row["Liberado para rematrícula"] === true);
-      
       console.log('Registros liberados:', liberados.length);
-
       if (liberados.length === 0) {
         toast.error("Não poderemos seguir com a sua rematrícula por aqui, por favor entre em contato com o departamento financeiro do Colégio");
         return;
@@ -113,7 +105,6 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
           token_contrato: row["token contrato"],
           cod_aluno: row["Cod Aluno"]
         }));
-        
         onMultipleResults(mappedResults);
         return;
       }
@@ -160,7 +151,6 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
         token_contrato: row["token contrato"],
         cod_aluno: row["Cod Aluno"]
       };
-
       onSearchResult(mappedData);
       toast.success("Dados encontrados!");
     } catch (error) {
@@ -170,13 +160,11 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
       setIsLoading(false);
     }
   };
-
-  return (
-    <Card className="w-full max-w-md mx-auto shadow-soft">
+  return <Card className="w-full max-w-md mx-auto shadow-soft">
       <CardHeader className="text-center">
         <CardTitle className="flex items-center justify-center space-x-2 text-primary">
           <Search className="w-5 h-5" />
-          <span>Buscar Rematrícula</span>
+          <span className="font-bold">Rematrículas 2026</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -184,36 +172,18 @@ const CPFSearchForm = ({ onSearchResult, onMultipleResults }: CPFSearchFormProps
           <Label htmlFor="cpf" className="text-foreground">
             CPF do Responsável
           </Label>
-          <Input
-            id="cpf"
-            type="text"
-            placeholder="000.000.000-00"
-            value={cpf}
-            onChange={handleCPFChange}
-            maxLength={14}
-            className="text-center"
-          />
+          <Input id="cpf" type="text" placeholder="000.000.000-00" value={cpf} onChange={handleCPFChange} maxLength={14} className="text-center" />
         </div>
-        <Button
-          onClick={handleSearch}
-          disabled={isLoading || cpf.length < 14}
-          className="w-full bg-gradient-primary hover:bg-primary-light transition-all duration-300"
-        >
-          {isLoading ? (
-            <>
+        <Button onClick={handleSearch} disabled={isLoading || cpf.length < 14} className="w-full bg-gradient-primary hover:bg-primary-light transition-all duration-300">
+          {isLoading ? <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               Buscando...
-            </>
-          ) : (
-            <>
+            </> : <>
               <Search className="w-4 h-4 mr-2" />
               Buscar Dados
-            </>
-          )}
+            </>}
         </Button>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 export default CPFSearchForm;
