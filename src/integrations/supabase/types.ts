@@ -107,6 +107,30 @@ export type Database = {
         }
         Relationships: []
       }
+      numeros_da_sorte: {
+        Row: {
+          Aluno: string | null
+          cpf: string | null
+          created_at: string
+          id: number
+          numero_da_sorte: number | null
+        }
+        Insert: {
+          Aluno?: string | null
+          cpf?: string | null
+          created_at?: string
+          id?: number
+          numero_da_sorte?: number | null
+        }
+        Update: {
+          Aluno?: string | null
+          cpf?: string | null
+          created_at?: string
+          id?: number
+          numero_da_sorte?: number | null
+        }
+        Relationships: []
+      }
       pre_matricula: {
         Row: {
           atendimentoEducacional: string | null
