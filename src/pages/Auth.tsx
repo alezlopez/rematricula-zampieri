@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { User, Session } from '@supabase/supabase-js';
@@ -83,44 +83,6 @@ const Auth = () => {
     }
   };
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const redirectUrl = `${window.location.origin}/`;
-      
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: redirectUrl
-        }
-      });
-
-      if (error) {
-        toast({
-          title: "Erro ao criar conta",
-          description: error.message,
-          variant: "destructive",
-        });
-        return;
-      }
-
-      toast({
-        title: "Conta criada com sucesso",
-        description: "Verifique seu email para confirmar a conta",
-      });
-    } catch (error) {
-      toast({
-        title: "Erro inesperado",
-        description: "Tente novamente em alguns instantes",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (initialLoading) {
     return (
@@ -140,65 +102,29 @@ const Auth = () => {
               <CardTitle className="text-center">Acesso Administrativo</CardTitle>
             </CardHeader>
             <CardContent>
-              <Tabs defaultValue="signin" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="signin">Login</TabsTrigger>
-                  <TabsTrigger value="signup">Criar Conta</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="signin">
-                  <form onSubmit={handleSignIn} className="space-y-4">
-                    <Input
-                      type="email"
-                      placeholder="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                    <Input
-                      type="password"
-                      placeholder="Senha"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                    <Button 
-                      type="submit"
-                      className="w-full"
-                      disabled={loading}
-                    >
-                      {loading ? 'Entrando...' : 'Entrar'}
-                    </Button>
-                  </form>
-                </TabsContent>
-
-                <TabsContent value="signup">
-                  <form onSubmit={handleSignUp} className="space-y-4">
-                    <Input
-                      type="email"
-                      placeholder="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                    <Input
-                      type="password"
-                      placeholder="Senha (min. 6 caracteres)"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      minLength={6}
-                      required
-                    />
-                    <Button 
-                      type="submit"
-                      className="w-full"
-                      disabled={loading}
-                    >
-                      {loading ? 'Criando conta...' : 'Criar Conta'}
-                    </Button>
-                  </form>
-                </TabsContent>
-              </Tabs>
+              <form onSubmit={handleSignIn} className="space-y-4">
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <Input
+                  type="password"
+                  placeholder="Senha"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <Button 
+                  type="submit"
+                  className="w-full"
+                  disabled={loading}
+                >
+                  {loading ? 'Entrando...' : 'Entrar'}
+                </Button>
+              </form>
             </CardContent>
           </Card>
         </div>
