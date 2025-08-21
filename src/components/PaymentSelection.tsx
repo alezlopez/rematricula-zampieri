@@ -190,11 +190,7 @@ const PaymentSelection = ({ data, onBack, onComplete }: PaymentSelectionProps) =
             Voltar
           </Button>
           
-          {checkoutUrl ? (
-            <Button onClick={onComplete} className="flex-1">
-              Finalizar
-            </Button>
-          ) : (
+          {!checkoutUrl && (
             <Button 
               onClick={handleGeneratePayment} 
               className="flex-1"
