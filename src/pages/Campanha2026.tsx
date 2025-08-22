@@ -55,11 +55,11 @@ const Campanha2026 = () => {
 
         {/* Why Guarantee Now */}
         <section className="text-center space-y-8">
-          <div className="flex items-center justify-center gap-3 mb-8">
+          <div className="flex flex-col items-center justify-center gap-4 mb-8">
             <div className="p-3 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full">
               <CheckCircle className="h-6 w-6 text-white" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-700 to-emerald-600 bg-clip-text text-transparent">
+            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-700 to-emerald-600 bg-clip-text text-transparent px-4">
               Por que garantir agora?
             </h2>
           </div>
@@ -76,11 +76,11 @@ const Campanha2026 = () => {
 
         {/* Discounts Section */}
         <section className="space-y-12">
-          <div className="flex items-center justify-center gap-3 mb-8">
+          <div className="flex flex-col items-center justify-center gap-4 mb-8">
             <div className="p-3 bg-gradient-to-r from-amber-500 to-amber-600 rounded-full">
-              <CalendarDays className="h-8 w-8 text-white" />
+              <CalendarDays className="h-6 w-6 text-white" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent text-center">
+            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent text-center px-4">
               Descontos por Lotes
             </h2>
           </div>
@@ -209,9 +209,13 @@ const Campanha2026 = () => {
 
         {/* Individual Prizes */}
         <section className="space-y-8">
-          <div className="flex items-center justify-center gap-2 mb-8">
-            <Gift className="h-8 w-8 text-primary" />
-            <h2 className="text-3xl md:text-4xl font-bold text-center">Sorteios Individuais</h2>
+          <div className="flex flex-col items-center justify-center gap-4 mb-8">
+            <div className="p-3 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full">
+              <Gift className="h-6 w-6 text-white" />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-700 to-emerald-600 bg-clip-text text-transparent text-center px-4">
+              Sorteios Individuais
+            </h2>
           </div>
           <p className="text-center text-lg text-muted-foreground mb-8">
             Ao efetivar a rematrícula, você recebe <strong>números da sorte</strong> e participa automaticamente dos sorteios finais
@@ -270,9 +274,13 @@ const Campanha2026 = () => {
 
         {/* Class Ranking */}
         <section className="space-y-8">
-          <div className="flex items-center justify-center gap-2 mb-8">
-            <Trophy className="h-8 w-8 text-primary" />
-            <h2 className="text-3xl md:text-4xl font-bold text-center">Ranking de Turmas</h2>
+          <div className="flex flex-col items-center justify-center gap-4 mb-8">
+            <div className="p-3 bg-gradient-to-r from-amber-500 to-amber-600 rounded-full">
+              <Trophy className="h-6 w-6 text-white" />
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent text-center px-4">
+              Ranking de Turmas
+            </h2>
           </div>
           <p className="text-center text-lg text-muted-foreground mb-8">
             As turmas com mais alunos rematriculados de cada mês recebem <strong>prêmios exclusivos</strong>
@@ -321,11 +329,11 @@ const Campanha2026 = () => {
         <section className="text-center space-y-8 bg-gradient-to-r from-emerald-600 via-emerald-700 to-emerald-600 p-12 rounded-3xl shadow-2xl text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 via-transparent to-amber-500/20"></div>
           <div className="relative z-10">
-            <div className="flex items-center justify-center gap-3 mb-8">
+            <div className="flex flex-col items-center justify-center gap-4 mb-8">
               <div className="p-4 bg-white/20 rounded-full">
-                <Users className="h-10 w-10 text-white" />
+                <Users className="h-8 w-8 text-white" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold">Como fazer a rematrícula?</h2>
+              <h2 className="text-2xl md:text-3xl font-bold px-4">Como fazer a rematrícula?</h2>
             </div>
             <div className="space-y-6 mb-8">
               <p className="text-xl max-w-2xl mx-auto">
