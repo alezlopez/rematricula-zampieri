@@ -21,16 +21,6 @@ const Campanha2026 = () => {
               />
             </div>
             
-            <Badge className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white text-lg px-8 py-3 mb-6 shadow-lg">
-              <Crown className="w-5 h-5 mr-2" />
-              Campanha de Rematrículas 2026
-            </Badge>
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-100 to-amber-50 px-8 py-4 rounded-2xl border border-amber-200 mb-8">
-              <Sparkles className="w-6 h-6 text-amber-600" />
-              <p className="text-xl font-semibold text-amber-800">
-                46 anos de tradição e inovação
-              </p>
-            </div>
             <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-8">
               Esta é a <strong className="text-emerald-700">maior campanha de rematrículas</strong> de nossa história
             </p>
