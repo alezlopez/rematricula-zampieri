@@ -57,18 +57,18 @@ const Campanha2026 = () => {
         <section className="text-center space-y-8">
           <div className="flex items-center justify-center gap-3 mb-8">
             <div className="p-3 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full">
-              <CheckCircle className="h-8 w-8 text-white" />
+              <CheckCircle className="h-6 w-6 text-white" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-700 to-emerald-600 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-700 to-emerald-600 bg-clip-text text-transparent">
               Por que garantir agora?
             </h2>
           </div>
           <div className="bg-gradient-to-r from-emerald-50 to-amber-50 p-8 rounded-3xl border border-emerald-100 max-w-4xl mx-auto">
-            <p className="text-xl text-gray-700 leading-relaxed">
+            <p className="text-lg text-gray-700 leading-relaxed">
               Este é o momento para você garantir a vaga do seu filho com <strong className="text-emerald-700">descontos exclusivos</strong>, 
               <strong className="text-amber-700"> prêmios individuais</strong> e <strong className="text-red-600">coletivos</strong>. 
             </p>
-            <p className="text-lg text-gray-600 mt-4">
+            <p className="text-base text-gray-600 mt-4">
               Quanto antes você se antecipar, <strong className="text-emerald-700">maiores serão os benefícios!</strong>
             </p>
           </div>
