@@ -41,8 +41,6 @@ const Campanha2026 = () => {
             
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
               Rematrículas 2026
-              <br />
-              <span className="text-gold">Colégio Zampieri</span>
             </h1>
             
             <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-8">
