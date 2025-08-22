@@ -3,27 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { 
-  CalendarDays, 
-  Gift, 
-  Trophy, 
-  CheckCircle, 
-  Star, 
-  Clock, 
-  Zap, 
-  Crown, 
-  Sparkles,
-  MessageSquare,
-  Smartphone,
-  Building2,
-  QrCode,
-  DollarSign,
-  BookOpen
-} from 'lucide-react';
-
+import { CalendarDays, Gift, Trophy, CheckCircle, Star, Clock, Zap, Crown, Sparkles, MessageSquare, Smartphone, Building2, QrCode, DollarSign, BookOpen } from 'lucide-react';
 const Campanha2026 = () => {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-lighter via-white to-primary-lighter">
+  return <div className="min-h-screen bg-gradient-to-br from-primary-lighter via-white to-primary-lighter">
       <main className="container mx-auto px-4 py-16 space-y-20">
         
         {/* Hero Section */}
@@ -32,11 +14,7 @@ const Campanha2026 = () => {
           <div className="relative z-10">
             {/* Logo */}
             <div className="flex justify-center mb-8">
-              <img 
-                src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png" 
-                alt="Colégio Zampieri" 
-                className="h-32 md:h-40 object-contain drop-shadow-lg"
-              />
+              <img src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png" alt="Colégio Zampieri" className="h-32 md:h-40 object-contain drop-shadow-lg" />
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
@@ -47,11 +25,7 @@ const Campanha2026 = () => {
               Descontos exclusivos, sorteios e prêmios para quem garante a vaga antecipada!
             </p>
             
-            <Button 
-              size="lg" 
-              className="bg-primary hover:bg-primary-light text-white text-xl px-12 py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105"
-              onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}
-            >
+            <Button size="lg" className="bg-primary hover:bg-primary-light text-white text-xl px-12 py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}>
               <Zap className="w-6 h-6 mr-3" />
               Fazer minha rematrícula agora
             </Button>
@@ -157,7 +131,7 @@ const Campanha2026 = () => {
                       <Trophy className="w-8 h-8 text-white" />
                       <div>
                         <h3 className="text-2xl font-bold text-white">🏆 25/08 a 10/09</h3>
-                        <p className="text-gold-light">Primeiro lote - Máximo benefício</p>
+                        <p className="text-[#242424] font-semibold">Primeiro lote - Máximo benefício</p>
                       </div>
                     </div>
                   </div>
@@ -438,19 +412,11 @@ const Campanha2026 = () => {
         <section className="text-center space-y-6 bg-gradient-to-r from-muted to-secondary p-8 rounded-3xl">
           <h3 className="text-2xl font-bold text-primary">Links Úteis</h3>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              variant="outline" 
-              onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/numerosdasorte', '_blank')}
-              className="border-primary-light text-primary hover:bg-primary-lighter"
-            >
+            <Button variant="outline" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/numerosdasorte', '_blank')} className="border-primary-light text-primary hover:bg-primary-lighter">
               <Star className="w-4 h-4 mr-2" />
               Consultar Números da Sorte
             </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/vencedores', '_blank')}
-              className="border-gold-light text-gold hover:bg-gold-light/20"
-            >
+            <Button variant="outline" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/vencedores', '_blank')} className="border-gold-light text-gold hover:bg-gold-light/20">
               <Trophy className="w-4 h-4 mr-2" />
               Lista de Vencedores
             </Button>
@@ -469,11 +435,7 @@ const Campanha2026 = () => {
             </p>
             
             <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-              <Button 
-                size="lg" 
-                className="bg-white text-primary hover:bg-primary-lighter text-xl px-12 py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105"
-                onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}
-              >
+              <Button size="lg" className="bg-white text-primary hover:bg-primary-lighter text-xl px-12 py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}>
                 <Crown className="w-6 h-6 mr-3" />
                 Quero garantir minha vaga em 2026
               </Button>
@@ -506,8 +468,6 @@ const Campanha2026 = () => {
           </p>
         </section>
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Campanha2026;
