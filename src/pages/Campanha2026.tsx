@@ -434,18 +434,11 @@ const Campanha2026 = () => {
               Aproveite o <strong>maior desconto agora mesmo</strong> e concorra aos prêmios exclusivos!
             </p>
             
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+            <div className="flex justify-center">
               <Button size="lg" className="bg-white text-primary hover:bg-primary-lighter text-xl px-12 py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}>
                 <Crown className="w-6 h-6 mr-3" />
                 Quero garantir minha vaga em 2026
               </Button>
-              
-              <div className="flex flex-col items-center">
-                <div className="w-24 h-24 bg-white/20 rounded-lg flex items-center justify-center mb-2">
-                  <QrCode className="w-16 h-16 text-white" />
-                </div>
-                <p className="text-sm opacity-90">Escaneie para acessar</p>
-              </div>
             </div>
             
             <p className="text-sm opacity-80 mt-6">
@@ -456,13 +449,9 @@ const Campanha2026 = () => {
 
         {/* Footer */}
         <section className="text-center py-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Crown className="h-6 w-6 text-gold" />
-            <Sparkles className="h-6 w-6 text-primary" />
+          <div className="flex justify-center mb-4">
+            <img src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png" alt="Colégio Zampieri" className="h-20 object-contain" />
           </div>
-          <p className="text-xl font-bold text-primary mb-2">
-            Colégio Zampieri
-          </p>
           <p className="text-gray-600">
             Tradição, inovação e compromisso com o futuro do seu filho.
           </p>
