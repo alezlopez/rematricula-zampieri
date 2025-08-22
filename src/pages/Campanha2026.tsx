@@ -23,12 +23,12 @@ import {
 
 const Campanha2026 = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-primary-lighter via-white to-primary-lighter">
       <main className="container mx-auto px-4 py-16 space-y-20">
         
         {/* Hero Section */}
         <section className="text-center space-y-8 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-blue-400/10 to-blue-500/10 rounded-3xl blur-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-primary/10 rounded-3xl blur-3xl"></div>
           <div className="relative z-10">
             {/* Logo */}
             <div className="flex justify-center mb-8">
@@ -42,7 +42,7 @@ const Campanha2026 = () => {
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
               Rematrículas 2026
               <br />
-              <span className="text-blue-600">Colégio Zampieri</span>
+              <span className="text-gold">Colégio Zampieri</span>
             </h1>
             
             <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-8">
@@ -51,7 +51,7 @@ const Campanha2026 = () => {
             
             <Button 
               size="lg" 
-              className="bg-blue-600 hover:bg-blue-700 text-white text-xl px-12 py-6 h-auto shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+              className="bg-primary hover:bg-primary-light text-white text-xl px-12 py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105"
               onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}
             >
               <Zap className="w-6 h-6 mr-3" />
@@ -61,9 +61,9 @@ const Campanha2026 = () => {
         </section>
 
         {/* Mensagem de Abertura */}
-        <section className="text-center bg-gradient-to-r from-blue-50 to-blue-100 p-8 rounded-3xl border border-blue-200">
-          <p className="text-xl md:text-2xl text-gray-800 font-medium max-w-4xl mx-auto leading-relaxed">
-            <strong className="text-blue-700">Obrigado pela confiança em 2025!</strong> Em 2026 seguimos juntos, com ensino de excelência, inovação e uma escola cada vez melhor para nossos alunos.
+        <section className="text-center bg-gradient-to-r from-primary-lighter to-secondary p-8 rounded-3xl border border-primary-light">
+          <p className="text-xl md:text-2xl text-primary font-medium max-w-4xl mx-auto leading-relaxed">
+            <strong className="text-primary">Obrigado pela confiança em 2025!</strong> Em 2026 seguimos juntos, com ensino de excelência, inovação e uma escola cada vez melhor para nossos alunos.
           </p>
         </section>
 
@@ -71,16 +71,16 @@ const Campanha2026 = () => {
         <section className="space-y-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Nosso Compromisso com a <span className="text-blue-600">Evolução</span>
+              Nosso Compromisso com a <span className="text-primary">Evolução</span>
             </h2>
             <p className="text-lg text-gray-600">Inovação constante para oferecer o melhor ensino</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="text-center hover:shadow-lg transition-shadow border-blue-200">
+            <Card className="text-center hover:shadow-lg transition-shadow border-primary-light">
               <CardHeader>
-                <div className="mx-auto mb-4 p-3 bg-blue-100 rounded-full w-fit">
-                  <Smartphone className="h-8 w-8 text-blue-600" />
+                <div className="mx-auto mb-4 p-3 bg-primary-lighter rounded-full w-fit">
+                  <Smartphone className="h-8 w-8 text-primary" />
                 </div>
                 <CardTitle className="text-lg">✅ Agenda Digital</CardTitle>
               </CardHeader>
@@ -91,10 +91,10 @@ const Campanha2026 = () => {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow border-blue-200">
+            <Card className="text-center hover:shadow-lg transition-shadow border-primary-light">
               <CardHeader>
-                <div className="mx-auto mb-4 p-3 bg-blue-100 rounded-full w-fit">
-                  <MessageSquare className="h-8 w-8 text-blue-600" />
+                <div className="mx-auto mb-4 p-3 bg-primary-lighter rounded-full w-fit">
+                  <MessageSquare className="h-8 w-8 text-primary" />
                 </div>
                 <CardTitle className="text-lg">✅ Atendimento 24h</CardTitle>
               </CardHeader>
@@ -105,10 +105,10 @@ const Campanha2026 = () => {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow border-blue-200">
+            <Card className="text-center hover:shadow-lg transition-shadow border-primary-light">
               <CardHeader>
-                <div className="mx-auto mb-4 p-3 bg-blue-100 rounded-full w-fit">
-                  <Zap className="h-8 w-8 text-blue-600" />
+                <div className="mx-auto mb-4 p-3 bg-primary-lighter rounded-full w-fit">
+                  <Zap className="h-8 w-8 text-primary" />
                 </div>
                 <CardTitle className="text-lg">✅ Rematrícula Online</CardTitle>
               </CardHeader>
@@ -119,10 +119,10 @@ const Campanha2026 = () => {
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow border-blue-200">
+            <Card className="text-center hover:shadow-lg transition-shadow border-primary-light">
               <CardHeader>
-                <div className="mx-auto mb-4 p-3 bg-blue-100 rounded-full w-fit">
-                  <Building2 className="h-8 w-8 text-blue-600" />
+                <div className="mx-auto mb-4 p-3 bg-primary-lighter rounded-full w-fit">
+                  <Building2 className="h-8 w-8 text-primary" />
                 </div>
                 <CardTitle className="text-lg">✅ Estrutura Renovada</CardTitle>
               </CardHeader>
@@ -139,7 +139,7 @@ const Campanha2026 = () => {
         <section className="space-y-12">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              <CalendarDays className="w-10 h-10 inline mr-3 text-blue-600" />
+              <CalendarDays className="w-10 h-10 inline mr-3 text-primary" />
               Períodos Promocionais
             </h2>
             <p className="text-lg text-gray-600">Quanto antes você rematricular, maiores os benefícios!</p>
@@ -147,8 +147,8 @@ const Campanha2026 = () => {
           
           <div className="space-y-6">
             {/* 1º Lote - Destaque */}
-            <Card className="relative overflow-hidden border-4 border-yellow-500 shadow-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 transform hover:scale-102 transition-all">
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-8 py-3 text-lg font-bold rounded-bl-3xl shadow-lg">
+            <Card className="relative overflow-hidden border-4 border-gold shadow-2xl bg-gradient-gold text-white transform hover:scale-102 transition-all">
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-gold to-gold-light text-white px-8 py-3 text-lg font-bold rounded-bl-3xl shadow-gold">
                 <Crown className="w-5 h-5 inline mr-2" />
                 MELHOR OFERTA
               </div>
@@ -156,17 +156,17 @@ const Campanha2026 = () => {
                 <div className="flex flex-col md:flex-row items-center justify-between">
                   <div className="text-center md:text-left mb-6 md:mb-0">
                     <div className="flex items-center gap-3 mb-4">
-                      <Trophy className="w-8 h-8 text-yellow-600" />
+                      <Trophy className="w-8 h-8 text-white" />
                       <div>
-                        <h3 className="text-2xl font-bold text-yellow-700">🏆 25/08 a 10/09</h3>
-                        <p className="text-yellow-600">Primeiro lote - Máximo benefício</p>
+                        <h3 className="text-2xl font-bold text-white">🏆 25/08 a 10/09</h3>
+                        <p className="text-gold-light">Primeiro lote - Máximo benefício</p>
                       </div>
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-6xl font-bold text-yellow-600 mb-2">60%</div>
-                    <p className="text-xl font-bold text-yellow-700 mb-4">DE DESCONTO</p>
-                    <Badge className="bg-yellow-500 text-white text-lg px-6 py-2">
+                    <div className="text-6xl font-bold text-white mb-2">60%</div>
+                    <p className="text-xl font-bold text-white mb-4">DE DESCONTO</p>
+                    <Badge className="bg-white text-gold text-lg px-6 py-2">
                       <Star className="w-5 h-5 mr-2" />
                       4 números da sorte
                     </Badge>
@@ -177,47 +177,47 @@ const Campanha2026 = () => {
 
             {/* Outros lotes */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="border-2 border-blue-300 bg-gradient-to-br from-blue-50 to-blue-100 hover:shadow-lg transition-shadow">
+              <Card className="border-2 border-primary-light bg-gradient-to-br from-primary-lighter to-secondary hover:shadow-lg transition-shadow">
                 <CardHeader className="text-center">
-                  <div className="text-4xl font-bold text-blue-600">50%</div>
-                  <CardTitle className="text-blue-700">🎯 11 a 20/09</CardTitle>
+                  <div className="text-4xl font-bold text-primary">50%</div>
+                  <CardTitle className="text-primary">🎯 11 a 20/09</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="text-sm text-blue-600 mb-2">50% de desconto</p>
-                  <Badge className="bg-blue-500 text-white">3 números da sorte</Badge>
+                  <p className="text-sm text-primary mb-2">50% de desconto</p>
+                  <Badge className="bg-primary text-white">3 números da sorte</Badge>
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-green-300 bg-gradient-to-br from-green-50 to-green-100 hover:shadow-lg transition-shadow">
+              <Card className="border-2 border-coral-light bg-gradient-to-br from-coral-light/20 to-coral-light/40 hover:shadow-lg transition-shadow">
                 <CardHeader className="text-center">
-                  <div className="text-4xl font-bold text-green-600">40%</div>
-                  <CardTitle className="text-green-700">⭐ 21 a 30/09</CardTitle>
+                  <div className="text-4xl font-bold text-coral">40%</div>
+                  <CardTitle className="text-coral">⭐ 21 a 30/09</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="text-sm text-green-600 mb-2">40% de desconto</p>
-                  <Badge className="bg-green-500 text-white">2 números da sorte</Badge>
+                  <p className="text-sm text-coral mb-2">40% de desconto</p>
+                  <Badge className="bg-coral text-white">2 números da sorte</Badge>
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-orange-300 bg-gradient-to-br from-orange-50 to-orange-100 hover:shadow-lg transition-shadow">
+              <Card className="border-2 border-gold-light bg-gradient-to-br from-gold-light/20 to-gold-light/40 hover:shadow-lg transition-shadow">
                 <CardHeader className="text-center">
-                  <div className="text-4xl font-bold text-orange-600">35%</div>
-                  <CardTitle className="text-orange-700">🍂 Outubro</CardTitle>
+                  <div className="text-4xl font-bold text-gold">35%</div>
+                  <CardTitle className="text-gold">🍂 Outubro</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="text-sm text-orange-600 mb-2">35% de desconto</p>
-                  <Badge className="bg-orange-500 text-white">1 número da sorte</Badge>
+                  <p className="text-sm text-gold mb-2">35% de desconto</p>
+                  <Badge className="bg-gold text-white">1 número da sorte</Badge>
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-red-300 bg-gradient-to-br from-red-50 to-red-100 hover:shadow-lg transition-shadow">
+              <Card className="border-2 border-primary-light bg-gradient-to-br from-primary-lighter to-secondary hover:shadow-lg transition-shadow">
                 <CardHeader className="text-center">
-                  <div className="text-4xl font-bold text-red-600">30%</div>
-                  <CardTitle className="text-red-700">🎉 Novembro</CardTitle>
+                  <div className="text-4xl font-bold text-primary">30%</div>
+                  <CardTitle className="text-primary">🎉 Novembro</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="text-sm text-red-600 mb-2">30% de desconto</p>
-                  <Badge className="bg-red-500 text-white">1 número da sorte</Badge>
+                  <p className="text-sm text-primary mb-2">30% de desconto</p>
+                  <Badge className="bg-primary text-white">1 número da sorte</Badge>
                 </CardContent>
               </Card>
             </div>
@@ -228,7 +228,7 @@ const Campanha2026 = () => {
         <section className="space-y-12">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              <Gift className="w-10 h-10 inline mr-3 text-blue-600" />
+              <Gift className="w-10 h-10 inline mr-3 text-primary" />
               Prêmios e Benefícios Extras
             </h2>
           </div>
@@ -238,10 +238,10 @@ const Campanha2026 = () => {
             <div className="space-y-6">
               <h3 className="text-2xl font-bold text-center text-gray-800 mb-6">🎁 Sorteios Individuais</h3>
               <div className="space-y-4">
-                <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 hover:shadow-lg transition-shadow">
+                <Card className="bg-gradient-to-r from-primary-lighter to-secondary border-primary-light hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <BookOpen className="w-8 h-8 text-blue-600" />
+                      <BookOpen className="w-8 h-8 text-primary" />
                       <div>
                         <h4 className="font-bold text-lg">Kit de material SAE Digital</h4>
                         <p className="text-gray-600">Material didático completo para 2026</p>
@@ -250,10 +250,10 @@ const Campanha2026 = () => {
                   </CardContent>
                 </Card>
                 
-                <Card className="bg-gradient-to-r from-green-50 to-green-100 border-green-200 hover:shadow-lg transition-shadow">
+                <Card className="bg-gradient-to-r from-gold-light/20 to-gold-light/40 border-gold-light hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <Sparkles className="w-8 h-8 text-green-600" />
+                      <Sparkles className="w-8 h-8 text-gold" />
                       <div>
                         <h4 className="font-bold text-lg">Kit de uniformes</h4>
                         <p className="text-gray-600">Uniformes oficiais do colégio</p>
@@ -262,10 +262,10 @@ const Campanha2026 = () => {
                   </CardContent>
                 </Card>
                 
-                <Card className="bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200 hover:shadow-lg transition-shadow">
+                <Card className="bg-gradient-to-r from-coral-light/20 to-coral-light/40 border-coral-light hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <Star className="w-8 h-8 text-purple-600" />
+                      <Star className="w-8 h-8 text-coral" />
                       <div>
                         <h4 className="font-bold text-lg">Mochila premium personalizada</h4>
                         <p className="text-gray-600">Mochila de alta qualidade</p>
@@ -280,10 +280,10 @@ const Campanha2026 = () => {
             <div className="space-y-6">
               <h3 className="text-2xl font-bold text-center text-gray-800 mb-6">🏆 Ranking das Turmas</h3>
               <div className="space-y-4">
-                <Card className="bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-200 hover:shadow-lg transition-shadow">
+                <Card className="bg-gradient-to-r from-gold-light/20 to-gold-light/40 border-gold-light hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <Trophy className="w-8 h-8 text-yellow-600" />
+                      <Trophy className="w-8 h-8 text-gold" />
                       <div>
                         <h4 className="font-bold text-lg">Setembro → Bolsa personalizada</h4>
                         <p className="text-gray-600">Para a turma com mais rematrículas</p>
@@ -292,10 +292,10 @@ const Campanha2026 = () => {
                   </CardContent>
                 </Card>
                 
-                <Card className="bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200 hover:shadow-lg transition-shadow">
+                <Card className="bg-gradient-to-r from-coral-light/20 to-coral-light/40 border-coral-light hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <Trophy className="w-8 h-8 text-orange-600" />
+                      <Trophy className="w-8 h-8 text-coral" />
                       <div>
                         <h4 className="font-bold text-lg">Outubro → Caderno + Caneta personalizados</h4>
                         <p className="text-gray-600">Para a turma vencedora do mês</p>
@@ -304,10 +304,10 @@ const Campanha2026 = () => {
                   </CardContent>
                 </Card>
                 
-                <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 hover:shadow-lg transition-shadow">
+                <Card className="bg-gradient-to-r from-primary-lighter to-secondary border-primary-light hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
-                      <Trophy className="w-8 h-8 text-blue-600" />
+                      <Trophy className="w-8 h-8 text-primary" />
                       <div>
                         <h4 className="font-bold text-lg">Novembro → Garrafa personalizada</h4>
                         <p className="text-gray-600">Para a turma com mais engajamento</p>
@@ -323,16 +323,16 @@ const Campanha2026 = () => {
         {/* Valores e Materiais */}
         <section className="text-center space-y-8">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-            <DollarSign className="w-10 h-10 inline mr-3 text-blue-600" />
+            <DollarSign className="w-10 h-10 inline mr-3 text-primary" />
             Valores 2026
           </h2>
           
           <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             <Dialog>
               <DialogTrigger asChild>
-                <Card className="cursor-pointer hover:shadow-lg transition-shadow border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100">
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow border-primary-light bg-gradient-to-br from-primary-lighter to-secondary">
                   <CardHeader>
-                    <CardTitle className="text-xl text-blue-700">
+                    <CardTitle className="text-xl text-primary">
                       <BookOpen className="w-6 h-6 inline mr-2" />
                       Mensalidades 2026
                     </CardTitle>
@@ -349,7 +349,7 @@ const Campanha2026 = () => {
                 <div className="space-y-4">
                   <div className="border rounded-lg overflow-hidden">
                     <table className="w-full">
-                      <thead className="bg-blue-50">
+                      <thead className="bg-primary-lighter">
                         <tr>
                           <th className="p-3 text-left font-semibold">Curso</th>
                           <th className="p-3 text-right font-semibold">Mensalidade*</th>
@@ -388,9 +388,9 @@ const Campanha2026 = () => {
 
             <Dialog>
               <DialogTrigger asChild>
-                <Card className="cursor-pointer hover:shadow-lg transition-shadow border-green-200 bg-gradient-to-br from-green-50 to-green-100">
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow border-gold-light bg-gradient-to-br from-gold-light/20 to-gold-light/40">
                   <CardHeader>
-                    <CardTitle className="text-xl text-green-700">
+                    <CardTitle className="text-xl text-gold">
                       <Sparkles className="w-6 h-6 inline mr-2" />
                       Materiais SAE Digital
                     </CardTitle>
@@ -407,7 +407,7 @@ const Campanha2026 = () => {
                 <div className="space-y-4">
                   <div className="border rounded-lg overflow-hidden">
                     <table className="w-full">
-                      <thead className="bg-green-50">
+                      <thead className="bg-gold-light/20">
                         <tr>
                           <th className="p-3 text-left font-semibold">Curso</th>
                           <th className="p-3 text-right font-semibold">Valor – Parcelado em até 12x</th>
@@ -437,13 +437,13 @@ const Campanha2026 = () => {
         </section>
 
         {/* Links Úteis */}
-        <section className="text-center space-y-6 bg-gradient-to-r from-gray-50 to-gray-100 p-8 rounded-3xl">
-          <h3 className="text-2xl font-bold text-gray-800">Links Úteis</h3>
+        <section className="text-center space-y-6 bg-gradient-to-r from-muted to-secondary p-8 rounded-3xl">
+          <h3 className="text-2xl font-bold text-primary">Links Úteis</h3>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               variant="outline" 
               onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/numerosdasorte', '_blank')}
-              className="border-blue-200 text-blue-700 hover:bg-blue-50"
+              className="border-primary-light text-primary hover:bg-primary-lighter"
             >
               <Star className="w-4 h-4 mr-2" />
               Consultar Números da Sorte
@@ -451,7 +451,7 @@ const Campanha2026 = () => {
             <Button 
               variant="outline" 
               onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/vencedores', '_blank')}
-              className="border-green-200 text-green-700 hover:bg-green-50"
+              className="border-gold-light text-gold hover:bg-gold-light/20"
             >
               <Trophy className="w-4 h-4 mr-2" />
               Lista de Vencedores
@@ -460,20 +460,20 @@ const Campanha2026 = () => {
         </section>
 
         {/* Call to Action Final */}
-        <section className="text-center space-y-8 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-600 p-12 rounded-3xl shadow-2xl text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-transparent to-blue-500/20"></div>
+        <section className="text-center space-y-8 bg-gradient-primary p-12 rounded-3xl shadow-primary text-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-hero/20"></div>
           <div className="relative z-10">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
               Garanta sua vaga em 2026 em menos de 5 minutos
             </h2>
-            <p className="text-xl mb-8 max-w-3xl mx-auto">
+            <p className="text-xl mb-8 max-w-3xl mx-auto text-gold-light">
               Aproveite o <strong>maior desconto agora mesmo</strong> e concorra aos prêmios exclusivos!
             </p>
             
             <div className="flex flex-col md:flex-row items-center justify-center gap-8">
               <Button 
                 size="lg" 
-                className="bg-white text-blue-600 hover:bg-gray-100 text-xl px-12 py-6 h-auto shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+                className="bg-white text-primary hover:bg-primary-lighter text-xl px-12 py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105"
                 onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}
               >
                 <Crown className="w-6 h-6 mr-3" />
@@ -497,10 +497,10 @@ const Campanha2026 = () => {
         {/* Footer */}
         <section className="text-center py-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Crown className="h-6 w-6 text-blue-600" />
-            <Sparkles className="h-6 w-6 text-blue-600" />
+            <Crown className="h-6 w-6 text-gold" />
+            <Sparkles className="h-6 w-6 text-primary" />
           </div>
-          <p className="text-xl font-bold text-gray-800 mb-2">
+          <p className="text-xl font-bold text-primary mb-2">
             Colégio Zampieri
           </p>
           <p className="text-gray-600">
