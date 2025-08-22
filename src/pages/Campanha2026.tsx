@@ -17,38 +17,39 @@ const Campanha2026 = () => {
               <img src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png" alt="Colégio Zampieri" className="h-32 md:h-40 object-contain drop-shadow-lg" />
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 mb-6 px-4">
               Rematrículas 2026
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-8">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-8 px-4">
               Descontos exclusivos, sorteios e prêmios para quem garante a vaga antecipada!
             </p>
             
-            <Button size="lg" className="bg-primary hover:bg-primary-light text-white text-xl px-12 py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}>
-              <Zap className="w-6 h-6 mr-3" />
-              Fazer minha rematrícula agora
+            <Button size="lg" className="bg-primary hover:bg-primary-light text-white text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105 mx-4">
+              <Zap className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
+              <span className="hidden sm:inline">Fazer minha rematrícula agora</span>
+              <span className="sm:hidden">Rematricular agora</span>
             </Button>
           </div>
         </section>
 
         {/* Mensagem de Abertura */}
-        <section className="text-center bg-gradient-to-r from-primary-lighter to-secondary p-8 rounded-3xl border border-primary-light">
-          <p className="text-xl md:text-2xl text-primary font-medium max-w-4xl mx-auto leading-relaxed">
+        <section className="text-center bg-gradient-to-r from-primary-lighter to-secondary p-4 sm:p-8 rounded-3xl border border-primary-light mx-4">
+          <p className="text-lg sm:text-xl md:text-2xl text-primary font-medium max-w-4xl mx-auto leading-relaxed">
             <strong className="text-primary">Obrigado pela confiança em 2025!</strong> Em 2026 seguimos juntos, com ensino de excelência, inovação e uma escola cada vez melhor para nossos alunos.
           </p>
         </section>
 
         {/* Compromisso com a Evolução */}
         <section className="space-y-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-12 px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Nosso Compromisso com a <span className="text-primary">Evolução</span>
             </h2>
-            <p className="text-lg text-gray-600">Inovação constante para oferecer o melhor ensino</p>
+            <p className="text-base sm:text-lg text-gray-600">Inovação constante para oferecer o melhor ensino</p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 px-4">
             <Card className="text-center hover:shadow-lg transition-shadow border-primary-light">
               <CardHeader>
                 <div className="mx-auto mb-4 p-3 bg-primary-lighter rounded-full w-fit">
@@ -109,37 +110,38 @@ const Campanha2026 = () => {
 
         {/* Períodos Promocionais */}
         <section className="space-y-12">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              <CalendarDays className="w-10 h-10 inline mr-3 text-primary" />
+          <div className="text-center mb-12 px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <CalendarDays className="w-8 h-8 sm:w-10 sm:h-10 inline mr-2 sm:mr-3 text-primary" />
               Períodos Promocionais
             </h2>
-            <p className="text-lg text-gray-600">Quanto antes você rematricular, maiores os benefícios!</p>
+            <p className="text-base sm:text-lg text-gray-600">Quanto antes você rematricular, maiores os benefícios!</p>
           </div>
           
           <div className="space-y-6">
             {/* 1º Lote - Destaque */}
-            <Card className="relative overflow-hidden border-4 border-gold shadow-2xl bg-gradient-gold text-white transform hover:scale-102 transition-all">
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-gold to-gold-light text-white px-8 py-3 text-lg font-bold rounded-bl-3xl shadow-gold">
-                <Crown className="w-5 h-5 inline mr-2" />
-                MELHOR OFERTA
+            <Card className="relative overflow-hidden border-4 border-gold shadow-2xl bg-gradient-gold text-white transform hover:scale-102 transition-all mx-4">
+              <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-gradient-to-r from-gold to-gold-light text-white px-4 py-2 sm:px-8 sm:py-3 text-sm sm:text-lg font-bold rounded-bl-3xl shadow-gold">
+                <Crown className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">MELHOR OFERTA</span>
+                <span className="sm:hidden">MELHOR</span>
               </div>
-              <div className="p-8">
+              <div className="p-4 sm:p-8">
                 <div className="flex flex-col md:flex-row items-center justify-between">
                   <div className="text-center md:text-left mb-6 md:mb-0">
-                    <div className="flex items-center gap-3 mb-4">
-                      <Trophy className="w-8 h-8 text-white" />
+                    <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 mb-4">
+                      <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                       <div>
-                        <h3 className="text-2xl font-bold text-white">🏆 25/08 a 10/09</h3>
-                        <p className="text-[#242424] font-semibold">Primeiro lote - Máximo benefício</p>
+                        <h3 className="text-xl sm:text-2xl font-bold text-white">🏆 25/08 a 10/09</h3>
+                        <p className="text-sm sm:text-base text-[#242424] font-semibold">Primeiro lote - Máximo benefício</p>
                       </div>
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-6xl font-bold text-white mb-2">60%</div>
-                    <p className="text-xl font-bold text-white mb-4">DE DESCONTO</p>
-                    <Badge className="bg-white text-gold text-lg px-6 py-2">
-                      <Star className="w-5 h-5 mr-2" />
+                    <div className="text-4xl sm:text-6xl font-bold text-white mb-2">60%</div>
+                    <p className="text-lg sm:text-xl font-bold text-white mb-4">DE DESCONTO</p>
+                    <Badge className="bg-white text-gold text-sm sm:text-lg px-4 sm:px-6 py-1 sm:py-2">
+                      <Star className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
                       4 números da sorte
                     </Badge>
                   </div>
@@ -148,7 +150,7 @@ const Campanha2026 = () => {
             </Card>
 
             {/* Outros lotes */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 px-4">
               <Card className="border-2 border-primary-light bg-gradient-to-br from-primary-lighter to-secondary hover:shadow-lg transition-shadow">
                 <CardHeader className="text-center">
                   <div className="text-4xl font-bold text-primary">50%</div>
@@ -198,14 +200,14 @@ const Campanha2026 = () => {
 
         {/* Prêmios e Benefícios */}
         <section className="space-y-12">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              <Gift className="w-10 h-10 inline mr-3 text-primary" />
+          <div className="text-center mb-12 px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <Gift className="w-8 h-8 sm:w-10 sm:h-10 inline mr-2 sm:mr-3 text-primary" />
               Prêmios e Benefícios Extras
             </h2>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 px-4">
             {/* Sorteios Individuais */}
             <div className="space-y-6">
               <h3 className="text-2xl font-bold text-center text-gray-800 mb-6">🎁 Sorteios Individuais</h3>
@@ -293,13 +295,13 @@ const Campanha2026 = () => {
         </section>
 
         {/* Valores e Materiais */}
-        <section className="text-center space-y-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-            <DollarSign className="w-10 h-10 inline mr-3 text-primary" />
+        <section className="text-center space-y-8 px-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
+            <DollarSign className="w-8 h-8 sm:w-10 sm:h-10 inline mr-2 sm:mr-3 text-primary" />
             Valores 2026
           </h2>
           
-          <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-2xl mx-auto">
             <Dialog>
               <DialogTrigger asChild>
                 <Card className="cursor-pointer hover:shadow-lg transition-shadow border-primary-light bg-gradient-to-br from-primary-lighter to-secondary">
@@ -409,39 +411,42 @@ const Campanha2026 = () => {
         </section>
 
         {/* Links Úteis */}
-        <section className="text-center space-y-6 bg-gradient-to-r from-muted to-secondary p-8 rounded-3xl">
-          <h3 className="text-2xl font-bold text-primary">Links Úteis</h3>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="outline" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/numerosdasorte', '_blank')} className="border-primary-light text-primary hover:bg-primary-lighter">
+        <section className="text-center space-y-6 bg-gradient-to-r from-muted to-secondary p-4 sm:p-8 rounded-3xl mx-4">
+          <h3 className="text-xl sm:text-2xl font-bold text-primary">Links Úteis</h3>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <Button variant="outline" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/numerosdasorte', '_blank')} className="border-primary-light text-primary hover:bg-primary-lighter text-sm sm:text-base">
               <Star className="w-4 h-4 mr-2" />
-              Consultar Números da Sorte
+              <span className="hidden sm:inline">Consultar Números da Sorte</span>
+              <span className="sm:hidden">Números da Sorte</span>
             </Button>
-            <Button variant="outline" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/vencedores', '_blank')} className="border-gold-light text-gold hover:bg-gold-light/20">
+            <Button variant="outline" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/vencedores', '_blank')} className="border-gold-light text-gold hover:bg-gold-light/20 text-sm sm:text-base">
               <Trophy className="w-4 h-4 mr-2" />
-              Lista de Vencedores
+              <span className="hidden sm:inline">Lista de Vencedores</span>
+              <span className="sm:hidden">Vencedores</span>
             </Button>
           </div>
         </section>
 
         {/* Call to Action Final */}
-        <section className="text-center space-y-8 bg-gradient-primary p-12 rounded-3xl shadow-primary text-white relative overflow-hidden">
+        <section className="text-center space-y-6 sm:space-y-8 bg-gradient-primary p-6 sm:p-12 rounded-3xl shadow-primary text-white relative overflow-hidden mx-4">
           <div className="absolute inset-0 bg-gradient-hero/20"></div>
           <div className="relative z-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
               Garanta sua vaga em 2026 em menos de 5 minutos
             </h2>
-            <p className="text-xl mb-8 max-w-3xl mx-auto text-gold-light">
+            <p className="text-lg sm:text-xl mb-6 sm:mb-8 max-w-3xl mx-auto text-gold-light">
               Aproveite o <strong>maior desconto agora mesmo</strong> e concorra aos prêmios exclusivos!
             </p>
             
             <div className="flex justify-center">
-              <Button size="lg" className="bg-white text-primary hover:bg-primary-lighter text-xl px-12 py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}>
-                <Crown className="w-6 h-6 mr-3" />
-                Quero garantir minha vaga em 2026
+              <Button size="lg" className="bg-white text-primary hover:bg-primary-lighter text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105">
+                <Crown className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
+                <span className="hidden sm:inline">Quero garantir minha vaga em 2026</span>
+                <span className="sm:hidden">Garantir vaga 2026</span>
               </Button>
             </div>
             
-            <p className="text-sm opacity-80 mt-6">
+            <p className="text-xs sm:text-sm opacity-80 mt-4 sm:mt-6">
               ⚡ Processo 100% digital • Confirmação imediata • Suporte 24h
             </p>
           </div>
