@@ -2,26 +2,29 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import Header from '@/components/Header';
 import { CalendarDays, Gift, Trophy, Users, CheckCircle, Star, Clock, Zap, Crown, Sparkles } from 'lucide-react';
 
 const Campanha2026 = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-amber-50">
-      <Header />
-      
-      <main className="container mx-auto px-4 py-12 space-y-20">
+      <main className="container mx-auto px-4 py-16 space-y-20">
         {/* Hero Section */}
         <section className="text-center space-y-8 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/10 via-amber-400/10 to-red-500/10 rounded-3xl blur-3xl"></div>
           <div className="relative z-10">
+            {/* Logo */}
+            <div className="flex justify-center mb-8">
+              <img 
+                src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png" 
+                alt="Colégio Zampieri" 
+                className="h-32 md:h-40 object-contain drop-shadow-lg"
+              />
+            </div>
+            
             <Badge className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white text-lg px-8 py-3 mb-6 shadow-lg">
               <Crown className="w-5 h-5 mr-2" />
               Campanha de Rematrículas 2026
             </Badge>
-            <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-emerald-700 via-emerald-600 to-amber-500 bg-clip-text text-transparent leading-tight mb-6">
-              Colégio Zampieri
-            </h1>
             <div className="inline-flex items-center gap-3 bg-gradient-to-r from-amber-100 to-amber-50 px-8 py-4 rounded-2xl border border-amber-200 mb-8">
               <Sparkles className="w-6 h-6 text-amber-600" />
               <p className="text-xl font-semibold text-amber-800">
