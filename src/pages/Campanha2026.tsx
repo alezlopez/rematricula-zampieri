@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { CalendarDays, Gift, Trophy, Users, CheckCircle, Star, Clock, Zap, Crown, Sparkles } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { 
+  CalendarDays, 
+  Gift, 
+  Trophy, 
+  CheckCircle, 
+  Star, 
+  Clock, 
+  Zap, 
+  Crown, 
+  Sparkles,
+  MessageSquare,
+  Smartphone,
+  Building2,
+  QrCode,
+  DollarSign,
+  BookOpen
+} from 'lucide-react';
 
 const Campanha2026 = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
       <main className="container mx-auto px-4 py-16 space-y-20">
+        
         {/* Hero Section */}
         <section className="text-center space-y-8 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/10 via-amber-400/10 to-red-500/10 rounded-3xl blur-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-blue-400/10 to-blue-500/10 rounded-3xl blur-3xl"></div>
           <div className="relative z-10">
             {/* Logo */}
             <div className="flex justify-center mb-8">
@@ -21,374 +39,473 @@ const Campanha2026 = () => {
               />
             </div>
             
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+              Rematrículas 2026
+              <br />
+              <span className="text-blue-600">Colégio Zampieri</span>
+            </h1>
+            
             <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-8">
-              Esta é a <strong className="text-emerald-700">maior campanha de rematrículas</strong> de nossa história
+              Descontos exclusivos, sorteios e prêmios para quem garante a vaga antecipada!
             </p>
             
-            {/* Alert Box */}
-            <div className="bg-gradient-to-r from-red-500 to-red-600 text-white p-6 rounded-2xl max-w-3xl mx-auto shadow-xl mb-8">
-              <div className="flex items-center justify-center gap-3 mb-3">
-                <Clock className="w-6 h-6" />
-                <p className="text-lg font-bold">ATENÇÃO: OFERTA POR TEMPO LIMITADO!</p>
-              </div>
-              <p className="text-lg">
-                Quanto <strong>mais cedo</strong> você fizer a rematrícula, <strong>maior o desconto</strong> e <strong>mais números da sorte</strong> para ganhar prêmios incríveis!
-              </p>
-            </div>
-            
-            <div className="flex flex-wrap justify-center gap-4">
-              <Badge className="bg-emerald-100 text-emerald-800 text-sm px-6 py-2 border border-emerald-200">
-                <Zap className="w-4 h-4 mr-2" />
-                Descontos até 60%
-              </Badge>
-              <Badge className="bg-amber-100 text-amber-800 text-sm px-6 py-2 border border-amber-200">
-                <Gift className="w-4 h-4 mr-2" />
-                Prêmios Exclusivos
-              </Badge>
-              <Badge className="bg-red-100 text-red-800 text-sm px-6 py-2 border border-red-200">
-                <Trophy className="w-4 h-4 mr-2" />
-                Ranking de Turmas
-              </Badge>
-            </div>
+            <Button 
+              size="lg" 
+              className="bg-blue-600 hover:bg-blue-700 text-white text-xl px-12 py-6 h-auto shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+              onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}
+            >
+              <Zap className="w-6 h-6 mr-3" />
+              Fazer minha rematrícula agora
+            </Button>
           </div>
         </section>
 
-        {/* Why Guarantee Now */}
-        <section className="text-center space-y-8">
-          <div className="flex flex-col items-center justify-center gap-4 mb-8">
-            <div className="p-3 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full">
-              <CheckCircle className="h-6 w-6 text-white" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-700 to-emerald-600 bg-clip-text text-transparent px-4">
-              Por que garantir agora?
-            </h2>
-          </div>
-          <div className="bg-gradient-to-r from-emerald-50 to-amber-50 p-8 rounded-3xl border border-emerald-100 max-w-4xl mx-auto">
-            <p className="text-lg text-gray-700 leading-relaxed">
-              Este é o momento para você garantir a vaga do seu filho com <strong className="text-emerald-700">descontos exclusivos</strong>, 
-              <strong className="text-amber-700"> prêmios individuais</strong> e <strong className="text-red-600">coletivos</strong>. 
-            </p>
-            <p className="text-base text-gray-600 mt-4">
-              Quanto antes você se antecipar, <strong className="text-emerald-700">maiores serão os benefícios!</strong>
-            </p>
-          </div>
+        {/* Mensagem de Abertura */}
+        <section className="text-center bg-gradient-to-r from-blue-50 to-blue-100 p-8 rounded-3xl border border-blue-200">
+          <p className="text-xl md:text-2xl text-gray-800 font-medium max-w-4xl mx-auto leading-relaxed">
+            <strong className="text-blue-700">Obrigado pela confiança em 2025!</strong> Em 2026 seguimos juntos, com ensino de excelência, inovação e uma escola cada vez melhor para nossos alunos.
+          </p>
         </section>
 
-        {/* Discounts Section */}
-        <section className="space-y-12">
-          <div className="flex flex-col items-center justify-center gap-4 mb-8">
-            <div className="p-3 bg-gradient-to-r from-amber-500 to-amber-600 rounded-full">
-              <CalendarDays className="h-6 w-6 text-white" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent text-center px-4">
-              Descontos por Lotes
-            </h2>
-          </div>
-          
+        {/* Compromisso com a Evolução */}
+        <section className="space-y-8">
           <div className="text-center mb-12">
-            <p className="text-2xl font-bold text-gray-800 mb-4">
-              🚀 Antecipe-se e conquiste os <span className="text-emerald-700">melhores benefícios!</span>
-            </p>
-            <div className="bg-gradient-to-r from-red-100 to-red-50 border-2 border-red-200 p-6 rounded-2xl max-w-2xl mx-auto">
-              <p className="text-lg font-semibold text-red-700">
-                ⏰ Quanto mais cedo, MAIOR o desconto e MAIS números da sorte!
-              </p>
-            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Nosso Compromisso com a <span className="text-blue-600">Evolução</span>
+            </h2>
+            <p className="text-lg text-gray-600">Inovação constante para oferecer o melhor ensino</p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* BEST OPTION - 60% */}
-            <Card className="relative overflow-hidden border-4 border-emerald-500 shadow-2xl transform hover:scale-105 transition-all duration-300 bg-gradient-to-br from-emerald-50 to-emerald-100">
-              <div className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-6 py-2 text-sm font-bold rounded-bl-2xl shadow-lg">
-                <Crown className="w-4 h-4 inline mr-1" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="text-center hover:shadow-lg transition-shadow border-blue-200">
+              <CardHeader>
+                <div className="mx-auto mb-4 p-3 bg-blue-100 rounded-full w-fit">
+                  <Smartphone className="h-8 w-8 text-blue-600" />
+                </div>
+                <CardTitle className="text-lg">✅ Agenda Digital</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600">
+                  SAE Digital e Professus+ para acompanhamento completo
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-shadow border-blue-200">
+              <CardHeader>
+                <div className="mx-auto mb-4 p-3 bg-blue-100 rounded-full w-fit">
+                  <MessageSquare className="h-8 w-8 text-blue-600" />
+                </div>
+                <CardTitle className="text-lg">✅ Atendimento 24h</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600">
+                  WhatsApp com IA para tirar suas dúvidas a qualquer hora
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-shadow border-blue-200">
+              <CardHeader>
+                <div className="mx-auto mb-4 p-3 bg-blue-100 rounded-full w-fit">
+                  <Zap className="h-8 w-8 text-blue-600" />
+                </div>
+                <CardTitle className="text-lg">✅ Rematrícula Online</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600">
+                  Processo prático e seguro, 100% digital
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-shadow border-blue-200">
+              <CardHeader>
+                <div className="mx-auto mb-4 p-3 bg-blue-100 rounded-full w-fit">
+                  <Building2 className="h-8 w-8 text-blue-600" />
+                </div>
+                <CardTitle className="text-lg">✅ Estrutura Renovada</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600">
+                  Reformas e melhorias contínuas na escola
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Períodos Promocionais */}
+        <section className="space-y-12">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <CalendarDays className="w-10 h-10 inline mr-3 text-blue-600" />
+              Períodos Promocionais
+            </h2>
+            <p className="text-lg text-gray-600">Quanto antes você rematricular, maiores os benefícios!</p>
+          </div>
+          
+          <div className="space-y-6">
+            {/* 1º Lote - Destaque */}
+            <Card className="relative overflow-hidden border-4 border-yellow-500 shadow-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 transform hover:scale-102 transition-all">
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white px-8 py-3 text-lg font-bold rounded-bl-3xl shadow-lg">
+                <Crown className="w-5 h-5 inline mr-2" />
                 MELHOR OFERTA
               </div>
-              <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-full animate-pulse">
-                URGENTE!
-              </div>
-              <CardHeader className="text-center pb-4 pt-8">
-                <CardTitle className="text-3xl font-bold text-emerald-700 mb-2">60% OFF</CardTitle>
-                <p className="text-sm font-semibold text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">25/08 a 10/09</p>
-              </CardHeader>
-              <CardContent className="text-center space-y-4">
-                <div className="text-6xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-700 bg-clip-text text-transparent">60%</div>
-                <p className="text-lg font-semibold text-emerald-700">MAIOR DESCONTO</p>
-                <Badge className="bg-amber-500 text-white text-sm px-4 py-2">
-                  <Star className="w-4 h-4 mr-1" />
-                  4 números da sorte
-                </Badge>
-                <div className="pt-2">
-                  <p className="text-xs text-emerald-600 font-medium">🎯 Máximas chances de ganhar!</p>
+              <div className="p-8">
+                <div className="flex flex-col md:flex-row items-center justify-between">
+                  <div className="text-center md:text-left mb-6 md:mb-0">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Trophy className="w-8 h-8 text-yellow-600" />
+                      <div>
+                        <h3 className="text-2xl font-bold text-yellow-700">🏆 25/08 a 10/09</h3>
+                        <p className="text-yellow-600">Primeiro lote - Máximo benefício</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-6xl font-bold text-yellow-600 mb-2">60%</div>
+                    <p className="text-xl font-bold text-yellow-700 mb-4">DE DESCONTO</p>
+                    <Badge className="bg-yellow-500 text-white text-lg px-6 py-2">
+                      <Star className="w-5 h-5 mr-2" />
+                      4 números da sorte
+                    </Badge>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* 50% OFF */}
-            <Card className="relative overflow-hidden border-2 border-amber-400 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-amber-50 to-amber-100">
-              <div className="absolute top-2 right-2 bg-amber-500 text-white px-3 py-1 text-xs font-bold rounded-full">
-                2ª MELHOR
               </div>
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="text-2xl font-bold text-amber-700">50% OFF</CardTitle>
-                <p className="text-sm text-amber-600 bg-amber-100 px-3 py-1 rounded-full">11 a 20/09</p>
-              </CardHeader>
-              <CardContent className="text-center space-y-3">
-                <div className="text-5xl font-bold text-amber-600">50%</div>
-                <p className="text-base font-semibold text-amber-700">Ainda muito bom!</p>
-                <Badge className="bg-amber-400 text-white text-sm px-3 py-2">
-                  + 3 números da sorte
-                </Badge>
-              </CardContent>
             </Card>
 
-            {/* 40% OFF */}
-            <Card className="hover:shadow-lg transition-shadow border border-orange-300 bg-gradient-to-br from-orange-50 to-orange-100">
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="text-2xl font-bold text-orange-700">40% OFF</CardTitle>
-                <p className="text-sm text-orange-600 bg-orange-100 px-3 py-1 rounded-full">21 a 30/09</p>
-              </CardHeader>
-              <CardContent className="text-center space-y-3">
-                <div className="text-4xl font-bold text-orange-600">40%</div>
-                <p className="text-sm text-orange-700">Boa oportunidade</p>
-                <Badge className="bg-orange-400 text-white text-sm px-3 py-2">
-                  + 2 números da sorte
-                </Badge>
-              </CardContent>
-            </Card>
+            {/* Outros lotes */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="border-2 border-blue-300 bg-gradient-to-br from-blue-50 to-blue-100 hover:shadow-lg transition-shadow">
+                <CardHeader className="text-center">
+                  <div className="text-4xl font-bold text-blue-600">50%</div>
+                  <CardTitle className="text-blue-700">🎯 11 a 20/09</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <p className="text-sm text-blue-600 mb-2">50% de desconto</p>
+                  <Badge className="bg-blue-500 text-white">3 números da sorte</Badge>
+                </CardContent>
+              </Card>
 
-            {/* 30% OFF */}
-            <Card className="hover:shadow-lg transition-shadow border border-red-300 bg-gradient-to-br from-red-50 to-red-100">
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="text-2xl font-bold text-red-700">30% OFF</CardTitle>
-                <p className="text-sm text-red-600 bg-red-100 px-3 py-1 rounded-full">Outubro (01 a 31/10)</p>
-              </CardHeader>
-              <CardContent className="text-center space-y-3">
-                <div className="text-4xl font-bold text-red-600">30%</div>
-                <p className="text-sm text-red-700">Últimas chances</p>
-                <Badge className="bg-red-400 text-white text-sm px-3 py-2">
-                  + 1 número da sorte
-                </Badge>
-              </CardContent>
-            </Card>
+              <Card className="border-2 border-green-300 bg-gradient-to-br from-green-50 to-green-100 hover:shadow-lg transition-shadow">
+                <CardHeader className="text-center">
+                  <div className="text-4xl font-bold text-green-600">40%</div>
+                  <CardTitle className="text-green-700">⭐ 21 a 30/09</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <p className="text-sm text-green-600 mb-2">40% de desconto</p>
+                  <Badge className="bg-green-500 text-white">2 números da sorte</Badge>
+                </CardContent>
+              </Card>
 
-            {/* 25% OFF */}
-            <Card className="hover:shadow-lg transition-shadow border border-gray-400 bg-gradient-to-br from-gray-50 to-gray-100 md:col-span-2 lg:col-span-1">
-              <div className="absolute top-2 right-2 bg-gray-500 text-white px-3 py-1 text-xs font-bold rounded-full">
-                ÚLTIMA CHANCE
-              </div>
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="text-2xl font-bold text-gray-700">25% OFF</CardTitle>
-                <p className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">Novembro</p>
-              </CardHeader>
-              <CardContent className="text-center space-y-3">
-                <div className="text-4xl font-bold text-gray-600">25%</div>
-                <p className="text-sm text-gray-700">Menor desconto</p>
-                <Badge className="bg-gray-400 text-white text-sm px-3 py-2">
-                  + 1 número da sorte
-                </Badge>
-              </CardContent>
-            </Card>
-          </div>
-          
-          {/* Call to Action para a seção de descontos */}
-          <div className="text-center bg-gradient-to-r from-emerald-600 to-emerald-700 text-white p-8 rounded-3xl shadow-xl">
-            <h3 className="text-2xl font-bold mb-4">🎯 Não perca a oportunidade!</h3>
-            <p className="text-lg mb-6">
-              Garante JÁ o <strong>maior desconto (60%)</strong> e <strong>4 números da sorte</strong> para concorrer aos prêmios incríveis!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Badge className="bg-white text-emerald-700 text-lg px-6 py-3 font-bold">
-                ⏰ Oferta válida até 10/09
-              </Badge>
-              <Badge className="bg-amber-500 text-white text-lg px-6 py-3 font-bold">
-                🏆 Mais números = Mais chances
-              </Badge>
+              <Card className="border-2 border-orange-300 bg-gradient-to-br from-orange-50 to-orange-100 hover:shadow-lg transition-shadow">
+                <CardHeader className="text-center">
+                  <div className="text-4xl font-bold text-orange-600">35%</div>
+                  <CardTitle className="text-orange-700">🍂 Outubro</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <p className="text-sm text-orange-600 mb-2">35% de desconto</p>
+                  <Badge className="bg-orange-500 text-white">1 número da sorte</Badge>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2 border-red-300 bg-gradient-to-br from-red-50 to-red-100 hover:shadow-lg transition-shadow">
+                <CardHeader className="text-center">
+                  <div className="text-4xl font-bold text-red-600">30%</div>
+                  <CardTitle className="text-red-700">🎉 Novembro</CardTitle>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <p className="text-sm text-red-600 mb-2">30% de desconto</p>
+                  <Badge className="bg-red-500 text-white">1 número da sorte</Badge>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
 
-        {/* Individual Prizes */}
-        <section className="space-y-8">
-          <div className="flex flex-col items-center justify-center gap-4 mb-8">
-            <div className="p-3 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full">
-              <Gift className="h-6 w-6 text-white" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-700 to-emerald-600 bg-clip-text text-transparent text-center px-4">
-              Sorteios Individuais
+        {/* Prêmios e Benefícios */}
+        <section className="space-y-12">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <Gift className="w-10 h-10 inline mr-3 text-blue-600" />
+              Prêmios e Benefícios Extras
             </h2>
           </div>
-          <p className="text-center text-lg text-muted-foreground mb-8">
-            Ao efetivar a rematrícula, você recebe <strong>números da sorte</strong> e participa automaticamente dos sorteios finais
-          </p>
           
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                  <Star className="h-8 w-8 text-primary" />
-                </div>
-                <CardTitle className="text-xl">Kit Material Didático 2026</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Material completo para o ano letivo
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                  <Star className="h-8 w-8 text-primary" />
-                </div>
-                <CardTitle className="text-xl">Kit Uniforme Oficial</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Uniforme completo do colégio
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                  <Star className="h-8 w-8 text-primary" />
-                </div>
-                <CardTitle className="text-xl">Mochila Premium</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Mochila de alta qualidade
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-          
-          <div className="text-center bg-accent/20 p-6 rounded-lg">
-            <p className="text-lg font-semibold">
-              Quanto antes você rematricular, <span className="text-primary">mais números acumula</span> e <span className="text-primary">mais chances tem de ganhar</span>!
-            </p>
-          </div>
-        </section>
-
-        {/* Class Ranking */}
-        <section className="space-y-8">
-          <div className="flex flex-col items-center justify-center gap-4 mb-8">
-            <div className="p-3 bg-gradient-to-r from-amber-500 to-amber-600 rounded-full">
-              <Trophy className="h-6 w-6 text-white" />
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Sorteios Individuais */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-center text-gray-800 mb-6">🎁 Sorteios Individuais</h3>
+              <div className="space-y-4">
+                <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <BookOpen className="w-8 h-8 text-blue-600" />
+                      <div>
+                        <h4 className="font-bold text-lg">Kit de material SAE Digital</h4>
+                        <p className="text-gray-600">Material didático completo para 2026</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-gradient-to-r from-green-50 to-green-100 border-green-200 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <Sparkles className="w-8 h-8 text-green-600" />
+                      <div>
+                        <h4 className="font-bold text-lg">Kit de uniformes</h4>
+                        <p className="text-gray-600">Uniformes oficiais do colégio</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <Star className="w-8 h-8 text-purple-600" />
+                      <div>
+                        <h4 className="font-bold text-lg">Mochila premium personalizada</h4>
+                        <p className="text-gray-600">Mochila de alta qualidade</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-600 to-amber-500 bg-clip-text text-transparent text-center px-4">
-              Ranking de Turmas
-            </h2>
-          </div>
-          <p className="text-center text-lg text-muted-foreground mb-8">
-            As turmas com mais alunos rematriculados de cada mês recebem <strong>prêmios exclusivos</strong>
-          </p>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-4 p-3 bg-yellow-500/10 rounded-full w-fit">
-                  <Trophy className="h-8 w-8 text-yellow-600" />
-                </div>
-                <CardTitle className="text-xl text-yellow-600">Setembro</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="font-semibold">Bolsa Personalizada</p>
-              </CardContent>
-            </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-4 p-3 bg-gray-400/10 rounded-full w-fit">
-                  <Trophy className="h-8 w-8 text-gray-600" />
-                </div>
-                <CardTitle className="text-xl text-gray-600">Outubro</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="font-semibold">Caderno e caneta personalizados</p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="mx-auto mb-4 p-3 bg-orange-500/10 rounded-full w-fit">
-                  <Trophy className="h-8 w-8 text-orange-600" />
-                </div>
-                <CardTitle className="text-xl text-orange-600">Novembro</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="font-semibold">Garrafa Personalizada</p>
-              </CardContent>
-            </Card>
+            {/* Ranking das Turmas */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-center text-gray-800 mb-6">🏆 Ranking das Turmas</h3>
+              <div className="space-y-4">
+                <Card className="bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-200 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <Trophy className="w-8 h-8 text-yellow-600" />
+                      <div>
+                        <h4 className="font-bold text-lg">Setembro → Bolsa personalizada</h4>
+                        <p className="text-gray-600">Para a turma com mais rematrículas</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <Trophy className="w-8 h-8 text-orange-600" />
+                      <div>
+                        <h4 className="font-bold text-lg">Outubro → Caderno + Caneta personalizados</h4>
+                        <p className="text-gray-600">Para a turma vencedora do mês</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 hover:shadow-lg transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <Trophy className="w-8 h-8 text-blue-600" />
+                      <div>
+                        <h4 className="font-bold text-lg">Novembro → Garrafa personalizada</h4>
+                        <p className="text-gray-600">Para a turma com mais engajamento</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="text-center space-y-8 bg-gradient-to-r from-emerald-600 via-emerald-700 to-emerald-600 p-12 rounded-3xl shadow-2xl text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 via-transparent to-amber-500/20"></div>
+        {/* Valores e Materiais */}
+        <section className="text-center space-y-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+            <DollarSign className="w-10 h-10 inline mr-3 text-blue-600" />
+            Valores 2026
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100">
+                  <CardHeader>
+                    <CardTitle className="text-xl text-blue-700">
+                      <BookOpen className="w-6 h-6 inline mr-2" />
+                      Mensalidades 2026
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Clique para ver os valores</p>
+                  </CardContent>
+                </Card>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Valores de Mensalidade 2026</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div className="border rounded-lg overflow-hidden">
+                    <table className="w-full">
+                      <thead className="bg-blue-50">
+                        <tr>
+                          <th className="p-3 text-left font-semibold">Curso</th>
+                          <th className="p-3 text-right font-semibold">Mensalidade*</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y">
+                        <tr>
+                          <td className="p-3">Ed. Infantil</td>
+                          <td className="p-3 text-right font-medium">R$730,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3">Ens. Fund. I – 1º Ano</td>
+                          <td className="p-3 text-right font-medium">R$810,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3">Ens. Fund. I – 2º ao 5º Ano</td>
+                          <td className="p-3 text-right font-medium">R$910,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3">Ens. Fund. I – 6º ao 9º Ano</td>
+                          <td className="p-3 text-right font-medium">R$1.010,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3">Ensino Médio</td>
+                          <td className="p-3 text-right font-medium">R$1.050,00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="text-sm text-gray-600 italic">
+                    *Se você faz parte de algum programa especial de bolsa de estudo, o seu percentual de desconto será aplicado no valor do curso acima.
+                  </p>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <Card className="cursor-pointer hover:shadow-lg transition-shadow border-green-200 bg-gradient-to-br from-green-50 to-green-100">
+                  <CardHeader>
+                    <CardTitle className="text-xl text-green-700">
+                      <Sparkles className="w-6 h-6 inline mr-2" />
+                      Materiais SAE Digital
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">Compra exclusiva online</p>
+                  </CardContent>
+                </Card>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Materiais SAE Digital</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div className="border rounded-lg overflow-hidden">
+                    <table className="w-full">
+                      <thead className="bg-green-50">
+                        <tr>
+                          <th className="p-3 text-left font-semibold">Curso</th>
+                          <th className="p-3 text-right font-semibold">Valor – Parcelado em até 12x</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y text-sm">
+                        <tr><td className="p-2">Pré</td><td className="p-2 text-right font-medium">R$ 959,00</td></tr>
+                        <tr><td className="p-2">1º Ano</td><td className="p-2 text-right font-medium">R$ 1.199,00</td></tr>
+                        <tr><td className="p-2">2º Ano</td><td className="p-2 text-right font-medium">R$ 1.239,00</td></tr>
+                        <tr><td className="p-2">3º Ano</td><td className="p-2 text-right font-medium">R$ 1.309,00</td></tr>
+                        <tr><td className="p-2">4º Ano</td><td className="p-2 text-right font-medium">R$ 1.439,00</td></tr>
+                        <tr><td className="p-2">5º Ano</td><td className="p-2 text-right font-medium">R$ 1.659,00</td></tr>
+                        <tr><td className="p-2">6º Ano</td><td className="p-2 text-right font-medium">R$ 1.909,00</td></tr>
+                        <tr><td className="p-2">7º Ano</td><td className="p-2 text-right font-medium">R$ 1.909,00</td></tr>
+                        <tr><td className="p-2">8º Ano</td><td className="p-2 text-right font-medium">R$ 1.929,00</td></tr>
+                        <tr><td className="p-2">9º Ano</td><td className="p-2 text-right font-medium">R$ 1.989,00</td></tr>
+                        <tr><td className="p-2">1º Médio</td><td className="p-2 text-right font-medium">R$ 2.399,00</td></tr>
+                        <tr><td className="p-2">2º Médio</td><td className="p-2 text-right font-medium">R$ 2.399,00</td></tr>
+                        <tr><td className="p-2">3º Médio</td><td className="p-2 text-right font-medium">R$ 2.399,00</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </section>
+
+        {/* Links Úteis */}
+        <section className="text-center space-y-6 bg-gradient-to-r from-gray-50 to-gray-100 p-8 rounded-3xl">
+          <h3 className="text-2xl font-bold text-gray-800">Links Úteis</h3>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              variant="outline" 
+              onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/numerosdasorte', '_blank')}
+              className="border-blue-200 text-blue-700 hover:bg-blue-50"
+            >
+              <Star className="w-4 h-4 mr-2" />
+              Consultar Números da Sorte
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/vencedores', '_blank')}
+              className="border-green-200 text-green-700 hover:bg-green-50"
+            >
+              <Trophy className="w-4 h-4 mr-2" />
+              Lista de Vencedores
+            </Button>
+          </div>
+        </section>
+
+        {/* Call to Action Final */}
+        <section className="text-center space-y-8 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-600 p-12 rounded-3xl shadow-2xl text-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-transparent to-blue-500/20"></div>
           <div className="relative z-10">
-            <div className="flex flex-col items-center justify-center gap-4 mb-8">
-              <div className="p-4 bg-white/20 rounded-full">
-                <Users className="h-8 w-8 text-white" />
-              </div>
-              <h2 className="text-2xl md:text-3xl font-bold px-4">Como fazer a rematrícula?</h2>
-            </div>
-            <div className="space-y-6 mb-8">
-              <p className="text-xl max-w-2xl mx-auto">
-                É <strong>rápido</strong>, <strong>prático</strong> e <strong>100% on-line</strong>
-              </p>
-              <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm">
-                  <div className="text-3xl mb-3">📱</div>
-                  <h3 className="font-bold text-lg mb-2">1. Acesse</h3>
-                  <p className="text-sm opacity-90">Clique no botão abaixo</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Garanta sua vaga em 2026 em menos de 5 minutos
+            </h2>
+            <p className="text-xl mb-8 max-w-3xl mx-auto">
+              Aproveite o <strong>maior desconto agora mesmo</strong> e concorra aos prêmios exclusivos!
+            </p>
+            
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+              <Button 
+                size="lg" 
+                className="bg-white text-blue-600 hover:bg-gray-100 text-xl px-12 py-6 h-auto shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+                onClick={() => window.open('https://rematriculas.colegiozampieri.com.br', '_blank')}
+              >
+                <Crown className="w-6 h-6 mr-3" />
+                Quero garantir minha vaga em 2026
+              </Button>
+              
+              <div className="flex flex-col items-center">
+                <div className="w-24 h-24 bg-white/20 rounded-lg flex items-center justify-center mb-2">
+                  <QrCode className="w-16 h-16 text-white" />
                 </div>
-                <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm">
-                  <div className="text-3xl mb-3">✏️</div>
-                  <h3 className="font-bold text-lg mb-2">2. Preencha</h3>
-                  <p className="text-sm opacity-90">Dados rápidos e simples</p>
-                </div>
-                <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm">
-                  <div className="text-3xl mb-3">✅</div>
-                  <h3 className="font-bold text-lg mb-2">3. Confirme</h3>
-                  <p className="text-sm opacity-90">Garanta sua vaga!</p>
-                </div>
+                <p className="text-sm opacity-90">Escaneie para acessar</p>
               </div>
             </div>
             
-            <div className="space-y-4">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-xl px-16 py-8 h-auto shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105 border-2 border-amber-400"
-                onClick={() => window.location.href = '/'}
-              >
-                <Zap className="w-6 h-6 mr-3" />
-                🚀 GARANTIR REMATRÍCULA AGORA
-              </Button>
-              <p className="text-sm opacity-80">⚡ Processo 100% digital • Confirmação imediata</p>
-            </div>
+            <p className="text-sm opacity-80 mt-6">
+              ⚡ Processo 100% digital • Confirmação imediata • Suporte 24h
+            </p>
           </div>
         </section>
 
         {/* Footer */}
-        <section className="text-center py-16 bg-gradient-to-r from-emerald-50 via-white to-amber-50 rounded-3xl border border-emerald-100">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <Crown className="h-8 w-8 text-amber-600" />
-            <Sparkles className="h-6 w-6 text-emerald-600" />
+        <section className="text-center py-8">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Crown className="h-6 w-6 text-blue-600" />
+            <Sparkles className="h-6 w-6 text-blue-600" />
           </div>
-          <p className="text-2xl font-bold bg-gradient-to-r from-emerald-700 to-amber-600 bg-clip-text text-transparent mb-4">
+          <p className="text-xl font-bold text-gray-800 mb-2">
             Colégio Zampieri
           </p>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-            <strong>46 anos de tradição, inovação e compromisso</strong> com o futuro do seu filho.
+          <p className="text-gray-600">
+            Tradição, inovação e compromisso com o futuro do seu filho.
           </p>
-          <div className="flex items-center justify-center gap-2 mt-6">
-            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-            <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-          </div>
         </section>
       </main>
     </div>
