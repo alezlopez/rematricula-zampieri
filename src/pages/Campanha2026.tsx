@@ -4,7 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { CalendarDays, Gift, Trophy, CheckCircle, Star, Clock, Zap, Crown, Sparkles, MessageSquare, Smartphone, Building2, QrCode, DollarSign, BookOpen } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 const Campanha2026 = () => {
+  const navigate = useNavigate();
   return <div className="min-h-screen bg-gradient-to-br from-primary-lighter via-white to-primary-lighter">
       <main className="container mx-auto px-4 py-16 space-y-20">
         
@@ -25,7 +27,11 @@ const Campanha2026 = () => {
               Descontos exclusivos, sorteios e prêmios para quem garante a vaga antecipada!
             </p>
             
-            <Button size="lg" className="bg-primary hover:bg-primary-light text-white text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105 mx-4">
+            <Button 
+              size="lg" 
+              onClick={() => navigate('/')}
+              className="bg-primary hover:bg-primary-light text-white text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105 mx-4"
+            >
               <Zap className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
               <span className="hidden sm:inline">Fazer minha rematrícula agora</span>
               <span className="sm:hidden">Rematricular agora</span>
@@ -439,7 +445,11 @@ const Campanha2026 = () => {
             </p>
             
             <div className="flex justify-center">
-              <Button size="lg" className="bg-white text-primary hover:bg-primary-lighter text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105">
+              <Button 
+                size="lg" 
+                onClick={() => navigate('/')}
+                className="bg-white text-primary hover:bg-primary-lighter text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105"
+              >
                 <Crown className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
                 <span className="hidden sm:inline">Quero garantir minha vaga em 2026</span>
                 <span className="sm:hidden">Garantir vaga 2026</span>
