@@ -35,6 +35,7 @@ interface RematriculaData {
   "Atualizou Endereço": string;
   "Atualizou dados Pai": string;
   "Atualizou dados Mãe": string;
+  "Resp. Financeiro": string;
 }
 
 const Adm = () => {
@@ -125,7 +126,8 @@ const Adm = () => {
           "Status",
           "Atualizou Endereço",
           "Atualizou dados Pai",
-          "Atualizou dados Mãe"
+          "Atualizou dados Mãe",
+          "Resp. Financeiro"
         `)
         .eq('Status', statusToFilter);
 
@@ -272,6 +274,9 @@ const Adm = () => {
                             <p><span className="font-medium">Turma 2026:</span> {matricula["Curso 2026"]} - {matricula["Turno 2026"]}</p>
                             <p><span className="font-medium">Forma de Pagamento:</span> {matricula["forma_de_pagamento"] || 'Não informado'}</p>
                             <p><span className="font-medium">Data da Matrícula:</span> {matricula["data_rematricula"] || 'Não informado'}</p>
+                            {selectedStatus === 'Pago' && matricula["Resp. Financeiro"] && (
+                              <p><span className="font-medium">Responsável Financeiro:</span> {matricula["Resp. Financeiro"]}</p>
+                            )}
                           </div>
                         </div>
 
