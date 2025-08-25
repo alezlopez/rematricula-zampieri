@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { User, Session } from '@supabase/supabase-js';
 import { LogOut } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface RematriculaData {
   "Cod Aluno": number;
@@ -43,6 +44,7 @@ const Adm = () => {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [updatingStatus, setUpdatingStatus] = useState<number | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<string>('Pago');
   
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -74,7 +76,7 @@ const Adm = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, selectedStatus]);
 
   const handleSignOut = async () => {
     try {
@@ -93,8 +95,9 @@ const Adm = () => {
     }
   };
 
-  const fetchMatriculas = async () => {
+  const fetchMatriculas = async (status?: string) => {
     setLoading(true);
+    const statusToFilter = status || selectedStatus;
     try {
       const { data, error } = await supabase
         .from('rematricula')
@@ -124,7 +127,7 @@ const Adm = () => {
           "Atualizou dados Pai",
           "Atualizou dados Mãe"
         `)
-        .eq('Status', 'Pago');
+        .eq('Status', statusToFilter);
 
       if (error) {
         toast({
@@ -145,6 +148,11 @@ const Adm = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleStatusChange = (status: string) => {
+    setSelectedStatus(status);
+    fetchMatriculas(status);
   };
 
   const handleConcluir = async (codAluno: number) => {
@@ -228,7 +236,20 @@ const Adm = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Matrículas Pagas ({matriculas.length})</CardTitle>
+            <div className="flex justify-between items-center">
+              <CardTitle>Matrículas - {selectedStatus} ({matriculas.length})</CardTitle>
+              <Select value={selectedStatus} onValueChange={handleStatusChange}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Selecione o status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Pago">Pago</SelectItem>
+                  <SelectItem value="Contrato Assinado">Contrato Assinado</SelectItem>
+                  <SelectItem value="Contrato Gerado">Contrato Gerado</SelectItem>
+                  <SelectItem value="Pagamento Gerado">Pagamento Gerado</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </CardHeader>
           <CardContent>
             {loading ? (
