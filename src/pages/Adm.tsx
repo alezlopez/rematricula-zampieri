@@ -249,6 +249,7 @@ const Adm = () => {
                   <SelectItem value="Contrato Assinado">Contrato Assinado</SelectItem>
                   <SelectItem value="Contrato Gerado">Contrato Gerado</SelectItem>
                   <SelectItem value="Pagamento Gerado">Pagamento Gerado</SelectItem>
+                  <SelectItem value="Concluido">Concluido</SelectItem>
                 </SelectContent>
               </Select>
             </div>
