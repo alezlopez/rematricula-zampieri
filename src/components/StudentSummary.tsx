@@ -338,6 +338,11 @@ const StudentSummary = ({ data, extraData, onConfirm, onBack, onGoToPayment }: S
                       <Copy className="w-4 h-4" />
                     </Button>
                   </div>
+                  <div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 p-3 rounded-lg mt-3">
+                    <p className="text-sm text-yellow-800 dark:text-yellow-200 font-medium">
+                      ⚠️ Importante: Após assinar o contrato, retorne a esta página para realizar o pagamento da rematrícula.
+                    </p>
+                  </div>
                   <p className="text-xs text-green-600 dark:text-green-400">
                     Link: {contractUrl}
                   </p>
