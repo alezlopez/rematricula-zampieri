@@ -325,16 +325,18 @@ const Adm = () => {
                           </div>
                         )}
 
-                        {/* Botão Concluir */}
-                        <div className="flex items-end">
-                          <Button
-                            onClick={() => handleConcluir(matricula["Cod Aluno"])}
-                            disabled={updatingStatus === matricula["Cod Aluno"]}
-                            className="w-full"
-                          >
-                            {updatingStatus === matricula["Cod Aluno"] ? 'Processando...' : 'Concluir'}
-                          </Button>
-                        </div>
+                        {/* Botão Concluir - só aparece para status Pago */}
+                        {selectedStatus === 'Pago' && (
+                          <div className="flex items-end">
+                            <Button
+                              onClick={() => handleConcluir(matricula["Cod Aluno"])}
+                              disabled={updatingStatus === matricula["Cod Aluno"]}
+                              className="w-full"
+                            >
+                              {updatingStatus === matricula["Cod Aluno"] ? 'Processando...' : 'Concluir'}
+                            </Button>
+                          </div>
+                        )}
                       </div>
                     </CardContent>
                   </Card>
