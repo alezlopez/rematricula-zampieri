@@ -331,6 +331,7 @@ const Adm = () => {
 
   // Função para formatar input de desconto (somente números inteiros)
   const handleDescontoChange = (value: string) => {
+    // Remove tudo que não é número (não permite pontos, vírgulas ou outros caracteres)
     const numericValue = value.replace(/[^0-9]/g, '');
     setDescontoInput(numericValue);
   };
