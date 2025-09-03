@@ -7,8 +7,11 @@ import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { User, Session } from '@supabase/supabase-js';
-import { LogOut } from 'lucide-react';
+import { LogOut, Edit } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface RematriculaData {
   "Cod Aluno": number;
@@ -36,6 +39,8 @@ interface RematriculaData {
   "Atualizou dados Pai": string;
   "Atualizou dados Mãe": string;
   "Resp. Financeiro": string;
+  "Desconto": string;
+  "mensalidade 2026 com desconto": string;
 }
 
 const Adm = () => {
@@ -46,6 +51,14 @@ const Adm = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [updatingStatus, setUpdatingStatus] = useState<number | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<string>('Pago');
+  
+  // Estados para modal de desconto
+  const [isDescontoModalOpen, setIsDescontoModalOpen] = useState(false);
+  const [codigoAlunoInput, setCodigoAlunoInput] = useState('');
+  const [descontoInput, setDescontoInput] = useState('');
+  const [mensalidadeInput, setMensalidadeInput] = useState('');
+  const [searchedAluno, setSearchedAluno] = useState<RematriculaData | null>(null);
+  const [updatingDesconto, setUpdatingDesconto] = useState(false);
   
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -127,7 +140,9 @@ const Adm = () => {
           "Atualizou Endereço",
           "Atualizou dados Pai",
           "Atualizou dados Mãe",
-          "Resp. Financeiro"
+          "Resp. Financeiro",
+          "Desconto",
+          "mensalidade 2026 com desconto"
         `)
         .eq('Status', statusToFilter);
 
@@ -205,6 +220,137 @@ const Adm = () => {
     return parts.join(', ');
   };
 
+  // Função para buscar aluno por código
+  const handleSearchAluno = async () => {
+    if (!codigoAlunoInput.trim()) {
+      toast({
+        title: "Erro",
+        description: "Digite o código do aluno",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('rematricula')
+        .select(`
+          "Cod Aluno",
+          "Nome do Aluno",
+          "Desconto",
+          "mensalidade 2026 com desconto"
+        `)
+        .eq('Cod Aluno', parseInt(codigoAlunoInput))
+        .single();
+
+      if (error) {
+        toast({
+          title: "Aluno não encontrado",
+          description: "Não foi possível encontrar o aluno com esse código",
+          variant: "destructive",
+        });
+        setSearchedAluno(null);
+        return;
+      }
+
+      setSearchedAluno(data as RematriculaData);
+      setDescontoInput(data["Desconto"] || '');
+      setMensalidadeInput(data["mensalidade 2026 com desconto"] || '');
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro inesperado ao buscar aluno",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Função para atualizar desconto
+  const handleUpdateDesconto = async () => {
+    if (!searchedAluno) {
+      toast({
+        title: "Erro",
+        description: "Nenhum aluno selecionado",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!descontoInput.trim() || !mensalidadeInput.trim()) {
+      toast({
+        title: "Erro",
+        description: "Preencha todos os campos",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setUpdatingDesconto(true);
+    try {
+      const { error } = await supabase
+        .from('rematricula')
+        .update({
+          'Desconto': descontoInput,
+          'mensalidade 2026 com desconto': mensalidadeInput
+        })
+        .eq('Cod Aluno', searchedAluno["Cod Aluno"]);
+
+      if (error) {
+        toast({
+          title: "Erro",
+          description: "Erro ao atualizar desconto: " + error.message,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Sucesso",
+        description: "Desconto atualizado com sucesso",
+      });
+
+      // Fechar modal e limpar campos
+      setIsDescontoModalOpen(false);
+      setCodigoAlunoInput('');
+      setDescontoInput('');
+      setMensalidadeInput('');
+      setSearchedAluno(null);
+
+      // Atualizar a lista se o aluno estiver na listagem atual
+      fetchMatriculas();
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro inesperado ao atualizar desconto",
+        variant: "destructive",
+      });
+    } finally {
+      setUpdatingDesconto(false);
+    }
+  };
+
+  // Função para formatar input de desconto (somente números inteiros)
+  const handleDescontoChange = (value: string) => {
+    const numericValue = value.replace(/[^0-9]/g, '');
+    setDescontoInput(numericValue);
+  };
+
+  // Função para formatar input de mensalidade (números com 2 casas decimais)
+  const handleMensalidadeChange = (value: string) => {
+    let numericValue = value.replace(/[^0-9.,]/g, '').replace(',', '.');
+    
+    // Limitar a 2 casas decimais
+    const parts = numericValue.split('.');
+    if (parts.length > 2) {
+      numericValue = parts[0] + '.' + parts[1];
+    }
+    if (parts[1] && parts[1].length > 2) {
+      numericValue = parts[0] + '.' + parts[1].substring(0, 2);
+    }
+    
+    setMensalidadeInput(numericValue);
+  };
+
   if (initialLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -240,18 +386,28 @@ const Adm = () => {
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle>Matrículas - {selectedStatus} ({matriculas.length})</CardTitle>
-              <Select value={selectedStatus} onValueChange={handleStatusChange}>
-                <SelectTrigger className="w-48">
-                  <SelectValue placeholder="Selecione o status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Pago">Pago</SelectItem>
-                  <SelectItem value="Contrato Assinado">Contrato Assinado</SelectItem>
-                  <SelectItem value="Contrato Gerado">Contrato Gerado</SelectItem>
-                  <SelectItem value="Pagamento Gerado">Pagamento Gerado</SelectItem>
-                  <SelectItem value="Concluido">Concluido</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex gap-2 items-center">
+                <Dialog open={isDescontoModalOpen} onOpenChange={setIsDescontoModalOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" size="sm" className="flex items-center gap-2">
+                      <Edit className="h-4 w-4" />
+                      Alterar Desconto
+                    </Button>
+                  </DialogTrigger>
+                </Dialog>
+                <Select value={selectedStatus} onValueChange={handleStatusChange}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder="Selecione o status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Pago">Pago</SelectItem>
+                    <SelectItem value="Contrato Assinado">Contrato Assinado</SelectItem>
+                    <SelectItem value="Contrato Gerado">Contrato Gerado</SelectItem>
+                    <SelectItem value="Pagamento Gerado">Pagamento Gerado</SelectItem>
+                    <SelectItem value="Concluido">Concluido</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </CardHeader>
           <CardContent>
@@ -353,6 +509,95 @@ const Adm = () => {
           </CardContent>
         </Card>
       </main>
+
+      {/* Modal de Alteração de Desconto */}
+      <Dialog open={isDescontoModalOpen} onOpenChange={setIsDescontoModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Alterar Desconto</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            {/* Campo de busca por código */}
+            <div className="space-y-2">
+              <Label htmlFor="codigo-aluno">Código do Aluno</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="codigo-aluno"
+                  placeholder="Digite o código do aluno"
+                  value={codigoAlunoInput}
+                  onChange={(e) => setCodigoAlunoInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearchAluno();
+                    }
+                  }}
+                />
+                <Button onClick={handleSearchAluno} size="sm">
+                  Buscar
+                </Button>
+              </div>
+            </div>
+
+            {/* Informações do aluno encontrado */}
+            {searchedAluno && (
+              <div className="p-3 bg-muted rounded-md">
+                <h4 className="font-medium text-sm">Aluno encontrado:</h4>
+                <p className="text-sm text-muted-foreground">
+                  {searchedAluno["Nome do Aluno"]}
+                </p>
+              </div>
+            )}
+
+            {/* Campos de edição - só aparecem quando aluno é encontrado */}
+            {searchedAluno && (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="desconto">Desconto (%)</Label>
+                  <Input
+                    id="desconto"
+                    placeholder="Ex: 10"
+                    value={descontoInput}
+                    onChange={(e) => handleDescontoChange(e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="mensalidade">Mensalidade 2026 com Desconto</Label>
+                  <Input
+                    id="mensalidade"
+                    placeholder="Ex: 450.00"
+                    value={mensalidadeInput}
+                    onChange={(e) => handleMensalidadeChange(e.target.value)}
+                  />
+                </div>
+
+                <div className="flex gap-2 pt-4">
+                  <Button 
+                    onClick={handleUpdateDesconto}
+                    disabled={updatingDesconto}
+                    className="flex-1"
+                  >
+                    {updatingDesconto ? 'Salvando...' : 'Salvar Alterações'}
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      setIsDescontoModalOpen(false);
+                      setCodigoAlunoInput('');
+                      setDescontoInput('');
+                      setMensalidadeInput('');
+                      setSearchedAluno(null);
+                    }}
+                    className="flex-1"
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
