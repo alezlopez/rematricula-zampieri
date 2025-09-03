@@ -337,18 +337,25 @@ const Adm = () => {
 
   // Função para formatar input de mensalidade (números com 2 casas decimais)
   const handleMensalidadeChange = (value: string) => {
-    let numericValue = value.replace(/[^0-9.,]/g, '').replace(',', '.');
+    // Remove tudo que não é número
+    let numericValue = value.replace(/[^0-9]/g, '');
     
-    // Limitar a 2 casas decimais
-    const parts = numericValue.split('.');
-    if (parts.length > 2) {
-      numericValue = parts[0] + '.' + parts[1];
-    }
-    if (parts[1] && parts[1].length > 2) {
-      numericValue = parts[0] + '.' + parts[1].substring(0, 2);
+    // Se não houver valor, limpa o campo
+    if (!numericValue) {
+      setMensalidadeInput('');
+      return;
     }
     
-    setMensalidadeInput(numericValue);
+    // Converte para número e divide por 100 para ter as casas decimais
+    const number = parseInt(numericValue) / 100;
+    
+    // Formata com 2 casas decimais e vírgula
+    const formatted = number.toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    
+    setMensalidadeInput(formatted);
   };
 
   if (initialLoading) {
