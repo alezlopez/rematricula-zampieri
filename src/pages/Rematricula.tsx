@@ -19,23 +19,47 @@ const Rematricula = () => {
   const [studentData, setStudentData] = useState<any>(null);
   const [multipleStudents, setMultipleStudents] = useState<any[]>([]);
   const [extraData, setExtraData] = useState<any>(null);
+  const [globalError, setGlobalError] = useState<string | null>(null);
 
   const handleSearchResult = (data: any) => {
-    setStudentData(data);
-    
-    // Verificar status e direcionar para o fluxo correto
-    if (!data.status) {
-      // Status nulo - mostrar dados para confirmação
-      setCurrentStep("confirmation");
-    } else {
-      // Status existente - mostrar fluxo específico do status
-      setCurrentStep("status");
+    try {
+      console.log('=== HANDLE SEARCH RESULT ===');
+      console.log('Data recebida:', data);
+      console.log('User agent:', navigator.userAgent);
+      
+      setGlobalError(null); // Limpar erros anteriores
+      setStudentData(data);
+      
+      // Verificar status e direcionar para o fluxo correto
+      if (!data.status) {
+        console.log('Status nulo - indo para confirmation');
+        setCurrentStep("confirmation");
+      } else {
+        console.log('Status existente:', data.status, '- indo para status');
+        setCurrentStep("status");
+      }
+      
+      console.log('=== FIM HANDLE SEARCH RESULT ===');
+    } catch (error) {
+      console.error('Erro em handleSearchResult:', error);
+      setGlobalError('Erro ao processar dados do aluno');
     }
   };
 
   const handleMultipleResults = (results: any[]) => {
-    setMultipleStudents(results);
-    setCurrentStep("selection");
+    try {
+      console.log('=== HANDLE MULTIPLE RESULTS ===');
+      console.log('Resultados:', results.length);
+      
+      setGlobalError(null);
+      setMultipleStudents(results);
+      setCurrentStep("selection");
+      
+      console.log('=== FIM HANDLE MULTIPLE RESULTS ===');
+    } catch (error) {
+      console.error('Erro em handleMultipleResults:', error);
+      setGlobalError('Erro ao processar múltiplos alunos');
+    }
   };
 
   const handleStudentSelection = (selectedStudent: any) => {
@@ -98,16 +122,36 @@ const Rematricula = () => {
   };
 
   const handleBackToSearch = () => {
+    console.log('=== VOLTANDO PARA BUSCA ===');
     setCurrentStep("search");
     setStudentData(null);
     setMultipleStudents([]);
     setExtraData(null);
+    setGlobalError(null);
   };
 
   const renderCurrentStep = () => {
     console.log('=== RENDERIZANDO STEP:', currentStep, '===');
+    console.log('Global Error:', globalError);
+    console.log('Student Data:', !!studentData);
+    console.log('Multiple Students:', multipleStudents.length);
     
-    switch (currentStep) {
+    // Se houver erro global, mostrar mensagem de erro
+    if (globalError) {
+      return (
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <p className="text-red-600 text-lg">{globalError}</p>
+            <Button onClick={handleBackToSearch} variant="outline">
+              Tentar Novamente
+            </Button>
+          </div>
+        </div>
+      );
+    }
+    
+    try {
+      switch (currentStep) {
       case "search":
         return (
           <div className="min-h-[60vh] flex items-center justify-center">
@@ -207,7 +251,30 @@ const Rematricula = () => {
         );
       
       default:
-        return null;
+        console.error('=== STEP DESCONHECIDO:', currentStep, '===');
+        return (
+          <div className="min-h-[60vh] flex items-center justify-center">
+            <div className="text-center space-y-4">
+              <p className="text-red-600 text-lg">Erro interno: Estado inválido</p>
+              <Button onClick={handleBackToSearch} variant="outline">
+                Voltar ao Início
+              </Button>
+            </div>
+          </div>
+        );
+    }
+    } catch (error) {
+      console.error('Erro ao renderizar step:', currentStep, error);
+      return (
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <p className="text-red-600 text-lg">Erro ao carregar página</p>
+            <Button onClick={handleBackToSearch} variant="outline">
+              Tentar Novamente
+            </Button>
+          </div>
+        </div>
+      );
     }
   };
 

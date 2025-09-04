@@ -31,6 +31,10 @@ const CPFSearchForm = ({
     }
     setIsLoading(true);
     try {
+      console.log('=== INICIANDO BUSCA CPF ===');
+      console.log('CPF:', cpf);
+      console.log('User Agent:', navigator.userAgent);
+      console.log('Timestamp:', new Date().toISOString());
       console.log('Buscando CPF:', cpf);
 
       // Usar a nova função RPC para buscar por CPF
@@ -45,11 +49,22 @@ const CPFSearchForm = ({
         error
       });
       if (error) {
-        console.error('Erro ao buscar:', error);
+        console.error('=== ERRO NA BUSCA SUPABASE ===');
+        console.error('Erro completo:', error);
+        console.error('Tipo do erro:', typeof error);
+        console.error('Message:', error.message);
+        console.error('Code:', error.code);
         toast.error("Erro no sistema. Tente novamente.");
         return;
       }
+      
+      console.log('=== DADOS RECEBIDOS ===');
+      console.log('Data length:', data?.length);
+      console.log('Data type:', typeof data);
+      console.log('Data:', data);
+      
       if (!data || data.length === 0) {
+        console.log('=== CPF NÃO ENCONTRADO ===');
         toast.error("CPF não encontrado no sistema");
         return;
       }
@@ -65,7 +80,8 @@ const CPFSearchForm = ({
 
       // Se há mais de um aluno, mostrar opções de escolha
       if (liberados.length > 1) {
-        console.log('Múltiplos alunos encontrados, mostrando seletor');
+        console.log('=== MÚLTIPLOS ALUNOS ENCONTRADOS ===');
+        console.log('Quantidade:', liberados.length);
         const mappedResults = liberados.map((row: any) => ({
           "Nome do Aluno": row["Nome do Aluno"],
           "Curso 2025": row["Curso 2025"],
@@ -105,12 +121,15 @@ const CPFSearchForm = ({
           token_contrato: row["token contrato"],
           cod_aluno: row["Cod Aluno"]
         }));
+        console.log('=== CHAMANDO onMultipleResults ===');
         onMultipleResults(mappedResults);
+        console.log('=== onMultipleResults CHAMADO ===');
         return;
       }
 
       // Se há apenas um aluno, prosseguir normalmente
-      console.log('Único aluno encontrado, prosseguindo');
+      console.log('=== ÚNICO ALUNO ENCONTRADO ===');
+      console.log('Dados do aluno:', liberados[0]);
       const row = liberados[0];
       const mappedData = {
         "Nome do Aluno": row["Nome do Aluno"],
@@ -151,12 +170,20 @@ const CPFSearchForm = ({
         token_contrato: row["token contrato"],
         cod_aluno: row["Cod Aluno"]
       };
+      console.log('=== CHAMANDO onSearchResult ===');
+      console.log('Mapped data:', mappedData);
       onSearchResult(mappedData);
+      console.log('=== onSearchResult CHAMADO ===');
       toast.success("Dados encontrados!");
     } catch (error) {
-      console.error('Erro ao buscar CPF:', error);
+      console.error('=== ERRO GERAL NA BUSCA ===');
+      console.error('Error completo:', error);
+      console.error('Error stack:', error.stack);
+      console.error('Error message:', error.message);
+      console.error('CPF usado:', cpf);
       toast.error("Erro ao buscar CPF. Tente novamente.");
     } finally {
+      console.log('=== FINALIZANDO BUSCA ===');
       setIsLoading(false);
     }
   };
