@@ -185,6 +185,7 @@ const StatusUpdater = () => {
                   </SelectTrigger>
                   <SelectContent className="bg-background border shadow-lg z-50">
                     <SelectItem value="Contrato Assinado">Contrato Assinado</SelectItem>
+                    <SelectItem value="Concluido">Concluido</SelectItem>
                     <SelectItem value="NULL_VALUE">Null (Limpar status)</SelectItem>
                   </SelectContent>
                 </Select>
