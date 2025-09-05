@@ -72,16 +72,18 @@ const StatusUpdater = () => {
 
     setIsUpdating(true);
     try {
+      const statusValue = newStatus === "" ? null : newStatus;
       const { error } = await supabase
         .from('rematricula')
-        .update({ Status: newStatus })
+        .update({ Status: statusValue })
         .eq('Cod Aluno', studentData['Cod Aluno']);
 
       if (error) throw error;
 
+      const displayStatus = statusValue === null ? "Null" : statusValue;
       toast({
         title: "Status atualizado",
-        description: `Status alterado para: ${newStatus}`,
+        description: `Status alterado para: ${displayStatus}`,
       });
 
       setStudentData({ ...studentData, Status: newStatus });
@@ -181,13 +183,9 @@ const StatusUpdater = () => {
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione o novo status" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Pendente">Pendente</SelectItem>
-                    <SelectItem value="Confirmado">Confirmado</SelectItem>
-                    <SelectItem value="Cancelado">Cancelado</SelectItem>
-                    <SelectItem value="Em Análise">Em Análise</SelectItem>
-                    <SelectItem value="Liberado">Liberado</SelectItem>
-                    <SelectItem value="Bloqueado">Bloqueado</SelectItem>
+                  <SelectContent className="bg-background border shadow-lg z-50">
+                    <SelectItem value="Contrato Assinado">Contrato Assinado</SelectItem>
+                    <SelectItem value="">Null (Limpar status)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
