@@ -33,22 +33,20 @@ const StatusUpdater = () => {
         .from('rematricula')
         .select('*')
         .eq('Cod Aluno', parseInt(codigoAluno))
-        .single();
+        .maybeSingle();
 
-      if (error) {
-        if (error.code === 'PGRST116') {
-          toast({
-            title: "Aluno não encontrado",
-            description: "Verifique o código e tente novamente",
-            variant: "destructive",
-          });
-          setStudentData(null);
-        } else {
-          throw error;
-        }
-      } else if (data) {
+      if (error) throw error;
+
+      if (data) {
         setStudentData(data);
         setNewStatus('');
+      } else {
+        toast({
+          title: "Aluno não encontrado",
+          description: "Verifique o código e tente novamente",
+          variant: "destructive",
+        });
+        setStudentData(null);
       }
     } catch (error) {
       console.error('Erro ao buscar aluno:', error);

@@ -27,11 +27,6 @@ const Auth = () => {
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-        
-        // Redirecionar para /adm quando autenticado
-        if (session?.user) {
-          navigate('/adm');
-        }
       }
     );
 
@@ -40,11 +35,6 @@ const Auth = () => {
       setSession(session);
       setUser(session?.user ?? null);
       setInitialLoading(false);
-      
-      // Redirecionar se já autenticado
-      if (session?.user) {
-        navigate('/adm');
-      }
     });
 
     return () => subscription.unsubscribe();
