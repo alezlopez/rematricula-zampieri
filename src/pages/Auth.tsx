@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
+import StatusUpdater from '@/components/StatusUpdater';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -96,38 +97,53 @@ const Auth = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <CardTitle className="text-center">Acesso Administrativo</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSignIn} className="space-y-4">
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <Input
-                  type="password"
-                  placeholder="Senha"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                <Button 
-                  type="submit"
-                  className="w-full"
-                  disabled={loading}
-                >
-                  {loading ? 'Entrando...' : 'Entrar'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </div>
+        {user ? (
+          // Usuário autenticado - mostrar ferramentas administrativas
+          <div className="space-y-6">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold mb-2">Painel Administrativo</h1>
+              <p className="text-muted-foreground">Ferramentas de gerenciamento</p>
+            </div>
+            
+            <div className="flex justify-center">
+              <StatusUpdater />
+            </div>
+          </div>
+        ) : (
+          // Usuário não autenticado - mostrar formulário de login
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <Card className="w-full max-w-md">
+              <CardHeader>
+                <CardTitle className="text-center">Acesso Administrativo</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSignIn} className="space-y-4">
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <Input
+                    type="password"
+                    placeholder="Senha"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <Button 
+                    type="submit"
+                    className="w-full"
+                    disabled={loading}
+                  >
+                    {loading ? 'Entrando...' : 'Entrar'}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </main>
     </div>
   );
