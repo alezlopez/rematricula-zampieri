@@ -72,7 +72,7 @@ const StatusUpdater = () => {
 
     setIsUpdating(true);
     try {
-      const statusValue = newStatus === "" ? null : newStatus;
+      const statusValue = newStatus === "NULL_VALUE" ? null : newStatus;
       const { error } = await supabase
         .from('rematricula')
         .update({ Status: statusValue })
@@ -185,7 +185,7 @@ const StatusUpdater = () => {
                   </SelectTrigger>
                   <SelectContent className="bg-background border shadow-lg z-50">
                     <SelectItem value="Contrato Assinado">Contrato Assinado</SelectItem>
-                    <SelectItem value="">Null (Limpar status)</SelectItem>
+                    <SelectItem value="NULL_VALUE">Null (Limpar status)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
