@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import StatusUpdater from '@/components/StatusUpdater';
+import LiberarMatricula from '@/components/LiberarMatricula';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -397,6 +398,7 @@ const Adm = () => {
               <CardTitle>Matrículas - {selectedStatus} ({matriculas.length})</CardTitle>
               <div className="flex gap-2 items-center">
                 <StatusUpdater />
+                <LiberarMatricula />
                 <Dialog open={isDescontoModalOpen} onOpenChange={setIsDescontoModalOpen}>
                   <DialogTrigger asChild>
                     <Button variant="outline" size="sm" className="flex items-center gap-2">
