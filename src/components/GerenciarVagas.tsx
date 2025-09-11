@@ -29,7 +29,7 @@ interface VagaDisponivel {
 
 const cursos = [
   "1º Ano", "2º Ano", "3º Ano", "4º Ano", "5º Ano", "6º Ano",
-  "7º Ano", "8º Ano", "9º Ano", "1º Ano EM", "2º Ano EM", "3º Ano EM"
+  "7º Ano", "8º Ano", "9º Ano", "1º Médio", "2º Médio", "3º Médio"
 ];
 
 const turnos = ["Manhã", "Tarde", "Integral"];
