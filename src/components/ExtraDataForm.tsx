@@ -54,12 +54,18 @@ const ExtraDataForm = ({
     toast
   } = useToast();
 
-  // Verificar se é Ensino Médio para limitar opções de turno (normaliza acentos e espaços)
+  // Verificar ciclo e curso para limitar opções de turno
   const cicloRaw = (data?.Ciclo ?? data?.ciclo ?? "").toString();
   const cicloNorm = cicloRaw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
   const isEnsinoMedio = cicloNorm === "ensino medio";
+  
+  const cursoRaw = (data?.["Curso 2026"] ?? data?.curso_2026 ?? "").toString();
+  const is7Ano = cursoRaw.includes("7º Ano");
+  
   console.log('Ciclo do aluno:', cicloRaw);
+  console.log('Curso 2026:', cursoRaw);
   console.log('É Ensino Médio?', isEnsinoMedio);
+  console.log('É 7º Ano?', is7Ano);
   const estadosCivis = [{
     value: "solteiro",
     label: "Solteiro(a)"
@@ -73,26 +79,30 @@ const ExtraDataForm = ({
     value: "uniao_estavel",
     label: "União Estável"
   }];
-  const turnos = isEnsinoMedio ? [{
-    value: "Manhã",
-    label: "Manhã"
-  }] : [{
-    value: "Manhã",
-    label: "Manhã"
-  }, {
-    value: "Tarde",
-    label: "Tarde"
-  }];
+  const turnos = isEnsinoMedio ? [
+    { value: "Manhã", label: "Manhã" }
+  ] : is7Ano ? [
+    { value: "Tarde", label: "Tarde" }
+  ] : [
+    { value: "Manhã", label: "Manhã" },
+    { value: "Tarde", label: "Tarde" }
+  ];
 
   // Para Ensino Médio, definir automaticamente turno como Manhã
+  // Para 7º Ano, definir automaticamente turno como Tarde
   useEffect(() => {
     if (isEnsinoMedio && !formData.turno_2026) {
       setFormData(prev => ({
         ...prev,
         turno_2026: "Manhã"
       }));
+    } else if (is7Ano && !formData.turno_2026) {
+      setFormData(prev => ({
+        ...prev,
+        turno_2026: "Tarde"
+      }));
     }
-  }, [isEnsinoMedio, formData.turno_2026]);
+  }, [isEnsinoMedio, is7Ano, formData.turno_2026]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -165,8 +175,8 @@ const ExtraDataForm = ({
         throw new Error("Não foi possível identificar o aluno (código ausente)");
       }
 
-      // Determinar turno a salvar (EM = Manhã obrigatória)
-      const selectedTurno = isEnsinoMedio ? "Manhã" : formData.turno_2026;
+      // Determinar turno a salvar (EM = Manhã obrigatória, 7º Ano = Tarde obrigatória)
+      const selectedTurno = isEnsinoMedio ? "Manhã" : is7Ano ? "Tarde" : formData.turno_2026;
       console.log('Turno selecionado para salvar:', selectedTurno);
 
       // Atualizar dados na tabela rematricula
@@ -396,30 +406,48 @@ const ExtraDataForm = ({
           })} placeholder="Ex: São Paulo, Rio de Janeiro..." className="mt-2" />
           </div>
 
-          <div>
-            <Label htmlFor="turno">Turno 2026 *</Label>
-            {isEnsinoMedio ? <>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Para alunos do Ensino Médio, o turno é obrigatoriamente <strong>Manhã</strong>
-                </p>
-                <Input value="Manhã" readOnly className="mt-2" />
-              </> : <>
-                <p className="text-sm text-muted-foreground mt-1">Selecione o turno desejado para 2026 - Ensino médio só temos Manhã</p>
-                <Select value={formData.turno_2026} onValueChange={value => setFormData({
-              ...formData,
-              turno_2026: value
-            })}>
-                  <SelectTrigger className="mt-2">
-                    <SelectValue placeholder="Selecione o turno" />
-                  </SelectTrigger>
-                  <SelectContent className="z-50 bg-background">
-                    {turnos.map(turno => <SelectItem key={turno.value} value={turno.value}>
-                        {turno.label}
-                      </SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </>}
-          </div>
+      <div>
+        <Label htmlFor="turno">Turno 2026 *</Label>
+        {isEnsinoMedio ? (
+          <>
+            <p className="text-sm text-muted-foreground mt-1">
+              Para alunos do Ensino Médio, o turno é obrigatoriamente <strong>Manhã</strong>
+            </p>
+            <Input value="Manhã" readOnly className="mt-2" />
+          </>
+        ) : is7Ano ? (
+          <>
+            <p className="text-sm text-muted-foreground mt-1">
+              Para alunos do 7º Ano, o turno é obrigatoriamente <strong>Tarde</strong>
+            </p>
+            <Input value="Tarde" readOnly className="mt-2" />
+          </>
+        ) : (
+          <>
+            <p className="text-sm text-muted-foreground mt-1">
+              Selecione o turno desejado para 2026
+            </p>
+            <Select 
+              value={formData.turno_2026} 
+              onValueChange={value => setFormData({
+                ...formData,
+                turno_2026: value
+              })}
+            >
+              <SelectTrigger className="mt-2">
+                <SelectValue placeholder="Selecione o turno" />
+              </SelectTrigger>
+              <SelectContent className="z-50 bg-background">
+                {turnos.map(turno => (
+                  <SelectItem key={turno.value} value={turno.value}>
+                    {turno.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </>
+        )}
+      </div>
 
           <div className="flex gap-2 pt-4">
             <Button type="button" onClick={onBack} variant="outline" className="flex-1">
