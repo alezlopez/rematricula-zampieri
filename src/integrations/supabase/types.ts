@@ -131,6 +131,45 @@ export type Database = {
         }
         Relationships: []
       }
+      ocorrencias: {
+        Row: {
+          "Cod Aluno": number
+          "CPF da mãe": string | null
+          "CPF do Pai": string | null
+          "Email da Mãe": string | null
+          "Email do Pai": string | null
+          "Nome da mãe": string | null
+          "Nome do Aluno": string | null
+          "Nome do Pai": string | null
+          "Telefone da Mãe": string | null
+          "Telefone do Pai": string | null
+        }
+        Insert: {
+          "Cod Aluno": number
+          "CPF da mãe"?: string | null
+          "CPF do Pai"?: string | null
+          "Email da Mãe"?: string | null
+          "Email do Pai"?: string | null
+          "Nome da mãe"?: string | null
+          "Nome do Aluno"?: string | null
+          "Nome do Pai"?: string | null
+          "Telefone da Mãe"?: string | null
+          "Telefone do Pai"?: string | null
+        }
+        Update: {
+          "Cod Aluno"?: number
+          "CPF da mãe"?: string | null
+          "CPF do Pai"?: string | null
+          "Email da Mãe"?: string | null
+          "Email do Pai"?: string | null
+          "Nome da mãe"?: string | null
+          "Nome do Aluno"?: string | null
+          "Nome do Pai"?: string | null
+          "Telefone da Mãe"?: string | null
+          "Telefone do Pai"?: string | null
+        }
+        Relationships: []
+      }
       pre_matricula: {
         Row: {
           atendimentoEducacional: string | null
@@ -579,6 +618,36 @@ export type Database = {
         }
         Relationships: []
       }
+      vagas_turmas: {
+        Row: {
+          ativo: boolean | null
+          created_at: string | null
+          curso: string
+          id: number
+          max_vagas: number
+          turno: string
+          updated_at: string | null
+        }
+        Insert: {
+          ativo?: boolean | null
+          created_at?: string | null
+          curso: string
+          id?: number
+          max_vagas: number
+          turno: string
+          updated_at?: string | null
+        }
+        Update: {
+          ativo?: boolean | null
+          created_at?: string | null
+          curso?: string
+          id?: number
+          max_vagas?: number
+          turno?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -596,6 +665,28 @@ export type Database = {
       binary_quantize: {
         Args: { "": string } | { "": unknown }
         Returns: unknown
+      }
+      calcular_vagas_disponiveis: {
+        Args: { p_curso: string; p_turno: string }
+        Returns: {
+          curso: string
+          disponivel: boolean
+          matriculados: number
+          max_vagas: number
+          turno: string
+          vagas_disponiveis: number
+        }[]
+      }
+      get_vagas_disponiveis: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          curso: string
+          disponivel: boolean
+          matriculados: number
+          max_vagas: number
+          turno: string
+          vagas_disponiveis: number
+        }[]
       }
       halfvec_avg: {
         Args: { "": number[] }
@@ -656,6 +747,21 @@ export type Database = {
           id: number
           metadata: Json
           similarity: number
+        }[]
+      }
+      rematricula_by_codigo_aluno: {
+        Args: { p_cod_aluno: number }
+        Returns: {
+          "Cod Aluno": number
+          "CPF da mãe": string
+          "CPF do Pai": string
+          "Email da Mãe": string
+          "Email do Pai": string
+          "Nome da mãe": string
+          "Nome do Aluno": string
+          "Nome do Pai": string
+          "Telefone da Mãe": string
+          "Telefone do Pai": string
         }[]
       }
       rematricula_by_cpf: {

@@ -9,11 +9,12 @@ import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { User, Session } from '@supabase/supabase-js';
-import { LogOut, Edit } from 'lucide-react';
+import { LogOut, Edit, Settings } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import GerenciarVagas from '@/components/GerenciarVagas';
 
 interface RematriculaData {
   "Cod Aluno": number;
@@ -53,6 +54,7 @@ const Adm = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [updatingStatus, setUpdatingStatus] = useState<number | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<string>('Pago');
+  const [showVagasManager, setShowVagasManager] = useState(false);
   
   // Estados para modal de desconto
   const [isDescontoModalOpen, setIsDescontoModalOpen] = useState(false);
@@ -382,46 +384,58 @@ const Adm = () => {
             <h1 className="text-3xl font-bold">Dashboard Administrativo</h1>
             <p className="text-muted-foreground mt-1">Logado como: {user.email}</p>
           </div>
-          <Button 
-            variant="outline"
-            onClick={handleSignOut}
-            className="flex items-center gap-2"
-          >
-            <LogOut className="h-4 w-4" />
-            Sair
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button 
+              variant={showVagasManager ? "default" : "outline"}
+              onClick={() => setShowVagasManager(!showVagasManager)}
+            >
+              <Settings className="h-4 w-4 mr-2" />
+              {showVagasManager ? "Voltar" : "Gerenciar Vagas"}
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={handleSignOut}
+              className="flex items-center gap-2"
+            >
+              <LogOut className="h-4 w-4" />
+              Sair
+            </Button>
+          </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle>Matrículas - {selectedStatus} ({matriculas.length})</CardTitle>
-              <div className="flex gap-2 items-center">
-                <StatusUpdater />
-                <LiberarMatricula />
-                <Dialog open={isDescontoModalOpen} onOpenChange={setIsDescontoModalOpen}>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" size="sm" className="flex items-center gap-2">
-                      <Edit className="h-4 w-4" />
-                      Alterar Desconto
-                    </Button>
-                  </DialogTrigger>
-                </Dialog>
-                <Select value={selectedStatus} onValueChange={handleStatusChange}>
-                  <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Selecione o status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Pago">Pago</SelectItem>
-                    <SelectItem value="Contrato Assinado">Contrato Assinado</SelectItem>
-                    <SelectItem value="Contrato Gerado">Contrato Gerado</SelectItem>
-                    <SelectItem value="Pagamento Gerado">Pagamento Gerado</SelectItem>
-                    <SelectItem value="Concluido">Concluido</SelectItem>
-                  </SelectContent>
-                </Select>
+        {showVagasManager ? (
+          <GerenciarVagas />
+        ) : (
+          <Card>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle>Matrículas - {selectedStatus} ({matriculas.length})</CardTitle>
+                <div className="flex gap-2 items-center">
+                  <StatusUpdater />
+                  <LiberarMatricula />
+                  <Dialog open={isDescontoModalOpen} onOpenChange={setIsDescontoModalOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="sm" className="flex items-center gap-2">
+                        <Edit className="h-4 w-4" />
+                        Alterar Desconto
+                      </Button>
+                    </DialogTrigger>
+                  </Dialog>
+                  <Select value={selectedStatus} onValueChange={handleStatusChange}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue placeholder="Selecione o status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Pago">Pago</SelectItem>
+                      <SelectItem value="Contrato Assinado">Contrato Assinado</SelectItem>
+                      <SelectItem value="Contrato Gerado">Contrato Gerado</SelectItem>
+                      <SelectItem value="Pagamento Gerado">Pagamento Gerado</SelectItem>
+                      <SelectItem value="Concluido">Concluido</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-            </div>
-          </CardHeader>
+            </CardHeader>
           <CardContent>
             {loading ? (
               <div className="flex justify-center py-8">
@@ -520,6 +534,7 @@ const Adm = () => {
             )}
           </CardContent>
         </Card>
+        )}
       </main>
 
       {/* Modal de Alteração de Desconto */}

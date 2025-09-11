@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Loader2 } from "lucide-react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { cn } from "@/lib/utils";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import React, { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { CalendarIcon, AlertTriangle, Users } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { Badge } from '@/components/ui/badge';
 interface ExtraDataFormProps {
   data: any;
   onSuccess: (extraData: any) => void;
@@ -49,6 +49,7 @@ const ExtraDataForm = ({
     responsavel: "",
     aluno: ""
   });
+  const [vagasInfo, setVagasInfo] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const {
     toast
@@ -66,19 +67,14 @@ const ExtraDataForm = ({
   console.log('Curso 2026:', cursoRaw);
   console.log('É Ensino Médio?', isEnsinoMedio);
   console.log('É 7º Ano?', is7Ano);
-  const estadosCivis = [{
-    value: "solteiro",
-    label: "Solteiro(a)"
-  }, {
-    value: "casado",
-    label: "Casado(a)"
-  }, {
-    value: "viuvo",
-    label: "Viúvo(a)"
-  }, {
-    value: "uniao_estavel",
-    label: "União Estável"
-  }];
+  
+  const estadosCivis = [
+    { value: "solteiro", label: "Solteiro(a)" },
+    { value: "casado", label: "Casado(a)" },
+    { value: "viuvo", label: "Viúvo(a)" },
+    { value: "uniao_estavel", label: "União Estável" }
+  ];
+  
   const turnos = isEnsinoMedio ? [
     { value: "Manhã", label: "Manhã" }
   ] : is7Ano ? [
@@ -87,6 +83,31 @@ const ExtraDataForm = ({
     { value: "Manhã", label: "Manhã" },
     { value: "Tarde", label: "Tarde" }
   ];
+
+  // Verificar vagas disponíveis
+  useEffect(() => {
+    const verificarVagasDisponiveis = async () => {
+      try {
+        const { data: vagasData, error } = await supabase
+          .rpc('calcular_vagas_disponiveis', { 
+            p_curso: cursoRaw, 
+            p_turno: null 
+          });
+
+        if (error) {
+          console.error('Erro ao verificar vagas:', error);
+        } else {
+          setVagasInfo(vagasData || []);
+        }
+      } catch (error) {
+        console.error('Erro ao consultar vagas:', error);
+      }
+    };
+
+    if (cursoRaw) {
+      verificarVagasDisponiveis();
+    }
+  }, [cursoRaw]);
 
   // Para Ensino Médio, definir automaticamente turno como Manhã
   // Para 7º Ano, definir automaticamente turno como Tarde
@@ -438,13 +459,86 @@ const ExtraDataForm = ({
                 <SelectValue placeholder="Selecione o turno" />
               </SelectTrigger>
               <SelectContent className="z-50 bg-background">
-                {turnos.map(turno => (
-                  <SelectItem key={turno.value} value={turno.value}>
-                    {turno.label}
-                  </SelectItem>
-                ))}
+                {turnos.map(turno => {
+                  const vagaInfo = vagasInfo.find(v => v.turno === turno.value);
+                  const vagasRestantes = vagaInfo?.vagas_disponiveis || 0;
+                  const isDisponivel = !vagaInfo || vagaInfo.disponivel;
+                  
+                  return (
+                    <SelectItem 
+                      key={turno.value} 
+                      value={turno.value}
+                      disabled={!isDisponivel}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <span>{turno.label}</span>
+                        {vagaInfo && (
+                          <div className="flex items-center gap-2 ml-2">
+                            {vagasRestantes <= 0 ? (
+                              <Badge variant="destructive" className="text-xs">
+                                <AlertTriangle className="w-3 h-3 mr-1" />
+                                Lotado
+                              </Badge>
+                            ) : vagasRestantes <= 5 ? (
+                              <Badge variant="secondary" className="text-xs">
+                                <Users className="w-3 h-3 mr-1" />
+                                {vagasRestantes} vagas
+                              </Badge>
+                            ) : (
+                              <Badge variant="outline" className="text-xs">
+                                <Users className="w-3 h-3 mr-1" />
+                                {vagasRestantes} vagas
+                              </Badge>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
+            
+            {/* Alertas sobre vagas */}
+            {formData.turno_2026 && vagasInfo.length > 0 && (
+              <div className="mt-2">
+                {(() => {
+                  const vagaInfo = vagasInfo.find(v => v.turno === formData.turno_2026);
+                  if (!vagaInfo) return null;
+                  
+                  const vagasRestantes = vagaInfo.vagas_disponiveis;
+                  
+                  if (vagasRestantes <= 0) {
+                    return (
+                      <div className="flex items-center gap-2 p-2 bg-destructive/10 border border-destructive/20 rounded-md">
+                        <AlertTriangle className="w-4 h-4 text-destructive" />
+                        <span className="text-sm text-destructive">
+                          Este turno está lotado. Não há vagas disponíveis.
+                        </span>
+                      </div>
+                    );
+                  } else if (vagasRestantes <= 5) {
+                    return (
+                      <div className="flex items-center gap-2 p-2 bg-yellow-50 border border-yellow-200 rounded-md">
+                        <Users className="w-4 h-4 text-yellow-600" />
+                        <span className="text-sm text-yellow-700">
+                          Atenção: Restam apenas {vagasRestantes} vagas neste turno.
+                        </span>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div className="flex items-center gap-2 p-2 bg-green-50 border border-green-200 rounded-md">
+                        <Users className="w-4 h-4 text-green-600" />
+                        <span className="text-sm text-green-700">
+                          {vagasRestantes} vagas disponíveis neste turno.
+                        </span>
+                      </div>
+                    );
+                  }
+                })()}
+              </div>
+            )}
           </>
         )}
       </div>
@@ -454,7 +548,7 @@ const ExtraDataForm = ({
               Voltar
             </Button>
             <Button type="submit" disabled={isLoading} className="flex-1">
-              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Continuar"}
+              {isLoading ? <div className="w-4 h-4 animate-spin border-2 border-current border-t-transparent rounded-full" /> : "Continuar"}
             </Button>
           </div>
         </form>
