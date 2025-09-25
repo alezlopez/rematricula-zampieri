@@ -738,7 +738,7 @@ export type Database = {
       }
       l2_normalize: {
         Args: { "": string } | { "": unknown } | { "": unknown }
-        Returns: unknown
+        Returns: string
       }
       match_documents: {
         Args: { filter?: Json; match_count?: number; query_embedding: string }
