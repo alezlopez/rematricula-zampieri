@@ -127,6 +127,9 @@ const Campanha2026 = () => {
           <div className="space-y-6">
             {/* 1º Lote - Destaque */}
             <Card className="relative overflow-hidden border-4 border-gold shadow-2xl bg-gradient-gold text-white transform hover:scale-102 transition-all mx-4">
+              <Badge className="absolute top-4 left-4 bg-destructive text-destructive-foreground text-sm sm:text-base px-3 py-1 font-bold z-10">
+                Encerrado
+              </Badge>
               <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 bg-gradient-to-r from-gold to-gold-light text-white px-4 py-2 sm:px-8 sm:py-3 text-sm sm:text-lg font-bold rounded-bl-3xl shadow-gold">
                 <Crown className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">MELHOR OFERTA</span>
@@ -157,7 +160,10 @@ const Campanha2026 = () => {
 
             {/* Outros lotes */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 px-4">
-              <Card className="border-2 border-primary-light bg-gradient-to-br from-primary-lighter to-secondary hover:shadow-lg transition-shadow">
+              <Card className="relative border-2 border-primary-light bg-gradient-to-br from-primary-lighter to-secondary hover:shadow-lg transition-shadow">
+                <Badge className="absolute top-2 right-2 bg-destructive text-destructive-foreground text-xs px-2 py-1 font-bold">
+                  Encerrado
+                </Badge>
                 <CardHeader className="text-center">
                   <div className="text-4xl font-bold text-primary">50%</div>
                   <CardTitle className="text-primary">🎯 11 a 20/09</CardTitle>
@@ -168,7 +174,10 @@ const Campanha2026 = () => {
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-coral-light bg-gradient-to-br from-coral-light/20 to-coral-light/40 hover:shadow-lg transition-shadow">
+              <Card className="relative border-2 border-coral-light bg-gradient-to-br from-coral-light/20 to-coral-light/40 hover:shadow-lg transition-shadow">
+                <Badge className="absolute top-2 right-2 bg-destructive text-destructive-foreground text-xs px-2 py-1 font-bold">
+                  Encerrado
+                </Badge>
                 <CardHeader className="text-center">
                   <div className="text-4xl font-bold text-coral">40%</div>
                   <CardTitle className="text-coral">⭐ 21 a 30/09</CardTitle>
