@@ -85,6 +85,34 @@ const ListaVip = () => {
 
       if (error) throw error;
 
+      const [openPopup, setOpenPopup] = useState(false);
+
+      setOpenPopup(true);
+      return (
+        <Dialog open={openPopup} onOpenChange={setOpenPopup}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Cadastro realizado com sucesso!</DialogTitle>
+              <DialogDescription>
+                Você foi adicionado à lista VIP. Entraremos em contato no dia 24/10 no número informado.
+              </DialogDescription>
+            </DialogHeader>
+
+            <button
+              onClick={() => setOpenPopup(false)}
+              className="mt-4 w-full rounded-xl bg-primary p-2 text-white font-medium"
+            >
+              Não quero perder essa oportunidade!
+            </button>
+          </DialogContent>
+        </Dialog>
+      );
+
+      //toast({
+      //title: "Cadastro realizado com sucesso!",
+      //description: "Você foi adicionado à lista VIP. Em breve entraremos em contato.",
+      //});
+
       form.reset();
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
@@ -95,29 +123,6 @@ const ListaVip = () => {
       });
     } finally {
       setIsSubmitting(false);
-      <Dialog open={showPopup} onOpenChange={setShowPopup}>
-        <DialogContent
-          className="sm:max-w-md"
-          hideCloseButton
-          onInteractOutside={(e) => e.preventDefault()}
-          onEscapeKeyDown={(e) => e.preventDefault()}
-        >
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-center">Importante</DialogTitle>
-            <DialogDescription className="text-center text-base py-4">
-              Recebemos seu cadastro.
-              <br />
-              <br />
-              Vamos entrar em contato em breve no celular informado no dia 24/10. Aguarde!
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col gap-3">
-            <Button onClick={handlePositiveClick} className="w-full" size="lg">
-              Ok, Entendi!
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>;
     }
   };
 
