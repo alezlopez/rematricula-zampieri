@@ -165,10 +165,12 @@ const ListaVip = () => {
       <Dialog open={showSuccessPopup} onOpenChange={setShowSuccessPopup}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Cadastro realizado com sucesso!</DialogTitle>
+            <DialogTitle className="text-2xl font-bold text-center">Cadastro Realizado com Sucesso</DialogTitle>
             <DialogDescription>
+              <br />
+              <br />
               Seu cadastro foi concluído na <span className="font-bold text-primary">Lista VIP</span>. Entraremos em
-              contato no dia 24/10 no número informado.
+              contato no dia 24/11 no número informado.
             </DialogDescription>
           </DialogHeader>
 
