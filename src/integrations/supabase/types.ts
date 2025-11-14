@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      alunos_comunicados_whatsapp: {
+        Row: {
+          celular_mae: string | null
+          celular_pai: string | null
+          codigo_aluno: string
+          cpf_mae: string | null
+          cpf_pai: string | null
+          ddd_mae: string | null
+          ddd_pai: string | null
+          ID: number
+          nome_da_mae: string | null
+          nome_do_aluno: string | null
+          nome_pai: string | null
+          turma: string | null
+        }
+        Insert: {
+          celular_mae?: string | null
+          celular_pai?: string | null
+          codigo_aluno: string
+          cpf_mae?: string | null
+          cpf_pai?: string | null
+          ddd_mae?: string | null
+          ddd_pai?: string | null
+          ID?: number
+          nome_da_mae?: string | null
+          nome_do_aluno?: string | null
+          nome_pai?: string | null
+          turma?: string | null
+        }
+        Update: {
+          celular_mae?: string | null
+          celular_pai?: string | null
+          codigo_aluno?: string
+          cpf_mae?: string | null
+          cpf_pai?: string | null
+          ddd_mae?: string | null
+          ddd_pai?: string | null
+          ID?: number
+          nome_da_mae?: string | null
+          nome_do_aluno?: string | null
+          nome_pai?: string | null
+          turma?: string | null
+        }
+        Relationships: []
+      }
       alunosIntegraSae: {
         Row: {
           aluno: string | null
@@ -104,6 +149,69 @@ export type Database = {
         Update: {
           disciplina?: string
           id?: number
+        }
+        Relationships: []
+      }
+      interessados_matricula: {
+        Row: {
+          created_at: string
+          escola_atual: string | null
+          follow_up: boolean | null
+          id: number
+          nome_responsavel: string | null
+          serie_interesse: string | null
+          telefone_responsavel: string | null
+          turno_interesse: string | null
+        }
+        Insert: {
+          created_at?: string
+          escola_atual?: string | null
+          follow_up?: boolean | null
+          id?: number
+          nome_responsavel?: string | null
+          serie_interesse?: string | null
+          telefone_responsavel?: string | null
+          turno_interesse?: string | null
+        }
+        Update: {
+          created_at?: string
+          escola_atual?: string | null
+          follow_up?: boolean | null
+          id?: number
+          nome_responsavel?: string | null
+          serie_interesse?: string | null
+          telefone_responsavel?: string | null
+          turno_interesse?: string | null
+        }
+        Relationships: []
+      }
+      lista_vip: {
+        Row: {
+          cpf_responsavel: string
+          created_at: string
+          id: number
+          nome_aluno: string
+          nome_responsavel: string
+          serie_aluno: string
+          whatsapp_responsavel: string
+        }
+        Insert: {
+          cpf_responsavel: string
+          created_at?: string
+          id?: never
+          nome_aluno: string
+          nome_responsavel: string
+          serie_aluno: string
+          whatsapp_responsavel: string
+        }
+        Update: {
+          cpf_responsavel?: string
+          created_at?: string
+          id?: never
+          nome_aluno?: string
+          nome_responsavel?: string
+          serie_aluno?: string
+          whatsapp_responsavel?: string
         }
         Relationships: []
       }
@@ -662,10 +770,6 @@ export type Database = {
           user_id: string
         }[]
       }
-      binary_quantize: {
-        Args: { "": string } | { "": unknown }
-        Returns: unknown
-      }
       calcular_vagas_disponiveis: {
         Args: { p_curso: string; p_turno: string }
         Returns: {
@@ -678,7 +782,7 @@ export type Database = {
         }[]
       }
       get_vagas_disponiveis: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           curso: string
           disponivel: boolean
@@ -687,58 +791,6 @@ export type Database = {
           turno: string
           vagas_disponiveis: number
         }[]
-      }
-      halfvec_avg: {
-        Args: { "": number[] }
-        Returns: unknown
-      }
-      halfvec_out: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      halfvec_send: {
-        Args: { "": unknown }
-        Returns: string
-      }
-      halfvec_typmod_in: {
-        Args: { "": unknown[] }
-        Returns: number
-      }
-      hnsw_bit_support: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      hnsw_halfvec_support: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      hnsw_sparsevec_support: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      hnswhandler: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      ivfflat_bit_support: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      ivfflat_halfvec_support: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      ivfflathandler: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      l2_norm: {
-        Args: { "": unknown } | { "": unknown }
-        Returns: number
-      }
-      l2_normalize: {
-        Args: { "": string } | { "": unknown } | { "": unknown }
-        Returns: string
       }
       match_documents: {
         Args: { filter?: Json; match_count?: number; query_embedding: string }
@@ -799,18 +851,6 @@ export type Database = {
           "token contrato": string
           "Turno 2026": string
         }[]
-      }
-      sparsevec_out: {
-        Args: { "": unknown }
-        Returns: unknown
-      }
-      sparsevec_send: {
-        Args: { "": unknown }
-        Returns: string
-      }
-      sparsevec_typmod_in: {
-        Args: { "": unknown[] }
-        Returns: number
       }
       update_rematricula_fields: {
         Args: {
@@ -880,30 +920,12 @@ export type Database = {
           "token contrato": string | null
           "Turno 2026": string | null
         }[]
-      }
-      vector_avg: {
-        Args: { "": number[] }
-        Returns: string
-      }
-      vector_dims: {
-        Args: { "": string } | { "": unknown }
-        Returns: number
-      }
-      vector_norm: {
-        Args: { "": string }
-        Returns: number
-      }
-      vector_out: {
-        Args: { "": string }
-        Returns: unknown
-      }
-      vector_send: {
-        Args: { "": string }
-        Returns: string
-      }
-      vector_typmod_in: {
-        Args: { "": unknown[] }
-        Returns: number
+        SetofOptions: {
+          from: "*"
+          to: "rematricula"
+          isOneToOne: false
+          isSetofReturn: true
+        }
       }
     }
     Enums: {
