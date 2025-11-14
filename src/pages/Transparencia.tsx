@@ -47,7 +47,7 @@ const Transparencia = () => {
         const { data, error } = await supabase
           .from("numeros_da_sorte")
           .select("*")
-          .order("numero_da_sorte", { ascending: true });
+          .order("Aluno", { ascending: true });
 
         if (error) throw error;
         setNumeros(data || []);
