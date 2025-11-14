@@ -201,10 +201,10 @@ const Campanha2026 = () => {
               </Card>
 
               <Card className="border-2 border-gold-light bg-gradient-to-br from-gold-light/20 to-gold-light/40 hover:shadow-lg transition-shadow">
+                <Badge className="absolute top-2 right-2 bg-destructive text-destructive-foreground text-xs px-2 py-1 font-bold">
+                  Encerrado
+                </Badge>
                 <CardHeader className="text-center">
-                  <Badge className="absolute top-2 right-2 bg-destructive text-destructive-foreground text-xs px-2 py-1 font-bold">
-                    Encerrado
-                  </Badge>
                   <div className="text-4xl font-bold text-gold">35%</div>
                   <CardTitle className="text-gold">Outubro</CardTitle>
                 </CardHeader>
@@ -215,10 +215,10 @@ const Campanha2026 = () => {
               </Card>
 
               <Card className="border-2 border-primary-light bg-gradient-to-br from-primary-lighter to-secondary hover:shadow-lg transition-shadow">
+                <Badge className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 font-bold">
+                  Em andamento...
+                </Badge>
                 <CardHeader className="text-center">
-                  <Badge className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 font-bold">
-                    Em andamento...
-                  </Badge>
                   <div className="text-4xl font-bold text-primary">30%</div>
                   <CardTitle className="text-primary">🎉 Novembro</CardTitle>
                 </CardHeader>
