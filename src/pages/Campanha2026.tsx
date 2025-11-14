@@ -200,21 +200,21 @@ const Campanha2026 = () => {
                 </CardContent>
               </Card>
 
-              <Card className="relative border-2 border-coral-light bg-gradient-to-br from-coral-light/20 to-coral-light/40 hover:shadow-lg transition-shadow">
+              <Card className="relative border-2 border-gold-light bg-gradient-to-br from-gold-light/20 to-gold-light/40 hover:shadow-lg transition-shadow">
                 <Badge className="absolute top-2 right-2 bg-destructive text-destructive-foreground text-xs px-2 py-1 font-bold">
                   Encerrado
                 </Badge>
                 <CardHeader className="text-center">
-                  <div className="text-4xl font-bold text-coral">40%</div>
-                  <CardTitle className="text-coral">21 a 30/09</CardTitle>
+                  <div className="text-4xl font-bold text-gold">35%</div>
+                  <CardTitle className="text-gold">Outubro</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <p className="text-sm text-coral mb-2">40% de desconto</p>
-                  <Badge className="bg-coral text-white">2 números da sorte</Badge>
+                  <p className="text-sm text-gold mb-2">35% de desconto</p>
+                  <Badge className="bg-gold text-white">1 número da sorte</Badge>
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-primary-light bg-gradient-to-br from-primary-lighter to-secondary hover:shadow-lg transition-shadow">
+              <Card className="relative border-2 border-primary-light bg-gradient-to-br from-primary-lighter to-secondary hover:shadow-lg transition-shadow">
                 <Badge className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 font-bold">
                   Em andamento...
                 </Badge>
