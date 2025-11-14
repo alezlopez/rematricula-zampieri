@@ -1,35 +1,53 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { CalendarDays, Gift, Trophy, CheckCircle, Star, Clock, Zap, Crown, Sparkles, MessageSquare, Smartphone, Building2, QrCode, DollarSign, BookOpen } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  CalendarDays,
+  Gift,
+  Trophy,
+  CheckCircle,
+  Star,
+  Clock,
+  Zap,
+  Crown,
+  Sparkles,
+  MessageSquare,
+  Smartphone,
+  Building2,
+  QrCode,
+  DollarSign,
+  BookOpen,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 const Campanha2026 = () => {
   const navigate = useNavigate();
-  return <div className="min-h-screen bg-gradient-to-br from-primary-lighter via-white to-primary-lighter">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-primary-lighter via-white to-primary-lighter">
       <main className="container mx-auto px-4 py-16 space-y-20">
-        
         {/* Hero Section */}
         <section className="text-center space-y-8 relative">
           <div className="absolute inset-0 bg-gradient-primary/10 rounded-3xl blur-3xl"></div>
           <div className="relative z-10">
             {/* Logo */}
             <div className="flex justify-center mb-8">
-              <img src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png" alt="Colégio Zampieri" className="h-32 md:h-40 object-contain drop-shadow-lg" />
+              <img
+                src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png"
+                alt="Colégio Zampieri"
+                className="h-32 md:h-40 object-contain drop-shadow-lg"
+              />
             </div>
-            
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 mb-6 px-4">
-              Rematrículas 2026
-            </h1>
-            
+
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 mb-6 px-4">Rematrículas 2026</h1>
+
             <p className="text-lg sm:text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-8 px-4">
               Descontos exclusivos, sorteios e prêmios para quem garante a vaga antecipada!
             </p>
-            
-            <Button 
-              size="lg" 
-              onClick={() => navigate('/')}
+
+            <Button
+              size="lg"
+              onClick={() => navigate("/")}
               className="bg-primary hover:bg-primary-light text-white text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105 mx-4"
             >
               <Zap className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
@@ -42,7 +60,8 @@ const Campanha2026 = () => {
         {/* Mensagem de Abertura */}
         <section className="text-center bg-gradient-to-r from-primary-lighter to-secondary p-4 sm:p-8 rounded-3xl border border-primary-light mx-4">
           <p className="text-lg sm:text-xl md:text-2xl text-primary font-medium max-w-4xl mx-auto leading-relaxed">
-            <strong className="text-primary">Obrigado pela confiança em 2025!</strong> Em 2026 seguimos juntos, com ensino de excelência, inovação e uma escola cada vez melhor para nossos alunos.
+            <strong className="text-primary">Obrigado pela confiança em 2025!</strong> Em 2026 seguimos juntos, com
+            ensino de excelência, inovação e uma escola cada vez melhor para nossos alunos.
           </p>
         </section>
 
@@ -54,7 +73,7 @@ const Campanha2026 = () => {
             </h2>
             <p className="text-base sm:text-lg text-gray-600">Inovação constante para oferecer o melhor ensino</p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 px-4">
             <Card className="text-center hover:shadow-lg transition-shadow border-primary-light">
               <CardHeader>
@@ -64,9 +83,7 @@ const Campanha2026 = () => {
                 <CardTitle className="text-lg">✅ Agenda Digital</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
-                  SAE Digital e Professus+ para acompanhamento completo
-                </p>
+                <p className="text-sm text-gray-600">SAE Digital e Professus+ para acompanhamento completo</p>
               </CardContent>
             </Card>
 
@@ -78,9 +95,7 @@ const Campanha2026 = () => {
                 <CardTitle className="text-lg">✅ Atendimento 24h</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
-                  WhatsApp com IA para tirar suas dúvidas a qualquer hora
-                </p>
+                <p className="text-sm text-gray-600">WhatsApp com IA para tirar suas dúvidas a qualquer hora</p>
               </CardContent>
             </Card>
 
@@ -92,9 +107,7 @@ const Campanha2026 = () => {
                 <CardTitle className="text-lg">✅ Rematrícula Online</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
-                  Processo prático e seguro, 100% digital
-                </p>
+                <p className="text-sm text-gray-600">Processo prático e seguro, 100% digital</p>
               </CardContent>
             </Card>
 
@@ -106,9 +119,7 @@ const Campanha2026 = () => {
                 <CardTitle className="text-lg">✅ Estrutura Renovada</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">
-                  Reformas e melhorias contínuas na escola
-                </p>
+                <p className="text-sm text-gray-600">Reformas e melhorias contínuas na escola</p>
               </CardContent>
             </Card>
           </div>
@@ -123,7 +134,7 @@ const Campanha2026 = () => {
             </h2>
             <p className="text-base sm:text-lg text-gray-600">Quanto antes você rematricular, maiores os benefícios!</p>
           </div>
-          
+
           <div className="space-y-6">
             {/* 1º Lote - Destaque */}
             <Card className="relative overflow-hidden border-4 border-gold shadow-2xl bg-gradient-gold text-white transform hover:scale-102 transition-all mx-4">
@@ -141,8 +152,10 @@ const Campanha2026 = () => {
                     <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 mb-4">
                       <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                       <div>
-                        <h3 className="text-xl sm:text-2xl font-bold text-white">🏆 25/08 a 10/09</h3>
-                        <p className="text-sm sm:text-base text-[#242424] font-semibold">Primeiro lote - Máximo benefício</p>
+                        <h3 className="text-xl sm:text-2xl font-bold text-white">25/08 a 10/09</h3>
+                        <p className="text-sm sm:text-base text-[#242424] font-semibold">
+                          Primeiro lote - Máximo benefício
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -150,8 +163,7 @@ const Campanha2026 = () => {
                     <div className="text-4xl sm:text-6xl font-bold text-white mb-2">60%</div>
                     <p className="text-lg sm:text-xl font-bold text-white mb-4">DE DESCONTO</p>
                     <Badge className="bg-white text-gold text-sm sm:text-lg px-4 sm:px-6 py-1 sm:py-2">
-                      <Star className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
-                      4 números da sorte
+                      <Star className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />4 números da sorte
                     </Badge>
                   </div>
                 </div>
@@ -166,7 +178,7 @@ const Campanha2026 = () => {
                 </Badge>
                 <CardHeader className="text-center">
                   <div className="text-4xl font-bold text-primary">50%</div>
-                  <CardTitle className="text-primary">🎯 11 a 20/09</CardTitle>
+                  <CardTitle className="text-primary">11 a 20/09</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="text-sm text-primary mb-2">50% de desconto</p>
@@ -180,7 +192,7 @@ const Campanha2026 = () => {
                 </Badge>
                 <CardHeader className="text-center">
                   <div className="text-4xl font-bold text-coral">40%</div>
-                  <CardTitle className="text-coral">⭐ 21 a 30/09</CardTitle>
+                  <CardTitle className="text-coral">21 a 30/09</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="text-sm text-coral mb-2">40% de desconto</p>
@@ -190,8 +202,11 @@ const Campanha2026 = () => {
 
               <Card className="border-2 border-gold-light bg-gradient-to-br from-gold-light/20 to-gold-light/40 hover:shadow-lg transition-shadow">
                 <CardHeader className="text-center">
+                  <Badge className="absolute top-2 right-2 bg-destructive text-destructive-foreground text-xs px-2 py-1 font-bold">
+                    Encerrado
+                  </Badge>
                   <div className="text-4xl font-bold text-gold">35%</div>
-                  <CardTitle className="text-gold">🍂 Outubro</CardTitle>
+                  <CardTitle className="text-gold">Outubro</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="text-sm text-gold mb-2">35% de desconto</p>
@@ -201,6 +216,9 @@ const Campanha2026 = () => {
 
               <Card className="border-2 border-primary-light bg-gradient-to-br from-primary-lighter to-secondary hover:shadow-lg transition-shadow">
                 <CardHeader className="text-center">
+                  <Badge className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 font-bold">
+                    Em andamento...
+                  </Badge>
                   <div className="text-4xl font-bold text-primary">30%</div>
                   <CardTitle className="text-primary">🎉 Novembro</CardTitle>
                 </CardHeader>
@@ -221,7 +239,7 @@ const Campanha2026 = () => {
               Prêmios e Benefícios Extras
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 px-4">
             {/* Sorteios Individuais */}
             <div className="space-y-6">
@@ -238,7 +256,7 @@ const Campanha2026 = () => {
                     </div>
                   </CardContent>
                 </Card>
-                
+
                 <Card className="bg-gradient-to-r from-gold-light/20 to-gold-light/40 border-gold-light hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
@@ -250,7 +268,7 @@ const Campanha2026 = () => {
                     </div>
                   </CardContent>
                 </Card>
-                
+
                 <Card className="bg-gradient-to-r from-coral-light/20 to-coral-light/40 border-coral-light hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
@@ -280,7 +298,7 @@ const Campanha2026 = () => {
                     </div>
                   </CardContent>
                 </Card>
-                
+
                 <Card className="bg-gradient-to-r from-coral-light/20 to-coral-light/40 border-coral-light hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
@@ -292,7 +310,7 @@ const Campanha2026 = () => {
                     </div>
                   </CardContent>
                 </Card>
-                
+
                 <Card className="bg-gradient-to-r from-primary-lighter to-secondary border-primary-light hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
@@ -315,7 +333,7 @@ const Campanha2026 = () => {
             <DollarSign className="w-8 h-8 sm:w-10 sm:h-10 inline mr-2 sm:mr-3 text-primary" />
             Valores 2026
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-2xl mx-auto">
             <Dialog>
               <DialogTrigger asChild>
@@ -369,7 +387,8 @@ const Campanha2026 = () => {
                     </table>
                   </div>
                   <p className="text-sm text-gray-600 italic">
-                    *Se você faz parte de algum programa especial de bolsa de estudo, o seu percentual de desconto será aplicado no valor do curso acima.
+                    *Se você faz parte de algum programa especial de bolsa de estudo, o seu percentual de desconto será
+                    aplicado no valor do curso acima.
                   </p>
                 </div>
               </DialogContent>
@@ -403,19 +422,58 @@ const Campanha2026 = () => {
                         </tr>
                       </thead>
                       <tbody className="divide-y text-sm">
-                        <tr><td className="p-2">Pré</td><td className="p-2 text-right font-medium">R$ 959,00</td></tr>
-                        <tr><td className="p-2">1º Ano</td><td className="p-2 text-right font-medium">R$ 1.199,00</td></tr>
-                        <tr><td className="p-2">2º Ano</td><td className="p-2 text-right font-medium">R$ 1.239,00</td></tr>
-                        <tr><td className="p-2">3º Ano</td><td className="p-2 text-right font-medium">R$ 1.309,00</td></tr>
-                        <tr><td className="p-2">4º Ano</td><td className="p-2 text-right font-medium">R$ 1.439,00</td></tr>
-                        <tr><td className="p-2">5º Ano</td><td className="p-2 text-right font-medium">R$ 1.659,00</td></tr>
-                        <tr><td className="p-2">6º Ano</td><td className="p-2 text-right font-medium">R$ 1.909,00</td></tr>
-                        <tr><td className="p-2">7º Ano</td><td className="p-2 text-right font-medium">R$ 1.909,00</td></tr>
-                        <tr><td className="p-2">8º Ano</td><td className="p-2 text-right font-medium">R$ 1.929,00</td></tr>
-                        <tr><td className="p-2">9º Ano</td><td className="p-2 text-right font-medium">R$ 1.989,00</td></tr>
-                        <tr><td className="p-2">1º Médio</td><td className="p-2 text-right font-medium">R$ 2.399,00</td></tr>
-                        <tr><td className="p-2">2º Médio</td><td className="p-2 text-right font-medium">R$ 2.399,00</td></tr>
-                        <tr><td className="p-2">3º Médio</td><td className="p-2 text-right font-medium">R$ 2.399,00</td></tr>
+                        <tr>
+                          <td className="p-2">Pré</td>
+                          <td className="p-2 text-right font-medium">R$ 959,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">1º Ano</td>
+                          <td className="p-2 text-right font-medium">R$ 1.199,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">2º Ano</td>
+                          <td className="p-2 text-right font-medium">R$ 1.239,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">3º Ano</td>
+                          <td className="p-2 text-right font-medium">R$ 1.309,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">4º Ano</td>
+                          <td className="p-2 text-right font-medium">R$ 1.439,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">5º Ano</td>
+                          <td className="p-2 text-right font-medium">R$ 1.659,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">6º Ano</td>
+                          <td className="p-2 text-right font-medium">R$ 1.909,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">7º Ano</td>
+                          <td className="p-2 text-right font-medium">R$ 1.909,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">8º Ano</td>
+                          <td className="p-2 text-right font-medium">R$ 1.929,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">9º Ano</td>
+                          <td className="p-2 text-right font-medium">R$ 1.989,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">1º Médio</td>
+                          <td className="p-2 text-right font-medium">R$ 2.399,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">2º Médio</td>
+                          <td className="p-2 text-right font-medium">R$ 2.399,00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">3º Médio</td>
+                          <td className="p-2 text-right font-medium">R$ 2.399,00</td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -429,12 +487,20 @@ const Campanha2026 = () => {
         <section className="text-center space-y-6 bg-gradient-to-r from-muted to-secondary p-4 sm:p-8 rounded-3xl mx-4">
           <h3 className="text-xl sm:text-2xl font-bold text-primary">Links Úteis</h3>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <Button variant="outline" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/numerosdasorte', '_blank')} className="border-primary-light text-primary hover:bg-primary-lighter text-sm sm:text-base">
+            <Button
+              variant="outline"
+              onClick={() => window.open("https://rematriculas.colegiozampieri.com.br/numerosdasorte", "_blank")}
+              className="border-primary-light text-primary hover:bg-primary-lighter text-sm sm:text-base"
+            >
               <Star className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Consultar Números da Sorte</span>
               <span className="sm:hidden">Números da Sorte</span>
             </Button>
-            <Button variant="outline" onClick={() => window.open('https://rematriculas.colegiozampieri.com.br/vencedores', '_blank')} className="border-gold-light text-gold hover:bg-gold-light/20 text-sm sm:text-base">
+            <Button
+              variant="outline"
+              onClick={() => window.open("https://rematriculas.colegiozampieri.com.br/vencedores", "_blank")}
+              className="border-gold-light text-gold hover:bg-gold-light/20 text-sm sm:text-base"
+            >
               <Trophy className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Lista de Vencedores</span>
               <span className="sm:hidden">Vencedores</span>
@@ -452,11 +518,11 @@ const Campanha2026 = () => {
             <p className="text-lg sm:text-xl mb-6 sm:mb-8 max-w-3xl mx-auto text-gold-light">
               Aproveite o <strong>maior desconto agora mesmo</strong> e concorra aos prêmios exclusivos!
             </p>
-            
+
             <div className="flex justify-center">
-              <Button 
-                size="lg" 
-                onClick={() => navigate('/')}
+              <Button
+                size="lg"
+                onClick={() => navigate("/")}
                 className="bg-white text-primary hover:bg-primary-lighter text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 h-auto shadow-primary hover:shadow-gold transition-all transform hover:scale-105"
               >
                 <Crown className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
@@ -464,7 +530,7 @@ const Campanha2026 = () => {
                 <span className="sm:hidden">Garantir vaga 2026</span>
               </Button>
             </div>
-            
+
             <p className="text-xs sm:text-sm opacity-80 mt-4 sm:mt-6">
               ⚡ Processo 100% digital • Confirmação imediata • Suporte 24h
             </p>
@@ -474,13 +540,16 @@ const Campanha2026 = () => {
         {/* Footer */}
         <section className="text-center py-8">
           <div className="flex justify-center mb-4">
-            <img src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png" alt="Colégio Zampieri" className="h-20 object-contain" />
+            <img
+              src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png"
+              alt="Colégio Zampieri"
+              className="h-20 object-contain"
+            />
           </div>
-          <p className="text-gray-600">
-            Tradição, inovação e compromisso com o futuro do seu filho.
-          </p>
+          <p className="text-gray-600">Tradição, inovação e compromisso com o futuro do seu filho.</p>
         </section>
       </main>
-    </div>;
+    </div>
+  );
 };
 export default Campanha2026;
