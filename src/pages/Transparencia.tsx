@@ -22,18 +22,6 @@ const Transparencia = () => {
   const [numeros, setNumeros] = useState<NumeroSorte[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const ocultarNome = (nome: string) => {
-    if (!nome) return "";
-    const palavras = nome.trim().split(" ");
-    if (palavras.length === 1) {
-      return palavras[0];
-    }
-    const primeiroNome = palavras[0];
-    const ultimoNome = palavras[palavras.length - 1];
-    const ultimasLetras = ultimoNome.slice(-2);
-    return `${primeiroNome} ****** ${ultimasLetras}`;
-  };
-
   const ocultarCPF = (cpf: string) => {
     if (!cpf) return "";
     const apenasNumeros = cpf.replace(/\D/g, "");
@@ -87,7 +75,7 @@ const Transparencia = () => {
                 {numeros.map((numero) => (
                   <TableRow key={numero.id}>
                     <TableCell className="font-medium">
-                      {ocultarNome(numero.Aluno)}
+                      {numero.Aluno}
                     </TableCell>
                     <TableCell className="text-center font-bold text-primary">
                       {numero.numero_da_sorte}
