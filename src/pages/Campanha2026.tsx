@@ -489,6 +489,15 @@ const Campanha2026 = () => {
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Button
               variant="outline"
+              onClick={() => navigate("/regulamentocampanha2026")}
+              className="border-primary text-primary hover:bg-primary-lighter text-sm sm:text-base font-semibold"
+            >
+              <BookOpen className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Regulamento da Campanha</span>
+              <span className="sm:hidden">Regulamento</span>
+            </Button>
+            <Button
+              variant="outline"
               onClick={() => window.open("https://rematriculas.colegiozampieri.com.br/numerosdasorte", "_blank")}
               className="border-primary-light text-primary hover:bg-primary-lighter text-sm sm:text-base"
             >
