@@ -152,7 +152,12 @@ const ListaVip = () => {
       <Header />
       
       <Dialog open={showPopup} onOpenChange={setShowPopup}>
-        <DialogContent className="sm:max-w-md" hideCloseButton>
+        <DialogContent 
+          className="sm:max-w-md" 
+          hideCloseButton
+          onInteractOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-center">Importante</DialogTitle>
             <DialogDescription className="text-center text-base py-4">
