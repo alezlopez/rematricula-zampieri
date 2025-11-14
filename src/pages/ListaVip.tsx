@@ -146,7 +146,7 @@ const ListaVip = () => {
               <br />
               <br />
               Para os que ainda estão indecisos, abrimos uma lista de prioridade, mas ela é limitada e estará disponível
-              só até o dia 24/10.
+              só até o dia 24/11.
             </DialogDescription>
           </DialogHeader>
 
