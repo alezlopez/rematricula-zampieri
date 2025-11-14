@@ -20,8 +20,10 @@ interface FormData {
 }
 
 const ListaVip = () => {
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(true); // popup inicial
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // popup de sucesso
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -85,33 +87,8 @@ const ListaVip = () => {
 
       if (error) throw error;
 
-      const [openPopup, setOpenPopup] = useState(false);
-
-      setOpenPopup(true);
-      return (
-        <Dialog open={openPopup} onOpenChange={setOpenPopup}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Cadastro realizado com sucesso!</DialogTitle>
-              <DialogDescription>
-                Você foi adicionado à lista VIP. Entraremos em contato no dia 24/10 no número informado.
-              </DialogDescription>
-            </DialogHeader>
-
-            <button
-              onClick={() => setOpenPopup(false)}
-              className="mt-4 w-full rounded-xl bg-primary p-2 text-white font-medium"
-            >
-              Não quero perder essa oportunidade!
-            </button>
-          </DialogContent>
-        </Dialog>
-      );
-
-      //toast({
-      //title: "Cadastro realizado com sucesso!",
-      //description: "Você foi adicionado à lista VIP. Em breve entraremos em contato.",
-      //});
+      // Mostrar o popup de sucesso
+      setShowSuccessPopup(true);
 
       form.reset();
     } catch (error) {
@@ -154,6 +131,7 @@ const ListaVip = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
+      {/* POPUP INICIAL */}
       <Dialog open={showPopup} onOpenChange={setShowPopup}>
         <DialogContent
           className="sm:max-w-md"
@@ -171,6 +149,7 @@ const ListaVip = () => {
               só até o dia 24/10.
             </DialogDescription>
           </DialogHeader>
+
           <div className="flex flex-col gap-3">
             <Button onClick={handlePositiveClick} className="w-full" size="lg">
               Quero aproveitar essa oportunidade
@@ -182,6 +161,26 @@ const ListaVip = () => {
         </DialogContent>
       </Dialog>
 
+      {/* POPUP DE SUCESSO */}
+      <Dialog open={showSuccessPopup} onOpenChange={setShowSuccessPopup}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Cadastro realizado com sucesso!</DialogTitle>
+            <DialogDescription>
+              Você foi adicionado à lista VIP. Entraremos em contato no dia 24/10 no número informado.
+            </DialogDescription>
+          </DialogHeader>
+
+          <button
+            onClick={() => setShowSuccessPopup(false)}
+            className="mt-4 w-full rounded-xl bg-primary p-2 text-white font-medium"
+          >
+            Não quero perder essa oportunidade!
+          </button>
+        </DialogContent>
+      </Dialog>
+
+      {/* FORM */}
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         <Card>
           <CardHeader className="text-center">
@@ -190,6 +189,7 @@ const ListaVip = () => {
               Cadastre-se agora e garanta sua vaga na última oportunidade de rematrícula para 2026.
             </CardDescription>
           </CardHeader>
+
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
