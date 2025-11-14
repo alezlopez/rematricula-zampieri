@@ -4,28 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -89,7 +70,7 @@ const ListaVip = () => {
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
-    
+
     try {
       const cpfNumbers = data.cpfResponsavel.replace(/\D/g, "");
       const whatsappNumbers = data.whatsappResponsavel.replace(/\D/g, "");
@@ -104,11 +85,6 @@ const ListaVip = () => {
 
       if (error) throw error;
 
-      toast({
-        title: "Cadastro realizado com sucesso!",
-        description: "Você foi adicionado à lista VIP. Em breve entraremos em contato.",
-      });
-
       form.reset();
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
@@ -119,6 +95,29 @@ const ListaVip = () => {
       });
     } finally {
       setIsSubmitting(false);
+      <Dialog open={showPopup} onOpenChange={setShowPopup}>
+        <DialogContent
+          className="sm:max-w-md"
+          hideCloseButton
+          onInteractOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-center">Importante</DialogTitle>
+            <DialogDescription className="text-center text-base py-4">
+              Recebemos seu cadastro.
+              <br />
+              <br />
+              Vamos entrar em contato em breve no celular informado no dia 24/10. Aguarde!
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3">
+            <Button onClick={handlePositiveClick} className="w-full" size="lg">
+              Ok, Entendi!
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>;
     }
   };
 
@@ -144,16 +143,15 @@ const ListaVip = () => {
     "9º ano",
     "1º médio",
     "2º médio",
-    "3º médio",
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <Dialog open={showPopup} onOpenChange={setShowPopup}>
-        <DialogContent 
-          className="sm:max-w-md" 
+        <DialogContent
+          className="sm:max-w-md"
           hideCloseButton
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
@@ -162,25 +160,17 @@ const ListaVip = () => {
             <DialogTitle className="text-2xl font-bold text-center">Importante</DialogTitle>
             <DialogDescription className="text-center text-base py-4">
               A maioria das famílias já fez a rematrícula.
-              <br /><br />
-              Para os que ainda estão indecisos, abrimos uma lista de prioridade, 
-              mas ela é limitada e estará disponível só até o dia 24/10.
+              <br />
+              <br />
+              Para os que ainda estão indecisos, abrimos uma lista de prioridade, mas ela é limitada e estará disponível
+              só até o dia 24/10.
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
-            <Button
-              onClick={handlePositiveClick}
-              className="w-full"
-              size="lg"
-            >
+            <Button onClick={handlePositiveClick} className="w-full" size="lg">
               Quero aproveitar essa oportunidade
             </Button>
-            <Button
-              onClick={handleNegativeClick}
-              variant="destructive"
-              className="w-full"
-              size="lg"
-            >
+            <Button onClick={handleNegativeClick} variant="destructive" className="w-full" size="lg">
               Quero perder a chance de matricular meu filho
             </Button>
           </div>
@@ -192,7 +182,7 @@ const ListaVip = () => {
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold">Lista VIP - Prioridade</CardTitle>
             <CardDescription className="text-lg">
-              Cadastre-se agora e garanta sua vaga antes que seja tarde demais!
+              Cadastre-se agora e garanta sua vaga na última oportunidade de rematrícula para 2026.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -268,12 +258,7 @@ const ListaVip = () => {
                     <FormItem>
                       <FormLabel>CPF do Responsável *</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="000.000.000-00"
-                          {...field}
-                          onChange={handleCPFChange}
-                          maxLength={14}
-                        />
+                        <Input placeholder="000.000.000-00" {...field} onChange={handleCPFChange} maxLength={14} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -306,12 +291,7 @@ const ListaVip = () => {
                   )}
                 />
 
-                <Button
-                  type="submit"
-                  className="w-full"
-                  size="lg"
-                  disabled={isSubmitting}
-                >
+                <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
                   {isSubmitting ? "Enviando..." : "Cadastrar na Lista VIP"}
                 </Button>
               </form>
