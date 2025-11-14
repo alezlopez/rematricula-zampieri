@@ -12,6 +12,7 @@ import Adm from "./pages/Adm";
 import Auth from "./pages/Auth";
 import ListaVip from "./pages/ListaVip";
 import Transparencia from "./pages/Transparencia";
+import RegulamentoCampanha2026 from "./pages/RegulamentoCampanha2026";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/listavip" element={<ListaVip />} />
           <Route path="/transparencia" element={<Transparencia />} />
+          <Route path="/regulamentocampanha2026" element={<RegulamentoCampanha2026 />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
