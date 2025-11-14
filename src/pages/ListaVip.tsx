@@ -167,7 +167,8 @@ const ListaVip = () => {
           <DialogHeader>
             <DialogTitle>Cadastro realizado com sucesso!</DialogTitle>
             <DialogDescription>
-              Você foi adicionado à lista VIP. Entraremos em contato no dia 24/10 no número informado.
+              Seu cadastro foi concluído na <span className="font-bold text-primary">Lista VIP</span>. Entraremos em
+              contato no dia 24/10 no número informado.
             </DialogDescription>
           </DialogHeader>
 
