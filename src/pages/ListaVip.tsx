@@ -156,7 +156,7 @@ const ListaVip = () => {
             </Button>
           </div>
           <Button onClick={handleNegativeClick} variant="destructive" size="sm">
-            Quero perder a chance de matricular meu filho
+            Quero perder a oportunidade
           </Button>
         </DialogContent>
       </Dialog>
