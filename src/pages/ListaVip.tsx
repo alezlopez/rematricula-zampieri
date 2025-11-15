@@ -128,13 +128,13 @@ const ListaVip = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black">
       <Header />
 
       {/* POPUP INICIAL */}
       <Dialog open={showPopup} onOpenChange={setShowPopup}>
         <DialogContent
-          className="sm:max-w-md"
+          className="sm:max-w-md bg-black border-white/20"
           hideCloseButton
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
@@ -163,7 +163,7 @@ const ListaVip = () => {
 
       {/* POPUP DE SUCESSO */}
       <Dialog open={showSuccessPopup} onOpenChange={setShowSuccessPopup}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-black border-white/20">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-center">Cadastro Realizado com Sucesso</DialogTitle>
             <DialogDescription>
@@ -185,7 +185,7 @@ const ListaVip = () => {
 
       {/* FORM */}
       <div className="container mx-auto px-4 py-8 max-w-2xl">
-        <Card>
+        <Card className="bg-black border-white/20">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold">Lista VIP - Prioridade</CardTitle>
             <CardDescription className="text-lg">
