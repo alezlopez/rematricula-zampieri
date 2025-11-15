@@ -154,7 +154,7 @@ const ListaVip = () => {
             <Button onClick={handlePositiveClick} className="w-full" size="lg">
               Quero aproveitar essa oportunidade
             </Button>
-            <Button onClick={handleNegativeClick} variant="destructive" className="w-full" size="lg">
+            <Button onClick={handleNegativeClick} variant="destructive" size="sm">
               Quero perder a chance de matricular meu filho
             </Button>
           </div>
