@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 interface FormData {
   nomeResponsavel: string;
@@ -140,8 +141,8 @@ const ListaVip = () => {
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-center">Importante</DialogTitle>
-            <DialogDescription className="text-center text-base py-4">
+            <DialogTitle className="text-2xl font-bold text-center text-white">Importante</DialogTitle>
+            <DialogDescription className="text-center text-base py-4 text-white">
               A maioria das famílias já fez a rematrícula.
               <br />
               <br />
@@ -165,8 +166,8 @@ const ListaVip = () => {
       <Dialog open={showSuccessPopup} onOpenChange={setShowSuccessPopup}>
         <DialogContent className="sm:max-w-md bg-black border-white/20">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-center">Cadastro Realizado com Sucesso</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-2xl font-bold text-center text-white">Cadastro Realizado com Sucesso</DialogTitle>
+            <DialogDescription className="text-white">
               <br />
               <br />
               Seu cadastro foi concluído na <span className="font-bold text-primary">Lista VIP</span>. Entraremos em
@@ -187,8 +188,8 @@ const ListaVip = () => {
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         <Card className="bg-black border-white/20">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold">Lista VIP - Prioridade</CardTitle>
-            <CardDescription className="text-lg">
+            <CardTitle className="text-3xl font-bold text-white">Lista VIP - Prioridade</CardTitle>
+            <CardDescription className="text-lg text-white">
               Cadastre-se agora e garanta sua vaga na última oportunidade de rematrícula para 2026.
             </CardDescription>
           </CardHeader>
@@ -202,7 +203,7 @@ const ListaVip = () => {
                   rules={{ required: "Nome do responsável é obrigatório" }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nome do Responsável *</FormLabel>
+                      <FormLabel className="text-white">Nome do Responsável *</FormLabel>
                       <FormControl>
                         <Input placeholder="Digite o nome completo" {...field} />
                       </FormControl>
@@ -217,7 +218,7 @@ const ListaVip = () => {
                   rules={{ required: "Nome do aluno é obrigatório" }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nome do Aluno *</FormLabel>
+                      <FormLabel className="text-white">Nome do Aluno *</FormLabel>
                       <FormControl>
                         <Input placeholder="Digite o nome completo" {...field} />
                       </FormControl>
@@ -232,7 +233,7 @@ const ListaVip = () => {
                   rules={{ required: "Série do aluno é obrigatória" }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Série do Aluno *</FormLabel>
+                      <FormLabel className="text-white">Série do Aluno *</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
@@ -264,7 +265,7 @@ const ListaVip = () => {
                   }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>CPF do Responsável *</FormLabel>
+                      <FormLabel className="text-white">CPF do Responsável *</FormLabel>
                       <FormControl>
                         <Input placeholder="000.000.000-00" {...field} onChange={handleCPFChange} maxLength={14} />
                       </FormControl>
@@ -285,7 +286,7 @@ const ListaVip = () => {
                   }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>WhatsApp do Responsável *</FormLabel>
+                      <FormLabel className="text-white">WhatsApp do Responsável *</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="(00) 00000-0000"
@@ -304,6 +305,45 @@ const ListaVip = () => {
                 </Button>
               </form>
             </Form>
+          </CardContent>
+        </Card>
+
+        {/* FAQ SECTION */}
+        <Card className="bg-black border-white/20 mt-8">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold text-white">Dúvidas Frequentes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-white text-left">
+                  Qual o desconto?
+                </AccordionTrigger>
+                <AccordionContent className="text-white/90">
+                  Todos que se inscreverem na lista terão direito a 60% de desconto no valor de rematrícula.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-2">
+                <AccordionTrigger className="text-white text-left">
+                  Tenho garantia de vaga?
+                </AccordionTrigger>
+                <AccordionContent className="text-white/90">
+                  Não! Algumas turmas já estão com vagas esgotadas para o período da manhã.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-3">
+                <AccordionTrigger className="text-white text-left">
+                  Como cancelar a inscrição?
+                </AccordionTrigger>
+                <AccordionContent className="text-white/90">
+                  Essa inscrição é apenas para a lista de espera sem compromisso, ou seja, se não quiser a 
+                  oportunidade, é só não efetuar o pagamento de rematrícula. Além disso, você pode sair da lista 
+                  de espera a qualquer momento, perdendo automaticamente o desconto de 60%.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </CardContent>
         </Card>
       </div>
