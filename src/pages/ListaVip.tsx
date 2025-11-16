@@ -128,14 +128,14 @@ const ListaVip = () => {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#272727' }}>
+    <div className="min-h-screen" style={{ backgroundColor: "#272727" }}>
       {/* Custom Header for Lista VIP page */}
-      <header className="w-full shadow-sm border-b border-white/20" style={{ backgroundColor: '#272727' }}>
+      <header className="w-full shadow-sm border-b border-white/20" style={{ backgroundColor: "#272727" }}>
         <div className="container mx-auto px-4 py-4 flex justify-center">
           <div className="bg-white rounded-full p-3 flex items-center justify-center">
-            <img 
-              src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png" 
-              alt="Colégio Zampieri" 
+            <img
+              src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png"
+              alt="Colégio Zampieri"
               className="h-12 object-contain"
             />
           </div>
@@ -153,7 +153,7 @@ const ListaVip = () => {
       <Dialog open={showPopup} onOpenChange={setShowPopup}>
         <DialogContent
           className="sm:max-w-md border-white/20"
-          style={{ backgroundColor: '#272727' }}
+          style={{ backgroundColor: "#272727" }}
           hideCloseButton
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
@@ -182,9 +182,11 @@ const ListaVip = () => {
 
       {/* POPUP DE SUCESSO */}
       <Dialog open={showSuccessPopup} onOpenChange={setShowSuccessPopup}>
-        <DialogContent className="sm:max-w-md border-white/20" style={{ backgroundColor: '#272727' }}>
+        <DialogContent className="sm:max-w-md border-white/20" style={{ backgroundColor: "#272727" }}>
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-center text-white">Cadastro Realizado com Sucesso</DialogTitle>
+            <DialogTitle className="text-2xl font-bold text-center text-white">
+              Cadastro Realizado com Sucesso
+            </DialogTitle>
             <DialogDescription className="text-white">
               <br />
               <br />
@@ -204,11 +206,11 @@ const ListaVip = () => {
 
       {/* FORM */}
       <div className="container mx-auto px-4 py-8 max-w-2xl">
-        <Card className="border-0 shadow-none" style={{ backgroundColor: '#272727' }}>
+        <Card className="border-0 shadow-none" style={{ backgroundColor: "#272727" }}>
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold text-white">Lista VIP - Prioridade</CardTitle>
+            <CardTitle className="text-3xl font-bold text-white">Lista de Espera - Não Rematriculados</CardTitle>
             <CardDescription className="text-lg text-white">
-              Cadastre-se agora e garanta sua vaga na última oportunidade de rematrícula para 2026.
+              Cadastre-se agora e garanta a última oportunidade de rematrícula para 2026 com o maior desconto.
             </CardDescription>
           </CardHeader>
 
@@ -319,7 +321,7 @@ const ListaVip = () => {
                 />
 
                 <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
-                  {isSubmitting ? "Enviando..." : "Cadastrar na Lista VIP"}
+                  {isSubmitting ? "Enviando..." : "Entrar para a lista"}
                 </Button>
               </form>
             </Form>
@@ -327,38 +329,32 @@ const ListaVip = () => {
         </Card>
 
         {/* FAQ SECTION */}
-        <Card className="border-0 shadow-none mt-8" style={{ backgroundColor: '#272727' }}>
+        <Card className="border-0 shadow-none mt-8" style={{ backgroundColor: "#272727" }}>
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-white">Dúvidas Frequentes</CardTitle>
           </CardHeader>
           <CardContent>
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-white text-left">
-                  Qual o desconto?
-                </AccordionTrigger>
+                <AccordionTrigger className="text-white text-left">Qual o desconto?</AccordionTrigger>
                 <AccordionContent className="text-white/90">
                   Todos que se inscreverem na lista terão direito a 60% de desconto no valor de rematrícula.
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="item-2">
-                <AccordionTrigger className="text-white text-left">
-                  Tenho garantia de vaga?
-                </AccordionTrigger>
+                <AccordionTrigger className="text-white text-left">Tenho garantia de vaga?</AccordionTrigger>
                 <AccordionContent className="text-white/90">
                   Não! Algumas turmas já estão com vagas esgotadas para o período da manhã.
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="item-3">
-                <AccordionTrigger className="text-white text-left">
-                  Como cancelar a inscrição?
-                </AccordionTrigger>
+                <AccordionTrigger className="text-white text-left">Como cancelar a inscrição?</AccordionTrigger>
                 <AccordionContent className="text-white/90">
-                  Essa inscrição é apenas para a lista de espera sem compromisso, ou seja, se não quiser a 
-                  oportunidade, é só não efetuar o pagamento de rematrícula. Além disso, você pode sair da lista 
-                  de espera a qualquer momento, perdendo automaticamente o desconto de 60%.
+                  Essa inscrição é apenas para a lista de espera sem compromisso, ou seja, se não quiser a oportunidade,
+                  é só não efetuar o pagamento de rematrícula. Além disso, você pode sair da lista de espera a qualquer
+                  momento, perdendo automaticamente o desconto de 60%.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
