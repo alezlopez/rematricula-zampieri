@@ -142,6 +142,13 @@ const ListaVip = () => {
         </div>
       </header>
 
+      {/* Faixa Vermelha - Largura Total */}
+      <div className="w-full bg-red-600/30 py-4 px-6">
+        <p className="text-red-500 text-center font-semibold text-lg">
+          Se inscreva para ter acesso ao desconto no dia do lançamento da oferta.
+        </p>
+      </div>
+
       {/* POPUP INICIAL */}
       <Dialog open={showPopup} onOpenChange={setShowPopup}>
         <DialogContent
@@ -197,20 +204,13 @@ const ListaVip = () => {
 
       {/* FORM */}
       <div className="container mx-auto px-4 py-8 max-w-2xl">
-        <Card className="border-white/20" style={{ backgroundColor: '#272727' }}>
+        <Card className="border-0 shadow-none" style={{ backgroundColor: '#272727' }}>
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold text-white">Lista VIP - Prioridade</CardTitle>
             <CardDescription className="text-lg text-white">
               Cadastre-se agora e garanta sua vaga na última oportunidade de rematrícula para 2026.
             </CardDescription>
           </CardHeader>
-
-          {/* Faixa Vermelha */}
-          <div className="w-full bg-red-600/30 py-4 px-6 -mx-6">
-            <p className="text-red-500 text-center font-semibold text-lg">
-              Se inscreva para ter acesso ao desconto no dia do lançamento da oferta.
-            </p>
-          </div>
 
           <CardContent>
             <Form {...form}>
@@ -327,7 +327,7 @@ const ListaVip = () => {
         </Card>
 
         {/* FAQ SECTION */}
-        <Card className="border-white/20 mt-8" style={{ backgroundColor: '#272727' }}>
+        <Card className="border-0 shadow-none mt-8" style={{ backgroundColor: '#272727' }}>
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-white">Dúvidas Frequentes</CardTitle>
           </CardHeader>
