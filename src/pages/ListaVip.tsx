@@ -205,6 +205,13 @@ const ListaVip = () => {
             </CardDescription>
           </CardHeader>
 
+          {/* Faixa Vermelha */}
+          <div className="w-full bg-red-600/30 py-4 px-6 -mx-6">
+            <p className="text-red-500 text-center font-semibold text-lg">
+              Se inscreva para ter acesso ao desconto no dia do lançamento da oferta.
+            </p>
+          </div>
+
           <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
