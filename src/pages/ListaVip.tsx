@@ -149,7 +149,7 @@ const ListaVip = () => {
           <DialogHeader>
             <DialogTitle className="text-4xl font-bold text-center text-white">Quase lá...</DialogTitle>
 
-            <DialogDescription className="text 2x1 text-white text-center">
+            <DialogDescription className="text 3x1 text-white text-center">
               <br />
               Seu cadastro foi concluído na <span className="text 2x1 font-bold text-primary">Lista VIP</span>.
               <br />
