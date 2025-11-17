@@ -15,8 +15,6 @@ interface FormData {
   nomeResponsavel: string;
   nomeAluno: string;
   serieAluno: string;
-  cpfResponsavel: string;
-  whatsappResponsavel: string;
 }
 
 const ListaVip = () => {
@@ -32,57 +30,20 @@ const ListaVip = () => {
       nomeResponsavel: "",
       nomeAluno: "",
       serieAluno: "",
-      cpfResponsavel: "",
-      whatsappResponsavel: "",
     },
   });
 
-  const formatCPF = (value: string) => {
-    const numbers = value.replace(/\D/g, "");
-    if (numbers.length <= 11) {
-      return numbers
-        .replace(/(\d{3})(\d)/, "$1.$2")
-        .replace(/(\d{3})(\d)/, "$1.$2")
-        .replace(/(\d{3})(\d{1,2})/, "$1-$2")
-        .replace(/(-\d{2})\d+?$/, "$1");
-    }
-    return value;
-  };
-
-  const formatWhatsApp = (value: string) => {
-    const numbers = value.replace(/\D/g, "");
-    if (numbers.length <= 11) {
-      return numbers
-        .replace(/(\d{2})(\d)/, "($1) $2")
-        .replace(/(\d{5})(\d)/, "$1-$2")
-        .replace(/(-\d{4})\d+?$/, "$1");
-    }
-    return value;
-  };
-
-  const handleCPFChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatCPF(e.target.value);
-    form.setValue("cpfResponsavel", formatted);
-  };
-
-  const handleWhatsAppChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatWhatsApp(e.target.value);
-    form.setValue("whatsappResponsavel", formatted);
-  };
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
     try {
-      const cpfNumbers = data.cpfResponsavel.replace(/\D/g, "");
-      const whatsappNumbers = data.whatsappResponsavel.replace(/\D/g, "");
-
       const { error } = await supabase.from("lista_vip").insert({
         nome_responsavel: data.nomeResponsavel,
         nome_aluno: data.nomeAluno,
         serie_aluno: data.serieAluno,
-        cpf_responsavel: cpfNumbers,
-        whatsapp_responsavel: whatsappNumbers,
+        cpf_responsavel: "",
+        whatsapp_responsavel: "",
       });
 
       if (error) throw error;
@@ -277,52 +238,6 @@ const ListaVip = () => {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="cpfResponsavel"
-                  rules={{
-                    required: "CPF é obrigatório",
-                    validate: (value) => {
-                      const numbers = value.replace(/\D/g, "");
-                      return numbers.length === 11 || "CPF deve ter 11 dígitos";
-                    },
-                  }}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-white">CPF do Responsável *</FormLabel>
-                      <FormControl>
-                        <Input placeholder="000.000.000-00" {...field} onChange={handleCPFChange} maxLength={14} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="whatsappResponsavel"
-                  rules={{
-                    required: "WhatsApp é obrigatório",
-                    validate: (value) => {
-                      const numbers = value.replace(/\D/g, "");
-                      return numbers.length === 11 || "WhatsApp deve ter 11 dígitos (DDD + 9 dígitos)";
-                    },
-                  }}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-white">WhatsApp do Responsável *</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="(00) 00000-0000"
-                          {...field}
-                          onChange={handleWhatsAppChange}
-                          maxLength={15}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
 
                 <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
                   {isSubmitting ? "Enviando..." : "Entrar para a lista"}
