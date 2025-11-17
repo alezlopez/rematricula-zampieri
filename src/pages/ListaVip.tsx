@@ -93,11 +93,11 @@ const ListaVip = () => {
       {/* Custom Header for Lista VIP page */}
       <header className="w-full shadow-sm border-b border-white/20" style={{ backgroundColor: "#131313" }}>
         <div className="container mx-auto px-4 py-4 flex justify-center">
-          <div className="bg-white rounded-full p-3 flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <img
               src="/lovable-uploads/logo-zampieri-escudo.png"
               alt="Colégio Zampieri"
-              className="h-12 object-contain"
+              className="h-20 object-contain"
             />
           </div>
         </div>
