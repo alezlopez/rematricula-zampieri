@@ -95,7 +95,7 @@ const ListaVip = () => {
         <div className="container mx-auto px-4 py-4 flex justify-center">
           <div className="bg-white rounded-full p-3 flex items-center justify-center">
             <img
-              src="/lovable-uploads/0dd01042-2911-4a76-ab1e-e0e6d60e3f18.png"
+              src="/lovable-uploads/logo-zampieri-escudo.png"
               alt="Colégio Zampieri"
               className="h-12 object-contain"
             />
