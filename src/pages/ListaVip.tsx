@@ -128,9 +128,9 @@ const ListaVip = () => {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#272727" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "#131313" }}>
       {/* Custom Header for Lista VIP page */}
-      <header className="w-full shadow-sm border-b border-white/20" style={{ backgroundColor: "#272727" }}>
+      <header className="w-full shadow-sm border-b border-white/20" style={{ backgroundColor: "#131313" }}>
         <div className="container mx-auto px-4 py-4 flex justify-center">
           <div className="bg-white rounded-full p-3 flex items-center justify-center">
             <img
@@ -153,7 +153,7 @@ const ListaVip = () => {
       <Dialog open={showPopup} onOpenChange={setShowPopup}>
         <DialogContent
           className="sm:max-w-md border-white/20"
-          style={{ backgroundColor: "#272727" }}
+          style={{ backgroundColor: "#131313" }}
           hideCloseButton
           onInteractOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
@@ -164,8 +164,8 @@ const ListaVip = () => {
               A maioria das famílias já fez a rematrícula.
               <br />
               <br />
-              Para os que ainda estão indecisos, abrimos uma lista de prioridade, <strong>mas ela é limitada e estará disponível
-              só até o dia 24/11.</strong>
+              Para os que ainda estão indecisos, abrimos uma lista de prioridade,{" "}
+              <strong>mas ela é limitada e estará disponível só até o dia 24/11.</strong>
             </DialogDescription>
           </DialogHeader>
 
@@ -181,36 +181,36 @@ const ListaVip = () => {
       </Dialog>
 
       {/* POPUP DE SUCESSO */}
-<Dialog open={showSuccessPopup} onOpenChange={setShowSuccessPopup}>
-  <DialogContent
-    className="w-full max-w-[360px] h-[85vh] flex flex-col rounded-2xl border-white/20 overflow-y-auto"
-    style={{ backgroundColor: "#272727" }}
-  >
-    <DialogHeader>
-      <DialogTitle className="text-2xl font-bold text-center text-white">
-        Cadastro Realizado com Sucesso
-      </DialogTitle>
+      <Dialog open={showSuccessPopup} onOpenChange={setShowSuccessPopup}>
+        <DialogContent
+          className="w-full max-w-[360px] h-[85vh] flex flex-col rounded-2xl border-white/20 overflow-y-auto"
+          style={{ backgroundColor: "#131313" }}
+        >
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-center text-white">
+              Cadastro Realizado com Sucesso
+            </DialogTitle>
 
-      <DialogDescription className="text-white text-center">
-        <br />
-        Seu cadastro foi concluído na <span className="font-bold text-primary">Lista VIP</span>.
-        <br />
-        Entraremos em contato no dia <span className="font-bold">24/11</span> no número informado.
-      </DialogDescription>
-    </DialogHeader>
+            <DialogDescription className="text-white text-center">
+              <br />
+              Seu cadastro foi concluído na <span className="font-bold text-primary">Lista VIP</span>.
+              <br />
+              Entraremos em contato no dia <span className="font-bold">24/11</span> no número informado.
+            </DialogDescription>
+          </DialogHeader>
 
-    <button
-      onClick={() => setShowSuccessPopup(false)}
-      className="mt-auto mb-4 w-full rounded-xl bg-primary p-3 text-white font-medium"
-    >
-      Não quero perder essa oportunidade!
-    </button>
-  </DialogContent>
-</Dialog>
+          <button
+            onClick={() => setShowSuccessPopup(false)}
+            className="mt-auto mb-4 w-full rounded-xl bg-primary p-3 text-white font-medium"
+          >
+            Não quero perder essa oportunidade!
+          </button>
+        </DialogContent>
+      </Dialog>
 
       {/* FORM */}
       <div className="container mx-auto px-4 py-8 max-w-2xl">
-        <Card className="border-0 shadow-none" style={{ backgroundColor: "#272727" }}>
+        <Card className="border-0 shadow-none" style={{ backgroundColor: "#131313" }}>
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold text-white">Lista de Espera - Não Rematriculados</CardTitle>
             <CardDescription className="text-lg text-white">
@@ -333,7 +333,7 @@ const ListaVip = () => {
         </Card>
 
         {/* FAQ SECTION */}
-        <Card className="border-0 shadow-none mt-8" style={{ backgroundColor: "#272727" }}>
+        <Card className="border-0 shadow-none mt-8" style={{ backgroundColor: "#131313" }}>
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-white">Dúvidas Frequentes</CardTitle>
           </CardHeader>
