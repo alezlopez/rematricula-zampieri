@@ -164,8 +164,8 @@ const ListaVip = () => {
               A maioria das famílias já fez a rematrícula.
               <br />
               <br />
-              Para os que ainda estão indecisos, abrimos uma lista de prioridade, mas ela é limitada e estará disponível
-              só até o dia 24/11.
+              Para os que ainda estão indecisos, abrimos uma lista de prioridade, <strong>mas ela é limitada e estará disponível
+              só até o dia 24/11.</strong>
             </DialogDescription>
           </DialogHeader>
 
@@ -181,19 +181,32 @@ const ListaVip = () => {
       </Dialog>
 
       {/* POPUP DE SUCESSO */}
-      <Dialog open={showSuccessPopup} onOpenChange={setShowSuccessPopup}>
-        <DialogContent className="sm:max-w-md border-white/20" style={{ backgroundColor: "#272727" }}>
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-center text-white">
-              Cadastro Realizado com Sucesso
-            </DialogTitle>
-            <DialogDescription className="text-white">
-              <br />
-              <br />
-              Seu cadastro foi concluído na <span className="font-bold text-primary">Lista VIP</span>. Entraremos em
-              contato no dia 24/11 no número informado.
-            </DialogDescription>
-          </DialogHeader>
+<Dialog open={showSuccessPopup} onOpenChange={setShowSuccessPopup}>
+  <DialogContent
+    className="w-full max-w-[360px] h-[85vh] flex flex-col rounded-2xl border-white/20 overflow-y-auto"
+    style={{ backgroundColor: "#272727" }}
+  >
+    <DialogHeader>
+      <DialogTitle className="text-2xl font-bold text-center text-white">
+        Cadastro Realizado com Sucesso
+      </DialogTitle>
+
+      <DialogDescription className="text-white text-center">
+        <br />
+        Seu cadastro foi concluído na <span className="font-bold text-primary">Lista VIP</span>.
+        <br />
+        Entraremos em contato no dia <span className="font-bold">24/11</span> no número informado.
+      </DialogDescription>
+    </DialogHeader>
+
+    <button
+      onClick={() => setShowSuccessPopup(false)}
+      className="mt-auto mb-4 w-full rounded-xl bg-primary p-3 text-white font-medium"
+    >
+      Não quero perder essa oportunidade!
+    </button>
+  </DialogContent>
+</Dialog>
 
           <button
             onClick={() => setShowSuccessPopup(false)}
