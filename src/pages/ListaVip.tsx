@@ -150,8 +150,12 @@ const ListaVip = () => {
             <DialogTitle className="text-5xl font-bold text-center text-white">Quase lá...</DialogTitle>
 
             <DialogDescription className="text-3xl text-white text-center space-y-4">
-              <p>Seu cadastro foi concluído na <span className="text-2xl font-bold text-primary">Lista VIP</span>.</p>
-              <p>Agora você só precisa <span className="font-bold">Entrar no grupo secreto</span> 👇</p>
+              <p>
+                Seu cadastro foi concluído na <span className="text-2xl font-bold text-primary">Lista VIP</span>.
+              </p>
+              <p>
+                Agora você só precisa <span className="font-bold">Entrar no grupo secreto</span> 👇
+              </p>
             </DialogDescription>
           </DialogHeader>
           <a
