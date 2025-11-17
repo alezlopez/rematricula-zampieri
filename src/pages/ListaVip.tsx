@@ -143,26 +143,26 @@ const ListaVip = () => {
       {/* POPUP DE SUCESSO */}
       <Dialog open={showSuccessPopup} onOpenChange={setShowSuccessPopup}>
         <DialogContent
-          className="w-full max-w-[360px] h-[85vh] flex flex-col rounded-2xl border-white/20 overflow-y-auto"
+          className="w-full max-w-md flex flex-col rounded-xl border-white/20 p-8"
           style={{ backgroundColor: "#131313" }}
         >
-          <DialogHeader>
-            <DialogTitle className="text-4xl font-bold text-center text-white">Quase lá...</DialogTitle>
+          <DialogHeader className="space-y-6">
+            <DialogTitle className="text-5xl font-bold text-center text-white">Quase lá...</DialogTitle>
 
-            <DialogDescription className="text 3x1 text-white text-center">
-              <br />
-              Seu cadastro foi concluído na <span className="text 2x1 font-bold text-primary">Lista VIP</span>.
-              <br />
-              Agora você só precisa <span className="font-bold">Entrar no grupo secreto</span> 👇
+            <DialogDescription className="text-3xl text-white text-center space-y-4">
+              <p>Seu cadastro foi concluído na <span className="text-2xl font-bold text-primary">Lista VIP</span>.</p>
+              <p>Agora você só precisa <span className="font-bold">Entrar no grupo secreto</span> 👇</p>
             </DialogDescription>
           </DialogHeader>
           <a
             href="https://whatsapp.com/channel/0029VbBEyVyGehERQqIc3Y3I"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-auto mb-4 w-full rounded-xl bg-primary p-3 text-white font-medium text-center block"
+            className="mt-8 w-full"
           >
-            Entrar no grupo secreto
+            <Button size="lg" className="w-full py-6 text-lg">
+              Entrar no grupo secreto
+            </Button>
           </a>
         </DialogContent>
       </Dialog>
