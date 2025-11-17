@@ -208,15 +208,6 @@ const ListaVip = () => {
   </DialogContent>
 </Dialog>
 
-          <button
-            onClick={() => setShowSuccessPopup(false)}
-            className="mt-4 w-full rounded-xl bg-primary p-2 text-white font-medium"
-          >
-            Não quero perder essa oportunidade!
-          </button>
-        </DialogContent>
-      </Dialog>
-
       {/* FORM */}
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         <Card className="border-0 shadow-none" style={{ backgroundColor: "#272727" }}>
