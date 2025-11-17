@@ -15,6 +15,7 @@ interface FormData {
   nomeResponsavel: string;
   nomeAluno: string;
   serieAluno: string;
+  whatsappResponsavel: string;
 }
 
 const ListaVip = () => {
@@ -30,8 +31,20 @@ const ListaVip = () => {
       nomeResponsavel: "",
       nomeAluno: "",
       serieAluno: "",
+      whatsappResponsavel: "",
     },
   });
+
+  const formatWhatsApp = (value: string) => {
+    const numbers = value.replace(/\D/g, "");
+    if (numbers.length <= 2) return numbers;
+    if (numbers.length <= 7) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
+  };
+
+  const cleanWhatsApp = (value: string) => {
+    return value.replace(/\D/g, "");
+  };
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -42,7 +55,7 @@ const ListaVip = () => {
         nome_aluno: data.nomeAluno,
         serie_aluno: data.serieAluno,
         cpf_responsavel: "",
-        whatsapp_responsavel: "",
+        whatsapp_responsavel: cleanWhatsApp(data.whatsappResponsavel),
       });
 
       if (error) throw error;
@@ -235,6 +248,36 @@ const ListaVip = () => {
                           ))}
                         </SelectContent>
                       </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="whatsappResponsavel"
+                  rules={{
+                    required: "WhatsApp do responsável é obrigatório",
+                    validate: (value) => {
+                      const numbers = cleanWhatsApp(value);
+                      if (numbers.length !== 11) return "WhatsApp deve ter 11 dígitos (DDD + 9 dígitos)";
+                      return true;
+                    },
+                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">WhatsApp do Responsável *</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="(00) 00000-0000"
+                          {...field}
+                          onChange={(e) => {
+                            const formatted = formatWhatsApp(e.target.value);
+                            field.onChange(formatted);
+                          }}
+                          maxLength={15}
+                        />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
