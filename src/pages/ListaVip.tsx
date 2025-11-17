@@ -172,7 +172,7 @@ const ListaVip = () => {
             </DialogDescription>
           </DialogHeader>
           <a
-            href="https://whatsapp.com/channel/0029VbBEyVyGehERQqIc3Y3I"
+            href="https://www.whatsapp.com/channel/0029VbBEyVyGehERQqIc3Y3I"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 w-full"
