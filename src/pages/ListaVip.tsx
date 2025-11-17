@@ -33,7 +33,6 @@ const ListaVip = () => {
     },
   });
 
-
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
@@ -148,24 +147,23 @@ const ListaVip = () => {
           style={{ backgroundColor: "#131313" }}
         >
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-center text-white">
-              Cadastro Realizado com Sucesso
-            </DialogTitle>
+            <DialogTitle className="text-4xl font-bold text-center text-white">Quase lá...</DialogTitle>
 
-            <DialogDescription className="text-white text-center">
+            <DialogDescription className="text 2x1 text-white text-center">
               <br />
-              Seu cadastro foi concluído na <span className="font-bold text-primary">Lista VIP</span>.
+              Seu cadastro foi concluído na <span className="text 2x1 font-bold text-primary">Lista VIP</span>.
               <br />
-              Entraremos em contato no dia <span className="font-bold">24/11</span> no número informado.
+              Agora você só precisa <span className="font-bold">Entrar no grupo secreto</span> 👇
             </DialogDescription>
           </DialogHeader>
-
-          <button
-            onClick={() => setShowSuccessPopup(false)}
-            className="mt-auto mb-4 w-full rounded-xl bg-primary p-3 text-white font-medium"
+          <a
+            href="https://whatsapp.com/channel/0029VbBEyVyGehERQqIc3Y3I"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-auto mb-4 w-full rounded-xl bg-primary p-3 text-white font-medium text-center block"
           >
-            Não quero perder essa oportunidade!
-          </button>
+            Entrar no grupo secreto
+          </a>
         </DialogContent>
       </Dialog>
 
@@ -237,7 +235,6 @@ const ListaVip = () => {
                     </FormItem>
                   )}
                 />
-
 
                 <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
                   {isSubmitting ? "Enviando..." : "Entrar para a lista"}
