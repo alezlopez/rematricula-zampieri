@@ -345,7 +345,7 @@ const Campanha2026 = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-600">Clique para ver os valores</p>
+                    <p className="text-gray-600">Clique para ver os valores das mensalidades</p>
                   </CardContent>
                 </Card>
               </DialogTrigger>
