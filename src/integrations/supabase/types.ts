@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      alunnos_26: {
+        Row: {
+          codigo_aluno: string | null
+          codigo_resp_financeiro: string | null
+          created_at: string
+          curso: string | null
+          id: number
+          nome_aluno: string | null
+          nome_resp_fin: string | null
+          telefone_resp_fin: string | null
+        }
+        Insert: {
+          codigo_aluno?: string | null
+          codigo_resp_financeiro?: string | null
+          created_at?: string
+          curso?: string | null
+          id?: number
+          nome_aluno?: string | null
+          nome_resp_fin?: string | null
+          telefone_resp_fin?: string | null
+        }
+        Update: {
+          codigo_aluno?: string | null
+          codigo_resp_financeiro?: string | null
+          created_at?: string
+          curso?: string | null
+          id?: number
+          nome_aluno?: string | null
+          nome_resp_fin?: string | null
+          telefone_resp_fin?: string | null
+        }
+        Relationships: []
+      }
       alunos_comunicados_whatsapp: {
         Row: {
           celular_mae: string | null
