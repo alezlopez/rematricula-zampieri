@@ -16,34 +16,43 @@ export type Database = {
     Tables: {
       alunnos_26: {
         Row: {
+          celular_pai: string | null
           codigo_aluno: string | null
-          codigo_resp_financeiro: string | null
+          cpf_mae: string | null
+          cpf_pai: string | null
           created_at: string
           curso: string | null
           id: number
           nome_aluno: string | null
-          nome_resp_fin: string | null
-          telefone_resp_fin: string | null
+          nome_mae: string | null
+          nome_pai: string | null
+          telefone_mae: string | null
         }
         Insert: {
+          celular_pai?: string | null
           codigo_aluno?: string | null
-          codigo_resp_financeiro?: string | null
+          cpf_mae?: string | null
+          cpf_pai?: string | null
           created_at?: string
           curso?: string | null
           id?: number
           nome_aluno?: string | null
-          nome_resp_fin?: string | null
-          telefone_resp_fin?: string | null
+          nome_mae?: string | null
+          nome_pai?: string | null
+          telefone_mae?: string | null
         }
         Update: {
+          celular_pai?: string | null
           codigo_aluno?: string | null
-          codigo_resp_financeiro?: string | null
+          cpf_mae?: string | null
+          cpf_pai?: string | null
           created_at?: string
           curso?: string | null
           id?: number
           nome_aluno?: string | null
-          nome_resp_fin?: string | null
-          telefone_resp_fin?: string | null
+          nome_mae?: string | null
+          nome_pai?: string | null
+          telefone_mae?: string | null
         }
         Relationships: []
       }
